@@ -1,6 +1,6 @@
-import { expect } from 'chai'
-import sinon, { assert, SinonStub } from 'sinon'
 import { EnvJSON } from './env-json'
+import { expect } from 'chai'
+import sinon, { SinonStub, assert } from 'sinon'
 
 describe('EnvJson', () => {
   describe('_convertValue', () => {

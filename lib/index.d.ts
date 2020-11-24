@@ -6,6 +6,6 @@ export declare type MshNodeEnvParams = {
     loggerStrategy?: LoggerStrategy;
 };
 export declare type MshNodeReturn = (name: string) => Env;
-declare const _default: (params: MshNodeEnvParams) => MshNodeReturn;
+declare const _default: (params?: MshNodeEnvParams) => MshNodeReturn;
 export default _default;
 //# sourceMappingURL=index.d.ts.map

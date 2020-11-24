@@ -19,6 +19,6 @@
     "strictNullChecks": true,
     "target": "esnext"
   },
-  "exclude": ["./node_modules", "./lib", "./**/*.test.ts", "./.idea"],
+  "exclude": ["./node_modules", "./lib", "./.idea"],
   "include": ["./src/**/*.ts"]
 }

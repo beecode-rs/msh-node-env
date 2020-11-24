@@ -10,7 +10,7 @@ export type MshNodeEnvParams = {
 
 export type MshNodeReturn = (name: string) => Env
 
-export default (params: MshNodeEnvParams): MshNodeReturn => {
+export default (params: MshNodeEnvParams = {}): MshNodeReturn => {
   const locationStrategy = params.locationStrategy ?? new SimpleEnvLookup()
   return (name: string): Env => {
     return new Env({ locationStrategy, name })
