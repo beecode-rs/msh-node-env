@@ -1,0 +1,1 @@
+{"version":3,"file":"simple-env-lookup.d.ts","sourceRoot":"","sources":["../../src/env-location/simple-env-lookup.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,mBAAmB,EAAE,MAAM,yBAAyB,CAAA;AAE7D,qBAAa,eAAgB,YAAW,mBAAmB;IACzD,OAAO,CAAC,SAAS,CAAoB;IAE9B,UAAU,CAAC,OAAO,EAAE,MAAM,GAAG,IAAI;IAGjC,UAAU,IAAI,MAAM;IAKpB,iBAAiB,IAAI,MAAM,GAAG,SAAS;CAG/C"}

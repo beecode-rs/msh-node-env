@@ -1,0 +1,8 @@
+.idea/
+.cache/
+.sass_cache/
+resource/
+build/
+node_modules/
+package.json
+package-lock.json

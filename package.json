@@ -1,0 +1,57 @@
+{
+  "author": "Milos Bugarinovic <milos.bugarinovic@gmail.com>",
+  "dependencies": {
+    "base-64": "1.0.0"
+  },
+  "description": "",
+  "devDependencies": {
+    "@types/base-64": "0.1.3",
+    "@types/chai": "4.2.14",
+    "@types/mocha": "8.0.4",
+    "@types/node": "14.14.9",
+    "@types/sinon": "9.0.9",
+    "@typescript-eslint/eslint-plugin": "4.8.2",
+    "@typescript-eslint/parser": "4.8.2",
+    "chai": "4.2.0",
+    "eslint": "7.14.0",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-plugin-import": "2.22.1",
+    "mocha": "8.2.1",
+    "prettier": "2.2.0",
+    "rimraf": "3.0.2",
+    "sinon": "9.2.1",
+    "ts-node": "9.0.0",
+    "tsc-watch-2": "0.0.2",
+    "typescript": "4.1.2"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "license": "mit",
+  "main": "./lib/index.js",
+  "name": "@beecode/msh-node-env",
+  "bugs": {
+    "url": "https://github.com/beecode-rs/msh-node-env/issues"
+  },
+  "homepage": "https://github.com/beecode-rs/msh-node-env#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beecode-rs/msh-node-env.git"
+  },
+  "resolutions": {
+    "minimist": "^1.2.3"
+  },
+  "scripts": {
+    "audit": "npm audit --json | npx npm-audit-helper",
+    "build": "tsc",
+    "clean": "rimraf ./lib/*",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
+    "prebuild": "npm run clean",
+    "test": "npm run test:unit",
+    "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts"
+  },
+  "typings": "./lib/index.d.ts",
+  "version": "0.0.1"
+}
