@@ -1,9 +1,9 @@
-import { EnvLocationStrategy } from '../env-location/env-location-strategy'
+import { Env } from '../env'
 import { BaseEnvStorage } from './base-env-storage'
 
 export class EnvBoolean extends BaseEnvStorage<boolean> {
-  constructor(envStrategy: EnvLocationStrategy) {
-    super(envStrategy)
+  constructor(env: Env) {
+    super(env)
   }
 
   protected _convertValue(envStrVal?: string): boolean | undefined {

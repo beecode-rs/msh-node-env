@@ -1,7 +1,7 @@
-import { EnvLocationStrategy } from '../env-location/env-location-strategy';
+import { Env } from '../env';
 import { BaseEnvStorage } from './base-env-storage';
 export declare class EnvString extends BaseEnvStorage<string> {
-    constructor(envStrategy: EnvLocationStrategy);
+    constructor(env: Env);
     protected _convertValue(): string | undefined;
     default(defaultValue: string): EnvString;
 }

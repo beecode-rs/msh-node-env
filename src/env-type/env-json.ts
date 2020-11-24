@@ -1,9 +1,9 @@
-import { EnvLocationStrategy } from '../env-location/env-location-strategy'
+import { Env } from '../env'
 import { BaseEnvStorage } from './base-env-storage'
 
 export class EnvJSON extends BaseEnvStorage<any> {
-  constructor(envStrategy: EnvLocationStrategy) {
-    super(envStrategy)
+  constructor(env: Env) {
+    super(env)
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

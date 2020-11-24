@@ -1,10 +1,10 @@
-import { EnvLocationStrategy } from '../env-location/env-location-strategy'
+import { Env } from '../env'
 import { BaseEnvStorage } from './base-env-storage'
 import { decode } from 'base-64'
 
 export class EnvBase64 extends BaseEnvStorage<string> {
-  constructor(envStrategy: EnvLocationStrategy) {
-    super(envStrategy)
+  constructor(env: Env) {
+    super(env)
   }
 
   protected _convertValue(envStrVal?: string): string | undefined {

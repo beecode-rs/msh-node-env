@@ -9,7 +9,7 @@ export class VersionProjectNameIsolation extends ProjectNameIsolation implements
     this._version = version
   }
 
-  public getEnvStringValue(): string | undefined {
-    return process.env[[this._projectName.toUpperCase(), this._version, this.getEnvName()].join('_')] ?? super.getEnvStringValue()
+  public getEnvStringValue(envName: string): string | undefined {
+    return process.env[[this._projectName.toUpperCase(), this._version, envName].join('_')] ?? super.getEnvStringValue(envName)
   }
 }

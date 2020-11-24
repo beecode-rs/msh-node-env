@@ -4,27 +4,42 @@ import { EnvBoolean } from './env-type/env-boolean'
 import { EnvJSON } from './env-type/env-json'
 import { EnvNumber } from './env-type/env-number'
 import { EnvString } from './env-type/env-string'
+import { MshNodeEnvParams } from './index'
+
+export type EnvParams = MshNodeEnvParams & {
+  name: string
+  locationStrategy: EnvLocationStrategy
+}
 
 export class Env {
-  private readonly __envStrategy: EnvLocationStrategy
+  private readonly __locationStrategy: EnvLocationStrategy
+  private readonly __name: string
 
-  public constructor(envStrategy: EnvLocationStrategy) {
-    this.__envStrategy = envStrategy
+  public get name(): string {
+    return this.__name
+  }
+  public constructor(params: EnvParams) {
+    this.__locationStrategy = params.locationStrategy
+    this.__name = params.name
   }
 
-  public get String(): EnvString {
-    return new EnvString(this.__envStrategy)
+  public getEnvStringValue(): string | undefined {
+    return this.__locationStrategy.getEnvStringValue(this.__name)
   }
-  public get Boolean(): EnvBoolean {
-    return new EnvBoolean(this.__envStrategy)
+
+  public get string(): EnvString {
+    return new EnvString(this)
   }
-  public get Number(): EnvNumber {
-    return new EnvNumber(this.__envStrategy)
+  public get boolean(): EnvBoolean {
+    return new EnvBoolean(this)
   }
-  public get Json(): EnvJSON {
-    return new EnvJSON(this.__envStrategy)
+  public get number(): EnvNumber {
+    return new EnvNumber(this)
   }
-  public get Base64(): EnvBase64 {
-    return new EnvBase64(this.__envStrategy)
+  public get json(): EnvJSON {
+    return new EnvJSON(this)
+  }
+  public get base64(): EnvBase64 {
+    return new EnvBase64(this)
   }
 }

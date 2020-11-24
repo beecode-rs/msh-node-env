@@ -46,12 +46,16 @@
     "audit": "npm audit --json | npx npm-audit-helper",
     "build": "tsc",
     "clean": "rimraf ./lib/*",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "npm run lint -- --fix",
+    "lint": "npm run eslint && npm run prettier",
+    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "prettier": "prettier --check \"./src/**/*.{ts,js,json}\"",
+    "prettier:fix": "prettier --write \"./src/**/*.{ts,js,json}\"",
+    "eslint": "eslint . --ext .ts",
+    "eslint:fix": "npm run lint -- --fix",
     "prebuild": "npm run clean",
     "test": "npm run test:unit",
     "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts"
   },
   "typings": "./lib/index.d.ts",
-  "version": "0.0.1"
+  "version": "0.0.1-dev.0"
 }

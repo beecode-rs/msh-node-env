@@ -1,11 +1,11 @@
-import { EnvLocationStrategy } from '../env-location/env-location-strategy'
+import { Env } from '../env'
 
 export abstract class BaseEnvStorage<T> {
   protected _defaultValue: T | undefined = undefined
-  protected _envStrategy: EnvLocationStrategy
+  protected _env: Env
 
-  protected constructor(envStrategy: EnvLocationStrategy) {
-    this._envStrategy = envStrategy
+  protected constructor(env: Env) {
+    this._env = env
   }
 
   protected abstract _convertValue(envStrVal?: string): T | undefined
@@ -19,15 +19,15 @@ export abstract class BaseEnvStorage<T> {
   //   throw new Error('not implemented')
   // }
 
-  public requiredValue(): T {
-    const envValue = this.value()
+  public get required(): T {
+    const envValue = this.optional
     if (typeof envValue === 'undefined') {
-      throw new Error(`${this._envStrategy.getEnvName()} must have value defined`)
+      throw new Error(`${this._env.name} must have value defined`)
     }
     return envValue
   }
 
-  public value(): T | undefined {
-    return this._convertValue(this._envStrategy.getEnvStringValue())
+  public get optional(): T | undefined {
+    return this._convertValue(this._env.getEnvStringValue())
   }
 }
