@@ -6,8 +6,9 @@ export class EnvAny extends BaseEnvStorage<any> {
     super(env)
   }
 
-  protected _convertValue(): string | undefined {
-    return this._env.getEnvStringValue() ?? this._defaultValue
+  protected _convertValue(stringOrUndefined?: string): string | undefined {
+    const stringValue = stringOrUndefined ?? ''
+    return stringValue.trim() || this._defaultValue
   }
 
   public default(defaultValue: string): EnvAny {

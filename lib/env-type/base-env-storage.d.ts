@@ -4,7 +4,7 @@ export declare abstract class BaseEnvStorage<T> {
     protected _env: Env;
     protected constructor(env: Env);
     protected abstract _convertValue(envStrVal?: string): T | undefined;
-    protected _default(defaultValue: T): void;
+    protected _setDefault(defaultValue: T): void;
     get required(): T;
     get optional(): T | undefined;
 }

@@ -6,13 +6,13 @@ export class EnvNumber extends BaseEnvStorage<number> {
     super(env)
   }
 
-  protected _convertValue(envStrVal?: string): number | undefined {
+  protected _convertValue(stringOrUndefined?: string): number | undefined {
     let convertedValue: number | undefined = undefined
-
-    if (!isNaN(envStrVal as any)) {
-      convertedValue = parseFloat(envStrVal!)
+    const stringValue = stringOrUndefined ?? ''
+    if (stringValue.trim() !== '' && !isNaN(stringValue as any)) {
+      convertedValue = parseFloat(stringValue!)
     } else {
-      this._env.Logger.warn(`${envStrVal} is not a number`)
+      this._env.Logger.warn(`"${stringOrUndefined}" is not a number`)
     }
     return convertedValue ?? this._defaultValue
   }

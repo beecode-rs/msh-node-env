@@ -24,6 +24,12 @@ describe('EnvJSON', () => {
       assert.notCalled(fake_logger_warn)
       expect(result).to.equal(dummyValue)
     })
+    it('should return default value if passed string with spaces', () => {
+      envJson['_defaultValue'] = dummyValue
+      const result = envJson['_convertValue'](' ')
+      assert.notCalled(fake_logger_warn)
+      expect(result).to.equal(dummyValue)
+    })
     it('should return default a warn if non json string passed', () => {
       envJson['_defaultValue'] = dummyValue
       const result = envJson['_convertValue']('not jsons')

@@ -7,12 +7,13 @@ export class EnvJSON extends BaseEnvStorage<any> {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  protected _convertValue(envStrVal?: string): any | undefined {
+  protected _convertValue(stringOrUndefined?: string): any | undefined {
     let convertedValue: any | undefined = undefined
+    const stringValue = stringOrUndefined ?? ''
 
-    if (envStrVal) {
+    if (stringValue.trim()) {
       try {
-        convertedValue = JSON.parse(envStrVal)
+        convertedValue = JSON.parse(stringValue)
       } catch (err) {
         this._env.Logger.warn(`Error parsing JSON: ${err.message || err}`)
       }

@@ -79,5 +79,5 @@
     "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts"
   },
   "typings": "./lib/index.d.ts",
-  "version": "0.0.1-dev.1"
+  "version": "0.0.2"
 }
