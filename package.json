@@ -1,5 +1,18 @@
 {
   "author": "Milos Bugarinovic <milos.bugarinovic@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/beecode-rs/msh-node-env/issues"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
   "dependencies": {
     "base-64": "1.0.0"
   },
@@ -27,14 +40,22 @@
   "files": [
     "lib"
   ],
+  "homepage": "https://github.com/beecode-rs/msh-node-env#readme",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run lint && npm run build"
+    }
+  },
   "keywords": [],
   "license": "mit",
   "main": "./lib/index.js",
   "name": "@beecode/msh-node-env",
-  "bugs": {
-    "url": "https://github.com/beecode-rs/msh-node-env/issues"
+  "optionalDependencies": {
+    "@commitlint/cli": "11.0.0",
+    "@commitlint/config-conventional": "11.0.0",
+    "husky": "4.3.0"
   },
-  "homepage": "https://github.com/beecode-rs/msh-node-env#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/beecode-rs/msh-node-env.git"
@@ -44,14 +65,19 @@
   },
   "scripts": {
     "audit": "npm audit --json | npx npm-audit-helper",
-    "build": "tsc",
+    "build": "npm run clean && tsc -p ./tsconfig-build.json",
+    "build:watch": "npm run clean && tsc-watch -p tsconfig-build.json --preserveWatchOutput",
     "clean": "rimraf ./lib/*",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "npm run lint -- --fix",
-    "prebuild": "npm run clean",
+    "eslint": "eslint . --ext .ts --quiet",
+    "eslint:fix": "npm run eslint -- --fix",
+    "lint": "npm run eslint && npm run prettier",
+    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "preinstall": "npx npm-force-resolutions",
+    "prettier": "prettier --check \"./src/**/*.{ts,json}\"",
+    "prettier:fix": "prettier --write \"./src/**/*.{ts,json}\"",
     "test": "npm run test:unit",
     "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts"
   },
   "typings": "./lib/index.d.ts",
-  "version": "0.0.1"
+  "version": "0.0.2"
 }

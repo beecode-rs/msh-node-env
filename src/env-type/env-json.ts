@@ -1,20 +1,22 @@
-import { EnvLocationStrategy } from '../env-location/env-location-strategy'
+import { Env } from '../env'
 import { BaseEnvStorage } from './base-env-storage'
 
 export class EnvJSON extends BaseEnvStorage<any> {
-  constructor(envStrategy: EnvLocationStrategy) {
-    super(envStrategy)
+  constructor(env: Env) {
+    super(env)
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  protected _convertValue(envStrVal?: any): any | undefined {
+  protected _convertValue(stringOrUndefined?: string): any | undefined {
     let convertedValue: any | undefined = undefined
+    const stringValue = stringOrUndefined ?? ''
 
-    try {
-      convertedValue = JSON.parse(envStrVal)
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err.message || err)
+    if (stringValue.trim()) {
+      try {
+        convertedValue = JSON.parse(stringValue)
+      } catch (err) {
+        this._env.Logger.warn(`Error parsing JSON: ${err.message || err}`)
+      }
     }
 
     return convertedValue ?? this._defaultValue
@@ -22,7 +24,7 @@ export class EnvJSON extends BaseEnvStorage<any> {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public default(defaultValue: any): EnvJSON {
-    this._default(defaultValue)
+    this._setDefault(defaultValue)
     return this
   }
 }

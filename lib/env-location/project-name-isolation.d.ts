@@ -3,7 +3,6 @@ import { SimpleEnvLookup } from './simple-env-lookup';
 export declare class ProjectNameIsolation extends SimpleEnvLookup implements EnvLocationStrategy {
     protected readonly _projectName: string;
     constructor(projectName: string);
-    getEnvStringValue(): string | undefined;
-    private __toSnakeCase;
+    getEnvStringValue(envName: string): string | undefined;
 }
 //# sourceMappingURL=project-name-isolation.d.ts.map

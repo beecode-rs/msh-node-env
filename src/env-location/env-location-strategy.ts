@@ -1,5 +1,3 @@
 export interface EnvLocationStrategy {
-  getEnvStringValue(): string | undefined
-  setEnvName(envName: string): void
-  getEnvName(): string
+  getEnvStringValue(eventName: string): string | undefined
 }

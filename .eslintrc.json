@@ -15,7 +15,7 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig-eslint.json"
+    "project": "./tsconfig.json"
   },
   "plugins": ["@typescript-eslint", "eslint-plugin-import", "import"],
   "root": true,
@@ -34,22 +34,6 @@
         "modifiers": ["private"],
         "prefix": ["__"],
         "selector": ["default"]
-      },
-      {
-        "format": ["PascalCase"],
-        "selector": ["accessor"]
-      },
-      {
-        "format": ["PascalCase"],
-        "leadingUnderscore": "require",
-        "modifiers": ["protected"],
-        "selector": ["accessor"]
-      },
-      {
-        "format": ["PascalCase"],
-        "modifiers": ["private"],
-        "prefix": ["__"],
-        "selector": ["accessor"]
       },
       {
         "format": ["PascalCase"],

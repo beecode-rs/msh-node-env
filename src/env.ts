@@ -1,30 +1,56 @@
 import { EnvLocationStrategy } from './env-location/env-location-strategy'
+import { EnvAny } from './env-type/env-any'
 import { EnvBase64 } from './env-type/env-base64'
 import { EnvBoolean } from './env-type/env-boolean'
 import { EnvJSON } from './env-type/env-json'
 import { EnvNumber } from './env-type/env-number'
 import { EnvString } from './env-type/env-string'
+import { LoggerStrategy } from './logger/logger-strategy'
+
+export type EnvParams = {
+  name: string
+  locationStrategy: EnvLocationStrategy
+  loggerStrategy: LoggerStrategy
+}
 
 export class Env {
-  private readonly __envStrategy: EnvLocationStrategy
+  private readonly __locationStrategy: EnvLocationStrategy
+  private readonly __name: string
+  private readonly __loggerStrategy: LoggerStrategy
 
-  public constructor(envStrategy: EnvLocationStrategy) {
-    this.__envStrategy = envStrategy
+  public get Logger(): LoggerStrategy {
+    return this.__loggerStrategy
   }
 
-  public get String(): EnvString {
-    return new EnvString(this.__envStrategy)
+  public get name(): string {
+    return this.__name
   }
-  public get Boolean(): EnvBoolean {
-    return new EnvBoolean(this.__envStrategy)
+  public constructor(params: EnvParams) {
+    this.__locationStrategy = params.locationStrategy
+    this.__loggerStrategy = params.loggerStrategy
+    this.__name = params.name
   }
-  public get Number(): EnvNumber {
-    return new EnvNumber(this.__envStrategy)
+
+  public getEnvStringValue(): string | undefined {
+    return this.__locationStrategy.getEnvStringValue(this.__name)
   }
-  public get Json(): EnvJSON {
-    return new EnvJSON(this.__envStrategy)
+
+  public get string(): EnvString {
+    return new EnvString(this)
   }
-  public get Base64(): EnvBase64 {
-    return new EnvBase64(this.__envStrategy)
+  public get boolean(): EnvBoolean {
+    return new EnvBoolean(this)
+  }
+  public get number(): EnvNumber {
+    return new EnvNumber(this)
+  }
+  public get json(): EnvJSON {
+    return new EnvJSON(this)
+  }
+  public get any(): EnvAny {
+    return new EnvAny(this)
+  }
+  public get base64(): EnvBase64 {
+    return new EnvBase64(this)
   }
 }
