@@ -11,12 +11,14 @@ export class EnvNumber extends BaseEnvStorage<number> {
 
     if (!isNaN(envStrVal as any)) {
       convertedValue = parseFloat(envStrVal!)
+    } else {
+      this._env.Logger.warn(`${envStrVal} is not a number`)
     }
     return convertedValue ?? this._defaultValue
   }
 
   public default(defaultValue: number): EnvNumber {
-    this._default(defaultValue)
+    this._setDefault(defaultValue)
     return this
   }
 }

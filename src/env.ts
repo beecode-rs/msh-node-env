@@ -1,25 +1,33 @@
 import { EnvLocationStrategy } from './env-location/env-location-strategy'
+import { EnvAny } from './env-type/env-any'
 import { EnvBase64 } from './env-type/env-base64'
 import { EnvBoolean } from './env-type/env-boolean'
 import { EnvJSON } from './env-type/env-json'
 import { EnvNumber } from './env-type/env-number'
 import { EnvString } from './env-type/env-string'
-import { MshNodeEnvParams } from './index'
+import { LoggerStrategy } from './logger/logger-strategy'
 
-export type EnvParams = MshNodeEnvParams & {
+export type EnvParams = {
   name: string
   locationStrategy: EnvLocationStrategy
+  loggerStrategy: LoggerStrategy
 }
 
 export class Env {
   private readonly __locationStrategy: EnvLocationStrategy
   private readonly __name: string
+  private readonly __loggerStrategy: LoggerStrategy
+
+  public get Logger(): LoggerStrategy {
+    return this.__loggerStrategy
+  }
 
   public get name(): string {
     return this.__name
   }
   public constructor(params: EnvParams) {
     this.__locationStrategy = params.locationStrategy
+    this.__loggerStrategy = params.loggerStrategy
     this.__name = params.name
   }
 
@@ -38,6 +46,9 @@ export class Env {
   }
   public get json(): EnvJSON {
     return new EnvJSON(this)
+  }
+  public get any(): EnvAny {
+    return new EnvAny(this)
   }
   public get base64(): EnvBase64 {
     return new EnvBase64(this)

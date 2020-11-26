@@ -14,8 +14,7 @@ export class EnvJSON extends BaseEnvStorage<any> {
       try {
         convertedValue = JSON.parse(envStrVal)
       } catch (err) {
-        // eslint-disable-next-line no-console
-        console.warn(err.message || err)
+        this._env.Logger.warn(`Error parsing JSON: ${err.message || err}`)
       }
     }
 
@@ -24,7 +23,7 @@ export class EnvJSON extends BaseEnvStorage<any> {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public default(defaultValue: any): EnvJSON {
-    this._default(defaultValue)
+    this._setDefault(defaultValue)
     return this
   }
 }

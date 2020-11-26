@@ -44,7 +44,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run lint && npm run build"
     }
   },
   "keywords": [],
@@ -68,7 +68,7 @@
     "build": "npm run clean && tsc -p ./tsconfig-build.json",
     "build:watch": "npm run clean && tsc-watch -p tsconfig-build.json --preserveWatchOutput",
     "clean": "rimraf ./lib/*",
-    "eslint": "eslint . --ext .ts",
+    "eslint": "eslint . --ext .ts --quiet",
     "eslint:fix": "npm run eslint -- --fix",
     "lint": "npm run eslint && npm run prettier",
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",

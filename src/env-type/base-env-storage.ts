@@ -10,7 +10,7 @@ export abstract class BaseEnvStorage<T> {
 
   protected abstract _convertValue(envStrVal?: string): T | undefined
 
-  protected _default(defaultValue: T): void {
+  protected _setDefault(defaultValue: T): void {
     this._defaultValue = defaultValue
   }
 
