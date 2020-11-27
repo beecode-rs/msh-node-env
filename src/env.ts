@@ -14,8 +14,8 @@ export type EnvParams = {
 }
 
 export class Env {
-  private readonly __locationStrategy: EnvLocationStrategy
   private readonly __name: string
+  private readonly __locationStrategy: EnvLocationStrategy
   private readonly __loggerStrategy: LoggerStrategy
 
   public get Logger(): LoggerStrategy {

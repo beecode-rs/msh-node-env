@@ -1,17 +1,30 @@
-import { Env } from '../env'
+import { EnvLocationStrategy } from '../env-location/env-location-strategy'
+import { LoggerStrategy } from '../logger/logger-strategy'
+import { ConvertStrategy } from './convert-strategy'
+
+
+export type BaseEnvStorageParams = {
+  convertStrategy: ConvertStrategy<any>
+  locationStrategy: EnvLocationStrategy
+  loggerStrategy: LoggerStrategy
+}
 
 export abstract class BaseEnvStorage<T> {
-  protected _defaultValue: T | undefined = undefined
-  protected _env: Env
+  private __defaultValue: T | undefined = undefined
+  private readonly __convertStrategy: ConvertStrategy<T>
+  private readonly __locationStrategy: EnvLocationStrategy
+  private readonly __loggerStrategy: LoggerStrategy
 
-  protected constructor(env: Env) {
-    this._env = env
+
+  protected constructor(params: BaseEnvStorageParams) {
+    this.__convertStrategy = params.convertStrategy
+    this.__locationStrategy = params.locationStrategy
+    this.__loggerStrategy = params.loggerStrategy
   }
 
-  protected abstract _convertValue(envStrVal?: string): T | undefined
-
-  protected _setDefault(defaultValue: T): void {
-    this._defaultValue = defaultValue
+  public default(defaultValue: T): BaseEnvStorage<T> {
+    this.__defaultValue = defaultValue
+    return this
   }
 
   // TODO implement allowed values validation
@@ -28,6 +41,6 @@ export abstract class BaseEnvStorage<T> {
   }
 
   public get optional(): T | undefined {
-    return this._convertValue(this._env.getEnvStringValue())
+    return this.__convertStrategy.convert(this._env.getEnvStringValue())
   }
 }
