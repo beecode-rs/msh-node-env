@@ -1,5 +1,6 @@
 import { stringUtil } from './'
 import { expect } from 'chai'
+import sinon, { SinonStub } from 'sinon'
 
 describe('stringUtil', () => {
   describe('toSnakeCase', () => {
@@ -18,6 +19,22 @@ describe('stringUtil', () => {
         const result = stringUtil.toSnakeCase(value)
         expect(result).to.equal(expected)
       })
+    })
+  })
+
+  describe('toSnakeUpperCase', () => {
+    let stub_stringUtil_toSnakeCase: SinonStub
+    beforeEach(() => {
+      stub_stringUtil_toSnakeCase = sinon.stub(stringUtil, 'toSnakeCase')
+    })
+    afterEach(() => {
+      sinon.restore()
+    })
+
+    it('should return snake and make it upper case', () => {
+      const dummySnakeCase = 'snake_case'
+      stub_stringUtil_toSnakeCase.returns(dummySnakeCase)
+      expect(stringUtil.toSnakeUpperCase('snakeCase')).to.equal('SNAKE_CASE')
     })
   })
 })
