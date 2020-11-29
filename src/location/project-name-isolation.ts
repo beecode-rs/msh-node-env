@@ -9,10 +9,15 @@ export class ProjectNameIsolation extends SimpleEnvLookup implements LocationStr
     this._projectName = projectName
   }
 
+  protected get _ProjectName(): string {
+    return stringUtil.toSnakeUpperCase(this._projectName)
+  }
+
+  private __envName(envName: string): string {
+    return [this._ProjectName, envName].join('_')
+  }
+
   public getEnvStringValue(envName: string): string | undefined {
-    return (
-      process.env[[stringUtil.toSnakeCase(this._projectName).toUpperCase(), envName].join('_')] ??
-      super.getEnvStringValue(envName)
-    )
+    return process.env[this.__envName(envName)] ?? super.getEnvStringValue(envName)
   }
 }
