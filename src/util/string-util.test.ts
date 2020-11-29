@@ -1,4 +1,4 @@
-import { stringUtil } from './string-util'
+import { stringUtil } from './'
 import { expect } from 'chai'
 
 describe('stringUtil', () => {
