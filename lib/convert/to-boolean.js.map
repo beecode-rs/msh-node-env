@@ -1,0 +1,1 @@
+{"version":3,"file":"to-boolean.js","sourceRoot":"","sources":["../../src/convert/to-boolean.ts"],"names":[],"mappings":";;;AAEA,MAAa,SAAS;IACb,OAAO,CAAC,GAAW;QACxB,MAAM,QAAQ,GAAG,GAAG,CAAC,WAAW,EAAE,CAAA;QAClC,IAAI,QAAQ,KAAK,MAAM,EAAE;YACvB,OAAO,IAAI,CAAA;SACZ;aAAM,IAAI,QAAQ,KAAK,OAAO,EAAE;YAC/B,OAAO,KAAK,CAAA;SACb;QACD,OAAO,SAAS,CAAA;IAClB,CAAC;CACF;AAVD,8BAUC"}
