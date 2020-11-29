@@ -1,0 +1,15 @@
+import { LocationStrategy } from './'
+import { ProjectNameIsolation } from './project-name-isolation'
+
+export class VersionProjectNameIsolation extends ProjectNameIsolation implements LocationStrategy {
+  protected readonly _version: string
+
+  public constructor(projectName: string, version: string) {
+    super(projectName)
+    this._version = version
+  }
+
+  public getEnvStringValue(envName: string): string | undefined {
+    return process.env[[this._projectName.toUpperCase(), this._version, envName].join('_')] ?? super.getEnvStringValue(envName)
+  }
+}
