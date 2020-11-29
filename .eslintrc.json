@@ -36,6 +36,22 @@
         "selector": ["default"]
       },
       {
+        "format": ["PascalCase","camelCase"],
+        "selector": ["accessor"]
+      },
+      {
+        "format": ["PascalCase"],
+        "leadingUnderscore": "require",
+        "modifiers": ["protected"],
+        "selector": ["accessor"]
+      },
+      {
+        "format": ["PascalCase"],
+        "modifiers": ["private"],
+        "prefix": ["__"],
+        "selector": ["accessor"]
+      },
+      {
         "format": ["PascalCase"],
         "selector": ["enum"]
       },
