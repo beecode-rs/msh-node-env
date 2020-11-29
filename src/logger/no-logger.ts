@@ -1,6 +1,6 @@
 import { LoggerStrategy } from './logger-strategy'
 
-export class NoneLogger implements LoggerStrategy {
+export class NoLogger implements LoggerStrategy {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public debug(_: string, __?: any): void {
     return
