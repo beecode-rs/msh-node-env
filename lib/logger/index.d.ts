@@ -1,4 +1,4 @@
-export * from './console-logging';
+export * from './console-logger';
 export * from './logger-strategy';
-export * from './none-logger';
+export * from './no-logger';
 //# sourceMappingURL=index.d.ts.map
