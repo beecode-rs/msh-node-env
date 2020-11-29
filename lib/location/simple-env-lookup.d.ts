@@ -1,4 +1,4 @@
-import { LocationStrategy } from './env-location-strategy';
+import { LocationStrategy } from './';
 export declare class SimpleEnvLookup implements LocationStrategy {
     getEnvStringValue(envName: string): string | undefined;
 }

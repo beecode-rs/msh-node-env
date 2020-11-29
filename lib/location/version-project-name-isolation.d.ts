@@ -1,4 +1,4 @@
-import { LocationStrategy } from './env-location-strategy';
+import { LocationStrategy } from './';
 import { ProjectNameIsolation } from './project-name-isolation';
 export declare class VersionProjectNameIsolation extends ProjectNameIsolation implements LocationStrategy {
     protected readonly _version: string;
