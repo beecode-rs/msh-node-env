@@ -10,7 +10,7 @@ export declare class EnvType<T> {
     private readonly __env;
     constructor(params: EnvTypeParams<T>);
     default(defaultValue: T): EnvType<T>;
-    get required(): T;
     get optional(): T | undefined;
+    get required(): T;
 }
 //# sourceMappingURL=env-type.d.ts.map

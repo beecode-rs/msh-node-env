@@ -2,7 +2,7 @@ import { EnvType } from '.'
 import { MockConvertStrategy } from '../convert/convert-strategy.test'
 import { MockEnv } from './env.test'
 import { expect } from 'chai'
-import { assert, createSandbox } from 'sinon'
+import sinon, { assert, createSandbox } from 'sinon'
 
 describe('EnvType', () => {
   const sandbox = createSandbox()
@@ -16,6 +16,7 @@ describe('EnvType', () => {
   })
   afterEach(() => {
     sandbox.reset()
+    sinon.restore()
   })
   after(() => {
     sandbox.restore()
@@ -68,6 +69,28 @@ describe('EnvType', () => {
       assert.calledOnce(mockEnv.getEnvStringValue)
       assert.calledOnce(mockConvert.convert)
       assert.calledWith(mockConvert.convert, dummyEnvValue.trim())
+    })
+  })
+
+  describe('required', () => {
+    let spy_envType_optional: any
+    beforeEach(() => {
+      spy_envType_optional = sinon.spy(EnvType.prototype, 'optional', ['get'])
+    })
+    it('should throw error if optional return undefined', () => {
+      // TODO mock options to return undefined
+      try {
+        mockEnvType.required
+        expect.fail()
+      } catch (err) {
+        expect(err.message).to.equal(`stub must have value defined`)
+      }
+      expect(spy_envType_optional.get.calledOnce).to.be.true
+    })
+    it('should return optional value if it is not undefined', () => {
+      // TODO mock optional to return some value
+      mockEnvType['__defaultValue'] = dummyDefaultValue
+      expect(mockEnvType.required).to.equal(dummyDefaultValue)
     })
   })
 })
