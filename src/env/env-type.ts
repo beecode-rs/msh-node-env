@@ -1,17 +1,17 @@
+import { IEnv } from '.'
 import { ConvertStrategy } from '../convert'
-import { Env } from './'
 
-export type BaseEnvStorageParams<T> = {
+export type EnvTypeParams<T> = {
   convertStrategy: ConvertStrategy<T>
-  env: Env
+  env: IEnv
 }
 
 export class EnvType<T> {
   private __defaultValue: T | undefined = undefined
   private readonly __convertStrategy: ConvertStrategy<T>
-  private readonly __env: Env
+  private readonly __env: IEnv
 
-  public constructor(params: BaseEnvStorageParams<T>) {
+  public constructor(params: EnvTypeParams<T>) {
     this.__convertStrategy = params.convertStrategy
     this.__env = params.env
   }
@@ -34,6 +34,7 @@ export class EnvType<T> {
 
   public get optional(): T | undefined {
     const str = (this.__env.getEnvStringValue() ?? '').trim()
-    return this.__convertStrategy.convert(str) ?? this.__defaultValue
+    const convertedValue = str === '' ? undefined : this.__convertStrategy.convert(str)
+    return convertedValue ?? this.__defaultValue
   }
 }

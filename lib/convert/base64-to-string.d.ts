@@ -1,4 +1,4 @@
-import { ConvertStrategy } from './';
+import { ConvertStrategy } from '.';
 export declare class Base64ToString implements ConvertStrategy<string> {
     convert(str: string): string | undefined;
 }

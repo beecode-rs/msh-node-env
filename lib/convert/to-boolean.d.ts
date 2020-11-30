@@ -1,4 +1,4 @@
-import { ConvertStrategy } from './';
+import { ConvertStrategy } from '.';
 export declare class ToBoolean implements ConvertStrategy<boolean> {
     convert(str: string): boolean | undefined;
 }

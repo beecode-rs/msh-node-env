@@ -1,4 +1,4 @@
-import { ConvertStrategy } from './'
+import { ConvertStrategy } from '.'
 
 export class ToJson<T> implements ConvertStrategy<T> {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

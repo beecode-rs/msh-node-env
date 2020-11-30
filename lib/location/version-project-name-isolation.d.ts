@@ -1,4 +1,4 @@
-import { LocationStrategy } from './';
+import { LocationStrategy } from '.';
 import { ProjectNameIsolation } from './project-name-isolation';
 export declare type VersionProjectNameIsolationParams = {
     projectName: string;

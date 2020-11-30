@@ -1,4 +1,4 @@
-import { stringUtil } from './'
+import { stringUtil } from '.'
 import { expect } from 'chai'
 import sinon, { SinonStub } from 'sinon'
 
