@@ -1,5 +1,5 @@
+import { ProjectNameIsolation, SimpleEnvLookup } from '.'
 import { stringUtil } from '../util'
-import { ProjectNameIsolation, SimpleEnvLookup } from './'
 import { expect } from 'chai'
 import sinon, { SinonStub, assert } from 'sinon'
 

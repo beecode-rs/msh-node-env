@@ -1,4 +1,4 @@
-import { LocationStrategy, SimpleEnvLookup } from './';
+import { LocationStrategy, SimpleEnvLookup } from '.';
 export declare class ProjectNameIsolation extends SimpleEnvLookup implements LocationStrategy {
     protected readonly _projectName: string;
     constructor(projectName: string);

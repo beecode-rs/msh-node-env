@@ -1,5 +1,5 @@
+import { Base64ToString, ToBoolean, ToJson, ToNumber, ToString } from '.'
 import { Env, EnvType } from '../env'
-import { Base64ToString, ToBoolean, ToJson, ToNumber, ToString } from './'
 
 export class BaseConvert {
   private readonly __env: Env

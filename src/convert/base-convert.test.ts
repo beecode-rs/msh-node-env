@@ -1,5 +1,5 @@
+import { Base64ToString, BaseConvert, ToBoolean, ToJson, ToNumber, ToString } from '.'
 import { Env, EnvType } from '../env'
-import { Base64ToString, BaseConvert, ToBoolean, ToJson, ToNumber, ToString } from './'
 import { expect } from 'chai'
 
 describe('BaseConvert', () => {

@@ -1,14 +1,14 @@
+import { IEnv } from '.';
 import { ConvertStrategy } from '../convert';
-import { Env } from './';
-export declare type BaseEnvStorageParams<T> = {
+export declare type EnvTypeParams<T> = {
     convertStrategy: ConvertStrategy<T>;
-    env: Env;
+    env: IEnv;
 };
 export declare class EnvType<T> {
     private __defaultValue;
     private readonly __convertStrategy;
     private readonly __env;
-    constructor(params: BaseEnvStorageParams<T>);
+    constructor(params: EnvTypeParams<T>);
     default(defaultValue: T): EnvType<T>;
     get required(): T;
     get optional(): T | undefined;

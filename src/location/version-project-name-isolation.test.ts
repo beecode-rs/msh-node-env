@@ -1,4 +1,4 @@
-import { ProjectNameIsolation, VersionProjectNameIsolation } from './'
+import { ProjectNameIsolation, VersionProjectNameIsolation } from '.'
 import { expect } from 'chai'
 import sinon, { SinonStub, assert } from 'sinon'
 

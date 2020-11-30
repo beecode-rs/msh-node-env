@@ -1,4 +1,4 @@
-import { ToString } from './'
+import { ToString } from '.'
 import { expect } from 'chai'
 
 describe('ToString', () => {
