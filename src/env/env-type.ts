@@ -21,10 +21,11 @@ export class EnvType<T> {
     return this
   }
 
-  // TODO implement allowed values validation
-  // protected _allowedValues(...args: T[]): void {
-  //   throw new Error('not implemented')
-  // }
+  public get optional(): T | undefined {
+    const str = (this.__env.getEnvStringValue() ?? '').trim()
+    const convertedValue = str === '' ? undefined : this.__convertStrategy.convert(str)
+    return convertedValue ?? this.__defaultValue
+  }
 
   public get required(): T {
     const envValue = this.optional
@@ -32,9 +33,8 @@ export class EnvType<T> {
     return envValue
   }
 
-  public get optional(): T | undefined {
-    const str = (this.__env.getEnvStringValue() ?? '').trim()
-    const convertedValue = str === '' ? undefined : this.__convertStrategy.convert(str)
-    return convertedValue ?? this.__defaultValue
-  }
+  // TODO implement allowed values validation
+  // protected _allowedValues(...args: T[]): void {
+  //   throw new Error('not implemented')
+  // }
 }
