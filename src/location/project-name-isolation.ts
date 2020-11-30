@@ -1,5 +1,5 @@
+import { LocationStrategy, SimpleEnvLookup } from '.'
 import { stringUtil } from '../util'
-import { LocationStrategy, SimpleEnvLookup } from './'
 
 export class ProjectNameIsolation extends SimpleEnvLookup implements LocationStrategy {
   protected readonly _projectName: string

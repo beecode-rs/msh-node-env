@@ -1,4 +1,4 @@
-import { ToBoolean } from './'
+import { ToBoolean } from '.'
 import { expect } from 'chai'
 
 describe('ToBoolean', () => {

@@ -1,4 +1,4 @@
-import { SimpleEnvLookup } from './'
+import { SimpleEnvLookup } from '.'
 import { expect } from 'chai'
 
 describe('SimpleEnvLookup', () => {

@@ -7,7 +7,13 @@ export type EnvParams = {
   loggerStrategy: LoggerStrategy
 }
 
-export class Env {
+export interface IEnv {
+  Name: string
+  Logger: LoggerStrategy
+  getEnvStringValue: () => string | undefined
+}
+
+export class Env implements IEnv {
   private readonly __name: string
   private readonly __locationStrategy: LocationStrategy
   private readonly __loggerStrategy: LoggerStrategy

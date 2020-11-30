@@ -1,4 +1,4 @@
-import { ConsoleLogger, LogLevel } from './'
+import { ConsoleLogger, LogLevel } from '.'
 import { expect } from 'chai'
 import sinon, { SinonStub, assert } from 'sinon'
 

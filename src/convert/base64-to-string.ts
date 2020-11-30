@@ -1,4 +1,4 @@
-import { ConvertStrategy } from './'
+import { ConvertStrategy } from '.'
 import { decode } from 'base-64'
 
 export class Base64ToString implements ConvertStrategy<string> {
