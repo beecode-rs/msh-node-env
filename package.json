@@ -81,8 +81,8 @@
     "prettier": "prettier --check \"./src/**/*.{ts,json}\"",
     "prettier:fix": "prettier --write \"./src/**/*.{ts,json}\"",
     "test": "npm run test:unit",
-    "test:lint": "npm run test:unit -- --forbid-only --bail",
-    "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts"
+    "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts",
+    "test:unit:lint": "npm run test:unit -- --forbid-only --bail"
   },
   "typings": "./lib/index.d.ts",
   "version": "0.0.4"

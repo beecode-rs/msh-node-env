@@ -5,31 +5,45 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Build image
+  - name: Install
     task:
       jobs:
-        - name: Test
+        - name: Checkout
           commands:
             - checkout
-            - docker build -t unit-test-image -f .docker/Dockerfile.test .
-            - docker images
-    dependencies: []
+            - sem version node 14
+            - cache restore
+            - npm i
+            - cache store
+      prologue:
+        commands:
+          - checkout
+          - sem-version node 14
   - name: Lint
-    dependencies:
-      - Build image
     task:
+      prologue:
+        commands:
+          - checkout
+          - sem-version node 14
+          - cache restore
       jobs:
         - name: ESLint
           commands:
-            - docker run unit-test-image npm run eslint
-        - name: Prettier
+            - npm run eslint
+        - name: prettier
           commands:
-            - docker run unit-test-image npm run prettier
+            - npm run prettier
   - name: Test
-    dependencies:
-      - Build image
     task:
+      env_vars:
+        - name: NODE_ENV
+          value: test
+      prologue:
+        commands:
+          - checkout
+          - sem-version node 14
+          - cache restore
       jobs:
         - name: Unit Test
           commands:
-            - 'docker run unit-test-image npm run test:lint'
+            - 'npm run test:unit:lint'
