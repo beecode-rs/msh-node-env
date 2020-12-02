@@ -3,25 +3,34 @@ import { BaseSandbox } from '../index.test'
 import { MockLocationStrategy } from '../location/location-strategy.test'
 import { MockLoggerStrategy } from '../logger/logger-strategy.test'
 import { expect } from 'chai'
-import sinon, { SinonSandbox, assert } from 'sinon'
+import { SinonSandbox, SinonStub, assert, createSandbox } from 'sinon'
 
 export class MockEnv extends BaseSandbox implements IEnv {
   public constructor(sandbox: SinonSandbox) {
     super(sandbox)
   }
-  public Logger = this._sandbox.stub() as any
-  public Name = this._sandbox.stub() as any
+  public Logger = new MockLoggerStrategy(this._sandbox)
+
+  public Name = ''
+  public stubName = this._sandbox.stub(this, 'Name') as SinonStub
+
   public getEnvStringValue = this._sandbox.stub()
 }
 
-describe('Env', () => {
-  const mockLocation = new MockLocationStrategy()
-  const mockLogger = new MockLoggerStrategy()
-  const dummyEnvName = 'DUMMY_ENV'
-  const mockEnv = new Env({ name: dummyEnvName, locationStrategy: mockLocation, loggerStrategy: mockLogger })
+describe('env - Env', () => {
+  const sandbox = createSandbox()
 
-  afterEach(sinon.reset)
-  after(sinon.restore)
+  const dummyEnvName = 'DUMMY_ENV'
+  let mockLocation: MockLocationStrategy
+  let mockLogger: MockLoggerStrategy
+  let mockEnv: Env
+
+  beforeEach(() => {
+    mockLocation = new MockLocationStrategy(sandbox)
+    mockLogger = new MockLoggerStrategy(sandbox)
+    mockEnv = new Env({ name: dummyEnvName, locationStrategy: mockLocation, loggerStrategy: mockLogger })
+  })
+  afterEach(sandbox.restore)
 
   describe('constructor', () => {
     it('should setup properties', () => {

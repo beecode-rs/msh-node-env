@@ -1,17 +1,17 @@
 import { ToString } from '.'
 import { expect } from 'chai'
 
-describe('ToString', () => {
+describe('convert - ToString', () => {
   describe('convert', () => {
     const toString = new ToString()
 
-    it('should return true if string value is true string in with any case', () => {
-      ;['string-a', 'string-b'].forEach((str) => {
+    ;['string-a', 'string-b'].forEach((str) => {
+      it(`should return "${str}" if "${str}" passed`, () => {
         expect(toString.convert(str)).to.equal(str)
       })
     })
-    it('should return default value if string empty or undefined', () => {
-      ;['', ' ', '   '].forEach((str) => {
+    ;['', ' ', '   '].forEach((str) => {
+      it(`should return undefined if "${str}" passed`, () => {
         expect(toString.convert(str)).to.be.undefined
       })
     })
