@@ -1,24 +1,22 @@
 import { ToBoolean } from '.'
 import { expect } from 'chai'
 
-describe('ToBoolean', () => {
+describe('convert - ToBoolean', () => {
   describe('convert', () => {
     const toBoolean = new ToBoolean()
 
-    it('should return true if string value is true string in with any case', () => {
-      ;['true', 'True', 'TRUE', 'TrUe', 'tRuE'].forEach((strValue) => {
+    ;['true', 'True', 'TRUE', 'TrUe', 'tRuE'].forEach((strValue) => {
+      it(`should return true if "${strValue}" passed`, () => {
         expect(toBoolean.convert(strValue)).to.be.true
       })
     })
-
-    it('should return false if string value is false string in with any case', () => {
-      ;['false', 'False', 'FALSE', 'FaLsE', 'fAlSe'].forEach((strValue) => {
+    ;['false', 'False', 'FALSE', 'FaLsE', 'fAlSe'].forEach((strValue) => {
+      it(`should return false if "${strValue}" passed`, () => {
         expect(toBoolean.convert(strValue)).to.be.false
       })
     })
-
-    it('should log warning for non boolean values and return default value', () => {
-      ;['not boolean', ''].forEach((someValue) => {
+    ;['not boolean', ''].forEach((someValue) => {
+      it(`should return undefined if "${someValue}" passed`, () => {
         expect(toBoolean.convert(someValue)).to.be.undefined
       })
     })

@@ -1,8 +1,8 @@
 import { ConsoleLogger, LogLevel } from '.'
 import { expect } from 'chai'
-import sinon, { SinonStub, assert } from 'sinon'
+import { SinonStub, assert, createSandbox } from 'sinon'
 
-describe('ConsoleLogger', () => {
+describe('logger - ConsoleLogger', () => {
   const defaultLogger = new ConsoleLogger()
 
   describe('constructor', () => {
@@ -39,29 +39,29 @@ describe('ConsoleLogger', () => {
   })
 
   describe('__shouldLog', () => {
-    it('should ', () => {
-      const { ERROR, WARN, INFO, DEBUG } = LogLevel
-      ;([
-        [ERROR, ERROR, true],
-        [ERROR, WARN, false],
-        [ERROR, INFO, false],
-        [ERROR, DEBUG, false],
+    const { ERROR, WARN, INFO, DEBUG } = LogLevel
+    ;([
+      [ERROR, ERROR, true],
+      [ERROR, WARN, false],
+      [ERROR, INFO, false],
+      [ERROR, DEBUG, false],
 
-        [WARN, ERROR, true],
-        [WARN, WARN, true],
-        [WARN, INFO, false],
-        [WARN, DEBUG, false],
+      [WARN, ERROR, true],
+      [WARN, WARN, true],
+      [WARN, INFO, false],
+      [WARN, DEBUG, false],
 
-        [INFO, ERROR, true],
-        [INFO, WARN, true],
-        [INFO, INFO, true],
-        [INFO, DEBUG, false],
+      [INFO, ERROR, true],
+      [INFO, WARN, true],
+      [INFO, INFO, true],
+      [INFO, DEBUG, false],
 
-        [DEBUG, ERROR, true],
-        [DEBUG, WARN, true],
-        [DEBUG, INFO, true],
-        [DEBUG, DEBUG, true],
-      ] as [LogLevel, LogLevel, boolean][]).forEach(([confLevel, msgLevel, shouldLog]) => {
+      [DEBUG, ERROR, true],
+      [DEBUG, WARN, true],
+      [DEBUG, INFO, true],
+      [DEBUG, DEBUG, true],
+    ] as [LogLevel, LogLevel, boolean][]).forEach(([confLevel, msgLevel, shouldLog]) => {
+      it(`should return ${shouldLog} if config level ${confLevel} for message level ${msgLevel}`, () => {
         const logger = new ConsoleLogger(confLevel)
         expect(logger['__shouldLog'](msgLevel)).to.equal(shouldLog)
       })
@@ -69,14 +69,15 @@ describe('ConsoleLogger', () => {
   })
 
   describe('__logMessage', () => {
+    const sandbox = createSandbox()
     let stub_console_log: SinonStub
     let stub_logger_shouldLog: SinonStub
     const logMessageLogger = new ConsoleLogger()
     beforeEach(() => {
-      stub_console_log = sinon.stub(console, 'log')
-      stub_logger_shouldLog = sinon.stub(logMessageLogger, '__shouldLog' as any)
+      stub_console_log = sandbox.stub(console, 'log')
+      stub_logger_shouldLog = sandbox.stub(logMessageLogger, '__shouldLog' as any)
     })
-    afterEach(sinon.restore)
+    afterEach(sandbox.restore)
 
     it('should not log messages if shouldLog returns false', () => {
       stub_logger_shouldLog.returns(false)
@@ -107,14 +108,15 @@ describe('ConsoleLogger', () => {
   })
 
   describe('public functions', () => {
+    const sandbox = createSandbox()
     let stub_logger_logMessage: SinonStub
     const logger = new ConsoleLogger()
     const dummyMessage = 'dummy message'
     const dummyObject = { dummy: 'object' }
     beforeEach(() => {
-      stub_logger_logMessage = sinon.stub(logger, '__logMessage' as any)
+      stub_logger_logMessage = sandbox.stub(logger, '__logMessage' as any)
     })
-    afterEach(sinon.restore)
+    afterEach(sandbox.restore)
 
     it('should call logger with error level for error', () => {
       logger.error(dummyMessage, dummyObject)

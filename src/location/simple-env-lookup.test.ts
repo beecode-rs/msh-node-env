@@ -1,7 +1,7 @@
 import { SimpleEnvLookup } from '.'
 import { expect } from 'chai'
 
-describe('SimpleEnvLookup', () => {
+describe('location - SimpleEnvLookup', () => {
   const dummyEnvKey = 'DUMMY_ENV_KEY'
   const dummyEnvValue = 'Some env value'
 

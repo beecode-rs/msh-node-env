@@ -1,14 +1,26 @@
 import { ProjectNameIsolation, SimpleEnvLookup } from '.'
+import { MockServerResult, MockService } from '../index.test'
 import { stringUtil } from '../util'
 import { expect } from 'chai'
-import sinon, { SinonStub, assert } from 'sinon'
+import proxyquire from 'proxyquire'
+import { SinonStub, assert, createSandbox } from 'sinon'
 
-describe('ProjectNameIsolation', () => {
+describe('location - ProjectNameIsolation', () => {
+  proxyquire.noPreserveCache().noCallThru()
+  const sandbox = createSandbox()
+
   const projectName = 'testProject'
   const projectEnvName = 'TEST_PROJECT'
   const dummyEnvKey = 'DUMMY_ENV_KEY'
   const dummyEnvValue = 'Some env value'
   const dummyProjectEnvValue = 'Some project env value'
+  let mockStringUtil: MockServerResult
+
+  beforeEach(() => {
+    mockStringUtil = MockService(stringUtil, sandbox)
+    proxyquire('../util/string-util', mockStringUtil)
+  })
+  afterEach(sandbox.restore)
 
   describe('constructor', () => {
     it('should set project name', () => {
@@ -17,34 +29,26 @@ describe('ProjectNameIsolation', () => {
     })
   })
   describe('_ProjectName', () => {
-    let stub_stringUtil_toSnakeUpperCase: SinonStub
     beforeEach(() => {
-      stub_stringUtil_toSnakeUpperCase = sinon.stub(stringUtil, 'toSnakeUpperCase').returns(projectEnvName)
+      mockStringUtil.toSnakeUpperCase.returns(projectEnvName)
     })
-    afterEach(() => {
-      sinon.restore()
-    })
+
     it('should return upper snake case of a project name', () => {
-      stub_stringUtil_toSnakeUpperCase.returns(projectEnvName)
       const location = new ProjectNameIsolation(projectName)
       expect(location['_ProjectName']).to.eq(projectEnvName)
-      assert.calledOnce(stub_stringUtil_toSnakeUpperCase)
-      assert.calledWith(stub_stringUtil_toSnakeUpperCase, projectName)
+      assert.calledOnce(mockStringUtil.toSnakeUpperCase)
+      assert.calledWith(mockStringUtil.toSnakeUpperCase, projectName)
     })
   })
   describe('__envName', () => {
-    let spy_projectNameIsolation_projectName: any
-    const location = new ProjectNameIsolation(projectName)
-    beforeEach(() => {
-      spy_projectNameIsolation_projectName = sinon.spy(ProjectNameIsolation.prototype, '_ProjectName' as any, ['get'])
-    })
-    afterEach(() => {
-      sinon.restore()
-    })
     it('should return upper snake case of a project env name', () => {
+      const location = new ProjectNameIsolation(projectName)
+      const fake_projectName_get = sandbox.fake.returns(projectEnvName)
+      sandbox.stub(location, '_ProjectName' as any).get(fake_projectName_get)
       const result = location['__envName'](dummyEnvKey)
       expect(result).to.eq(`${projectEnvName}_${dummyEnvKey}`)
-      expect(spy_projectNameIsolation_projectName.get.calledOnce).to.be.true
+      assert.calledOnce(fake_projectName_get)
+      assert.calledOnce(fake_projectName_get)
     })
   })
   describe('getEnvStringValue', () => {
@@ -52,13 +56,12 @@ describe('ProjectNameIsolation', () => {
     let stub_simpleEnvLookup_getEnvStringValue: SinonStub
     let stub_projectNameIsolation_envName: SinonStub
     beforeEach(() => {
-      stub_simpleEnvLookup_getEnvStringValue = sinon.stub(SimpleEnvLookup.prototype, 'getEnvStringValue')
-      stub_projectNameIsolation_envName = sinon
+      stub_simpleEnvLookup_getEnvStringValue = sandbox.stub(SimpleEnvLookup.prototype, 'getEnvStringValue')
+      stub_projectNameIsolation_envName = sandbox
         .stub(ProjectNameIsolation.prototype, '__envName' as any)
         .returns(`${projectEnvName}_${dummyEnvKey}`)
     })
     afterEach(() => {
-      sinon.restore()
       delete process.env[`${projectEnvName}_${dummyEnvKey}`]
     })
     it('should return undefined if no env exists', () => {

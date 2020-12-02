@@ -1,10 +1,12 @@
 import { ProjectNameIsolation, VersionProjectNameIsolation } from '.'
 import { expect } from 'chai'
-import sinon, { SinonStub, assert } from 'sinon'
+import { SinonStub, assert, createSandbox } from 'sinon'
 
-describe('VersionProjectNameIsolation', () => {
+describe('location - VersionProjectNameIsolation', () => {
   const projectName = 'testProject'
+  const projectNameSnakeUpperCase = 'TEST_PROJECT'
   const version = '1.0.1'
+  const versionFormated = '1_0_1'
   const versionProjectEnvName = 'TEST_PROJECT_1_0_1'
   const dummyEnvKey = 'DUMMY_ENV_KEY'
   const dummyProjectEnvValue = 'Some project env value'
@@ -25,38 +27,43 @@ describe('VersionProjectNameIsolation', () => {
   })
 
   describe('__envProjectVersionName', () => {
-    let spy_projectNameIsolation_projectName: any
-    let spy_versionProjectNameIsolation_version: any
-    const location = new VersionProjectNameIsolation({ projectName, version })
+    const sandbox = createSandbox()
+    let stub_projectNameIsolation_projectName: any
+    let stub_versionProjectNameIsolation_version: any
+    let location: VersionProjectNameIsolation
     beforeEach(() => {
-      spy_projectNameIsolation_projectName = sinon.spy(ProjectNameIsolation.prototype, '_ProjectName' as any, ['get'])
-      spy_versionProjectNameIsolation_version = sinon.spy(VersionProjectNameIsolation.prototype, '__Version' as any, ['get'])
+      location = new VersionProjectNameIsolation({ projectName, version })
+      stub_projectNameIsolation_projectName = sandbox.stub(ProjectNameIsolation.prototype, '_ProjectName' as any)
+      stub_versionProjectNameIsolation_version = sandbox.stub(location, '__Version' as any)
     })
-    afterEach(() => {
-      sinon.restore()
-    })
+    afterEach(sandbox.restore)
 
     it('should return upper snake case of project name version and env', () => {
+      const fake_version_get = sandbox.fake.returns(versionFormated)
+      stub_versionProjectNameIsolation_version.get(fake_version_get)
+      const fake_projectName_get = sandbox.fake.returns(projectNameSnakeUpperCase)
+      stub_projectNameIsolation_projectName.get(fake_projectName_get)
       const result = location['__envProjectVersionName'](dummyEnvKey)
       expect(result).to.eq(`${versionProjectEnvName}_${dummyEnvKey}`)
-      expect(spy_projectNameIsolation_projectName.get.calledOnce).to.be.true
-      expect(spy_versionProjectNameIsolation_version.get.calledOnce).to.be.true
+      assert.calledOnce(fake_version_get)
+      assert.calledOnce(fake_projectName_get)
     })
   })
 
   describe('getEnvStringValue', () => {
+    const sandbox = createSandbox()
     const testVersionProjectEvnLocation = new VersionProjectNameIsolation({ projectName, version })
     let stub_projectNameIsolation_getEnvStringValue: SinonStub
     let stub_versionProjectNameIsolation_envProjectVersionName: SinonStub
 
     beforeEach(() => {
-      stub_projectNameIsolation_getEnvStringValue = sinon.stub(ProjectNameIsolation.prototype, 'getEnvStringValue')
-      stub_versionProjectNameIsolation_envProjectVersionName = sinon
+      stub_projectNameIsolation_getEnvStringValue = sandbox.stub(ProjectNameIsolation.prototype, 'getEnvStringValue')
+      stub_versionProjectNameIsolation_envProjectVersionName = sandbox
         .stub(VersionProjectNameIsolation.prototype, '__envProjectVersionName' as any)
         .returns(`${versionProjectEnvName}_${dummyEnvKey}`)
     })
     afterEach(() => {
-      sinon.restore()
+      sandbox.restore()
       delete process.env[`${versionProjectEnvName}_${dummyEnvKey}`]
     })
 
