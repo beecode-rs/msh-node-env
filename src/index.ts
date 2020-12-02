@@ -1,20 +1,20 @@
 import { Env } from './env'
-import { EnvLocationStrategy } from './env-location/env-location-strategy'
-import { SimpleEnvLookup } from './env-location/simple-env-lookup'
-import { LoggerStrategy } from './logger/logger-strategy'
-import { NoneLogger } from './logger/none-logger'
+import { LocationStrategy, SimpleEnvLookup } from './location'
+import { LoggerStrategy, NoLogger } from './logger'
 
 export type MshNodeEnvParams = {
-  locationStrategy?: EnvLocationStrategy
+  locationStrategy?: LocationStrategy
   loggerStrategy?: LoggerStrategy
 }
 
-export type MshNodeReturn = (name: string) => Env
+export type MshNodeEnvReturn = (name: string) => Env
 
-export default (params: MshNodeEnvParams = {}): MshNodeReturn => {
+export const MshNodeEnv = (params: MshNodeEnvParams = {}): MshNodeEnvReturn => {
   const locationStrategy = params.locationStrategy ?? new SimpleEnvLookup()
-  const loggerStrategy = params.loggerStrategy ?? new NoneLogger()
+  const loggerStrategy = params.loggerStrategy ?? new NoLogger()
   return (name: string): Env => {
     return new Env({ locationStrategy, loggerStrategy, name })
   }
 }
+
+export default MshNodeEnv
