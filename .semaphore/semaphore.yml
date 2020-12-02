@@ -3,33 +3,36 @@ name: Test
 agent:
   machine:
     type: e1-standard-2
-    os_image: ubuntu1804
+  containers:
+    - name: main
+      image: 'registry.semaphoreci.com/node:14'
 blocks:
-  - name: Build image
+  - name: Checkout
     task:
       jobs:
-        - name: Test
+        - name: checkout and install dep
           commands:
             - checkout
-            - docker build -t unit-test-image -f .docker/Dockerfile.test .
-            - docker images
+            - cache restore
+            - npm install
+            - cache store
     dependencies: []
   - name: Lint
     dependencies:
-      - Build image
+      - Checkout
     task:
       jobs:
         - name: ESLint
           commands:
-            - docker run unit-test-image npm run eslint
+            - npm run eslint
         - name: Prettier
           commands:
-            - docker run unit-test-image npm run prettier
+            - npm run prettier
   - name: Test
     dependencies:
-      - Build image
+      - Lint
     task:
       jobs:
         - name: Unit Test
           commands:
-            - 'docker run unit-test-image npm run test:lint'
+            - 'npm run test:lint'
