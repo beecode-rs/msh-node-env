@@ -2,7 +2,7 @@ import { Base64ToString, BaseConvert, ToBoolean, ToJson, ToNumber, ToString } fr
 import { Env, EnvType } from '../env'
 import { expect } from 'chai'
 
-describe('BaseConvert', () => {
+describe('convert - BaseConvert', () => {
   const dummyEnv = {} as Env
   const baseConvert = new BaseConvert(dummyEnv)
 

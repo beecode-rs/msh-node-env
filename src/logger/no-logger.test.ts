@@ -1,16 +1,17 @@
 import { NoLogger } from '.'
-import sinon, { SinonStub, assert } from 'sinon'
+import { SinonStub, assert, createSandbox } from 'sinon'
 
-describe('NoLogger', () => {
+describe('logger - NoLogger', () => {
   describe('should not call logger', () => {
+    const sandbox = createSandbox()
     const logger = new NoLogger()
     const dummyMessage = 'dummyMessage'
     const dummyObject = { dummy: 'object' }
     let stub_console_log: SinonStub
     beforeEach(() => {
-      stub_console_log = sinon.stub(console, 'log')
+      stub_console_log = sandbox.stub(console, 'log')
     })
-    afterEach(sinon.restore)
+    afterEach(sandbox.restore)
 
     it('should not log on error', () => {
       logger.error(dummyMessage, dummyObject)

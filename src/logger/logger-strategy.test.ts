@@ -1,9 +1,13 @@
+import { BaseSandbox } from '../index.test'
 import { LoggerStrategy } from './logger-strategy'
-import sinon from 'sinon'
+import { SinonSandbox } from 'sinon'
 
-export class MockLoggerStrategy implements LoggerStrategy {
-  public debug = sinon.fake()
-  public error = sinon.fake()
-  public info = sinon.fake()
-  public warn = sinon.fake()
+export class MockLoggerStrategy extends BaseSandbox implements LoggerStrategy {
+  public constructor(sandbox: SinonSandbox) {
+    super(sandbox)
+  }
+  public debug = this._sandbox.stub()
+  public error = this._sandbox.stub()
+  public info = this._sandbox.stub()
+  public warn = this._sandbox.stub()
 }

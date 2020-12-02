@@ -2,25 +2,21 @@ import { EnvType } from '.'
 import { MockConvertStrategy } from '../convert/convert-strategy.test'
 import { MockEnv } from './env.test'
 import { expect } from 'chai'
-import sinon, { assert, createSandbox } from 'sinon'
+import { SinonStub, assert, createSandbox } from 'sinon'
 
-describe('EnvType', () => {
+describe('env - EnvType', () => {
   const sandbox = createSandbox()
 
-  const mockConvert = new MockConvertStrategy(sandbox)
-  const mockEnv = new MockEnv(sandbox)
+  let mockEnv: MockEnv
+  let mockConvert: MockConvertStrategy
   const dummyDefaultValue = 'dummyDefaultValue'
   let mockEnvType: EnvType<any>
   beforeEach(() => {
+    mockEnv = new MockEnv(sandbox)
+    mockConvert = new MockConvertStrategy(sandbox)
     mockEnvType = new EnvType({ convertStrategy: mockConvert, env: mockEnv })
   })
-  afterEach(() => {
-    sandbox.reset()
-    sinon.restore()
-  })
-  after(() => {
-    sandbox.restore()
-  })
+  afterEach(sandbox.restore)
 
   describe('constructor', () => {
     it('should pass properties', () => {
@@ -73,24 +69,31 @@ describe('EnvType', () => {
   })
 
   describe('required', () => {
-    let spy_envType_optional: any
+    let stub_envType_optional: SinonStub
     beforeEach(() => {
-      spy_envType_optional = sinon.spy(EnvType.prototype, 'optional', ['get'])
+      stub_envType_optional = sandbox.stub(EnvType.prototype, 'optional')
     })
     it('should throw error if optional return undefined', () => {
-      // TODO mock options to return undefined
+      const dummyEnvName = 'DUMMY_ENV_NAME'
+      const fake_env_name_get = sandbox.fake.returns(dummyEnvName)
+      mockEnv.stubName.get(fake_env_name_get)
+      const fake_optional_get = sandbox.fake.returns(undefined)
+      stub_envType_optional.get(fake_optional_get)
       try {
         mockEnvType.required
         expect.fail()
       } catch (err) {
-        expect(err.message).to.equal(`stub must have value defined`)
+        expect(err.message).to.equal(`${dummyEnvName} must have value defined`)
       }
-      expect(spy_envType_optional.get.calledOnce).to.be.true
+      assert.calledOnce(fake_env_name_get)
+      assert.calledOnce(fake_optional_get)
     })
     it('should return optional value if it is not undefined', () => {
-      // TODO mock optional to return some value
-      mockEnvType['__defaultValue'] = dummyDefaultValue
-      expect(mockEnvType.required).to.equal(dummyDefaultValue)
+      const dummyOptionalValue = 'someValue'
+      const fake_optional_get = sandbox.fake.returns(dummyOptionalValue)
+      stub_envType_optional.get(fake_optional_get)
+      expect(mockEnvType.required).to.equal(dummyOptionalValue)
+      assert.calledOnce(fake_optional_get)
     })
   })
 })

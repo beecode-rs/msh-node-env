@@ -1,8 +1,9 @@
 import { stringUtil } from '.'
 import { expect } from 'chai'
-import sinon, { SinonStub } from 'sinon'
+import { SinonStub, createSandbox } from 'sinon'
 
-describe('stringUtil', () => {
+describe('util - stringUtil', () => {
+  const sandbox = createSandbox()
   describe('toSnakeCase', () => {
     it('should convert any case to snake case', () => {
       ;([
@@ -21,15 +22,12 @@ describe('stringUtil', () => {
       })
     })
   })
-
   describe('toSnakeUpperCase', () => {
     let stub_stringUtil_toSnakeCase: SinonStub
     beforeEach(() => {
-      stub_stringUtil_toSnakeCase = sinon.stub(stringUtil, 'toSnakeCase')
+      stub_stringUtil_toSnakeCase = sandbox.stub(stringUtil, 'toSnakeCase')
     })
-    afterEach(() => {
-      sinon.restore()
-    })
+    afterEach(sandbox.restore)
 
     it('should return snake and make it upper case', () => {
       const dummySnakeCase = 'snake_case'
