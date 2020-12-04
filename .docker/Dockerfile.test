@@ -1,0 +1,20 @@
+FROM node:14.15.1-alpine3.12
+ENV ROOT_HOME=/root \
+    HOME=/home/node \
+    PATH="/home/node/.npm-global/bin:${PATH}" \
+    NPM_CONFIG_PREFIX=/home/node/.npm-global \
+    NPM_CONFIG_LOGLEVEL=warn \
+    APP_PATH=/usr/src/app \
+    PORT=3000
+
+USER root
+WORKDIR $APP_PATH
+COPY . $APP_PATH
+RUN  chown -R node:node $HOME && chown -R node:node $APP_PATH
+USER node
+RUN npm set progress=false && npm i
+
+EXPOSE 3000
+EXPOSE 9229
+
+CMD npm test
