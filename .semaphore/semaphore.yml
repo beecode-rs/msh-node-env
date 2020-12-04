@@ -4,7 +4,6 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
-
 blocks:
   - name: Build image
     task:
@@ -14,4 +13,23 @@ blocks:
             - checkout
             - docker build -t unit-test-image -f .docker/Dockerfile.test .
             - docker images
-            - docker run unit-test-image
+    dependencies: []
+  - name: Lint
+    dependencies:
+      - Build image
+    task:
+      jobs:
+        - name: ESLint
+          commands:
+            - docker run unit-test-image npm run eslint
+        - name: Prettier
+          commands:
+            - docker run unit-test-image npm run prettier
+  - name: Test
+    dependencies:
+      - Build image
+    task:
+      jobs:
+        - name: Unit Test
+          commands:
+            - 'docker run unit-test-image npm run test:lint'
