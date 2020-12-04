@@ -1,19 +1,49 @@
 version: v1.0
-name: Test MyApp
+name: Test
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
-
 blocks:
-  - name: Test
+  - name: Install
     task:
       jobs:
-        - name: Test
+        - name: Checkout
           commands:
             - checkout
-            - sem-version node 12
+            - sem version node 14
             - cache restore
-            - npm install
+            - npm i
             - cache store
-            - npm test
+      prologue:
+        commands:
+          - checkout
+          - sem-version node 14
+  - name: Lint
+    task:
+      prologue:
+        commands:
+          - checkout
+          - sem-version node 14
+          - cache restore
+      jobs:
+        - name: ESLint
+          commands:
+            - npm run eslint
+        - name: prettier
+          commands:
+            - npm run prettier
+  - name: Test
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: test
+      prologue:
+        commands:
+          - checkout
+          - sem-version node 14
+          - cache restore
+      jobs:
+        - name: Unit Test
+          commands:
+            - 'npm run test:unit:lint'
