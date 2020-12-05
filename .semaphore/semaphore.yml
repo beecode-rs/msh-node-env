@@ -38,8 +38,6 @@ blocks:
       env_vars:
         - name: NODE_ENV
           value: test
-        - name: CODECOV_TOKEN
-          value: "3087c7ae-4615-4904-a9c9-0848a3c9554f"
       prologue:
         commands:
           - checkout
@@ -48,7 +46,7 @@ blocks:
       jobs:
         - name: Unit Test
           commands:
-            - 'npm run coverage:unit:lint'
-            - 'bash <(curl -s https://codecov.io/bash)'
+            - npm run coverage
+            - npm run coverage:publish
 
 
