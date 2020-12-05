@@ -4,28 +4,25 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
+  containers:
+    - name: main
+      image: 'registry.semaphoreci.com/node:14
+
+global_job_config:
+  prologue:
+    commands:
+      - checkout
+      - cache restore
 blocks:
   - name: Install
     task:
       jobs:
         - name: Checkout
           commands:
-            - checkout
-            - sem version node 14
-            - cache restore
-            - npm i
+            - npm ci
             - cache store
-      prologue:
-        commands:
-          - checkout
-          - sem-version node 14
   - name: Lint
     task:
-      prologue:
-        commands:
-          - checkout
-          - sem-version node 14
-          - cache restore
       jobs:
         - name: ESLint
           commands:
@@ -36,19 +33,12 @@ blocks:
   - name: Test
     task:
       secrets:
-        - name: codecov
+        - name: bc-msh-node-env-secret
       env_vars:
         - name: NODE_ENV
           value: test
-      prologue:
-        commands:
-          - checkout
-          - sem-version node 14
-          - cache restore
       jobs:
         - name: Unit Test
           commands:
             - npm run coverage
             - npm run coverage:publish
-
-
