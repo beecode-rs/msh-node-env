@@ -12,19 +12,12 @@ blocks:
           commands:
             - checkout
             - sem version node 14
-            - cache restore
-            - npm i
+            - npm ci
             - cache store
-      prologue:
-        commands:
-          - checkout
-          - sem-version node 14
   - name: Lint
     task:
       prologue:
         commands:
-          - checkout
-          - sem-version node 14
           - cache restore
       jobs:
         - name: ESLint
@@ -36,14 +29,12 @@ blocks:
   - name: Test
     task:
       secrets:
-        - name: codecov
+        - name: bc-msh-node-env-secret
       env_vars:
         - name: NODE_ENV
           value: test
       prologue:
         commands:
-          - checkout
-          - sem-version node 14
           - cache restore
       jobs:
         - name: Unit Test
