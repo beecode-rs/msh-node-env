@@ -40,6 +40,7 @@
     "eslint": "7.15.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-import": "2.22.1",
+    "markdown-toc": "^1.2.0",
     "mocha": "8.2.1",
     "nyc": "15.1.0",
     "prettier": "2.2.1",
@@ -97,8 +98,9 @@
     "prettier:fix": "prettier --write \"./src/**/*.{ts,json}\"",
     "semantic-release": "semantic-release",
     "test": "npm run test:unit -- --forbid-only",
+    "doc:toc": "markdown-toc -i ./README.md",
     "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts"
   },
   "typings": "./lib/index.d.ts",
-  "version": "0.0.4"
+  "version": "0.0.4-dev.1"
 }
