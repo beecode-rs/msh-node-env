@@ -3,10 +3,10 @@
     "production",
     {
       "name": "develop",
-      "prerelease": true
+      "channel": "alpha",
+      "prerelease": "dev"
     }
   ],
-  "debug": "true",
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
