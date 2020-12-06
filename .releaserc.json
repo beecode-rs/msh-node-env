@@ -1,10 +1,10 @@
 {
   "branches": [
-    "production",
+    "release/production",
     {
-      "name": "develop",
+      "name": "release/alpha",
       "channel": "alpha",
-      "prerelease": "dev"
+      "prerelease": "alpha"
     }
   ],
   "plugins": [
