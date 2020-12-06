@@ -5,20 +5,6 @@
 
 * msh-node-env return ([6329dea](https://github.com/beecode-rs/msh-node-env/commit/6329deaf379ed36046b86beba87b3ab86b0c3545))
 
-## [0.0.3-dev.1](https://github.com/beecode-rs/msh-node-env/compare/v0.0.2...v0.0.3-dev.1) (2020-12-06)
-
-
-### Bug Fixes
-
-* msh-node-env return ([6329dea](https://github.com/beecode-rs/msh-node-env/commit/6329deaf379ed36046b86beba87b3ab86b0c3545))
-
-## [0.0.3-dev.1](https://github.com/beecode-rs/msh-node-env/compare/v0.0.2...v0.0.3-dev.1) (2020-12-06)
-
-
-### Bug Fixes
-
-* msh-node-env return ([6329dea](https://github.com/beecode-rs/msh-node-env/commit/6329deaf379ed36046b86beba87b3ab86b0c3545))
-
 ## [0.0.5-dev.1](https://github.com/beecode-rs/msh-node-env/compare/v0.0.4...v0.0.5-dev.1) (2020-12-06)
 
 
