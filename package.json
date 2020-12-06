@@ -90,6 +90,7 @@
     "commit": "git-cz",
     "coverage": "nyc --reporter=lcov npm test",
     "coverage:publish": "codecov",
+    "doc:toc": "markdown-toc -i ./README.md",
     "eslint": "eslint . --ext .ts --quiet",
     "eslint:fix": "npm run eslint -- --fix",
     "lint": "npm run eslint && npm run prettier",
@@ -100,7 +101,6 @@
     "semantic-release": "semantic-release",
     "semantic-release:check": "npm run semantic-release -- -dry-run --no-ci",
     "test": "npm run test:unit -- --forbid-only",
-    "doc:toc": "markdown-toc -i ./README.md",
     "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts"
   },
   "typings": "./lib/index.d.ts",
