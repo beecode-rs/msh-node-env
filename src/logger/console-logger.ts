@@ -1,7 +1,5 @@
 import { LoggerStrategy } from './logger-strategy'
 
-export type ConsoleLogFunction = (msg: string, obj?: any) => void
-
 export enum LogLevel {
   ERROR = 'error',
   WARN = 'warn',
