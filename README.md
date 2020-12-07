@@ -15,12 +15,12 @@ This project is intended to be used in typescript project to validate and add ty
 - [Usage](#usage)
 - [MshNodeEnv options](#mshnodeenv-options)
 - [Location Strategy](#location-strategy)
-  * [SimpleEnvLookup](#simpleenvlookup)
-  * [ProjectNameIsolation](#projectnameisolation)
-  * [VersionProjectNameIsolation](#versionprojectnameisolation)
+  - [SimpleEnvLookup](#simpleenvlookup)
+  - [ProjectNameIsolation](#projectnameisolation)
+  - [VersionProjectNameIsolation](#versionprojectnameisolation)
 - [Logger Strategy](#logger-strategy)
-  * [NoLogger](#nologger)
-  * [ConsoleLogger](#consolelogger)
+  - [NoLogger](#nologger)
+  - [ConsoleLogger](#consolelogger)
 
 <!-- tocstop -->
 
@@ -47,10 +47,10 @@ export const config = Object.freeze({
 
 ## MshNodeEnv options
 
-| Name                                   | Default               | Description                                                                                                                                                                                   |
-| -------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name                                    | Default               | Description                                                                                                                                                                                                                     |
+| --------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [locationStrategy](#location-strategy)? | new SimpleEnvLookup() | [Optional] Chose the strategy how the values are going to be loaded. Available: [SimpleEnvLookup](#simpleenvlookup), [ProjectNameIsolation](#projectnameisolation), [VersionProjectNameIsolation](#versionprojectnameisolation) |
-| [loggerStrategy](#logger-strategy)?     | new NoLogger()        | [Optional] Chose the strategy how the logging is provided. Available: [NoLogger](#nologger), [ConsoleLogger](#consolelogger)                                                                                                 |
+| [loggerStrategy](#logger-strategy)?     | new NoLogger()        | [Optional] Chose the strategy how the logging is provided. Available: [NoLogger](#nologger), [ConsoleLogger](#consolelogger)                                                                                                    |
 
 ##
 
