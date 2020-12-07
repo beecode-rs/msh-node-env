@@ -1,6 +1,6 @@
-[![Build Status](https://beecode.semaphoreci.com/badges/msh-node-env/branches/master.svg?style=shields)](https://beecode.semaphoreci.com/projects/msh-node-env)
-[![codecov](https://codecov.io/gh/beecode-rs/msh-node-env/branch/production/graph/badge.svg)](https://codecov.io/gh/beecode-rs/msh-node-env)
-[![GitHub license](https://img.shields.io/github/license/beecode-rs/msh-node-env)](https://github.com/beecode-rs/msh-node-env/blob/production/LICENSE)  
+[![Build Status](https://beecode.semaphoreci.com/badges/msh-node-env/branches/main.svg?style=shields)](https://beecode.semaphoreci.com/projects/msh-node-env)
+[![codecov](https://codecov.io/gh/beecode-rs/msh-node-env/branch/main/graph/badge.svg)](https://codecov.io/gh/beecode-rs/msh-node-env)
+[![GitHub license](https://img.shields.io/github/license/beecode-rs/msh-node-env)](https://github.com/beecode-rs/msh-node-env/blob/main/LICENSE)  
 [![NPM](https://nodei.co/npm/@beecode/msh-node-env.png)](https://npmjs.org/package/@beecode/msh-node-env)
 
 # msh-node-env
@@ -15,12 +15,12 @@ This project is intended to be used in typescript project to validate and add ty
 - [Usage](#usage)
 - [MshNodeEnv options](#mshnodeenv-options)
 - [Location Strategy](#location-strategy)
-  * [SimpleEnvLookup](#simpleenvlookup)
-  * [ProjectNameIsolation](#projectnameisolation)
-  * [VersionProjectNameIsolation](#versionprojectnameisolation)
+  - [SimpleEnvLookup](#simpleenvlookup)
+  - [ProjectNameIsolation](#projectnameisolation)
+  - [VersionProjectNameIsolation](#versionprojectnameisolation)
 - [Logger Strategy](#logger-strategy)
-  * [NoLogger](#nologger)
-  * [ConsoleLogger](#consolelogger)
+  - [NoLogger](#nologger)
+  - [ConsoleLogger](#consolelogger)
 
 <!-- tocstop -->
 
@@ -47,10 +47,10 @@ export const config = Object.freeze({
 
 ## MshNodeEnv options
 
-| Name                                   | Default               | Description                                                                                                                                                                                   |
-| -------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name                                    | Default               | Description                                                                                                                                                                                                                     |
+| --------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [locationStrategy](#location-strategy)? | new SimpleEnvLookup() | [Optional] Chose the strategy how the values are going to be loaded. Available: [SimpleEnvLookup](#simpleenvlookup), [ProjectNameIsolation](#projectnameisolation), [VersionProjectNameIsolation](#versionprojectnameisolation) |
-| [loggerStrategy](#logger-strategy)?     | new NoLogger()        | [Optional] Chose the strategy how the logging is provided. Available: [NoLogger](#nologger), [ConsoleLogger](#consolelogger)                                                                                                 |
+| [loggerStrategy](#logger-strategy)?     | new NoLogger()        | [Optional] Chose the strategy how the logging is provided. Available: [NoLogger](#nologger), [ConsoleLogger](#consolelogger)                                                                                                    |
 
 ##
 

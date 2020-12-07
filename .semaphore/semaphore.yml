@@ -52,3 +52,5 @@ blocks:
           commands:
             - npm run build
             - npm run semantic-release
+    skip:
+      when: branch !~ '^release\/'
