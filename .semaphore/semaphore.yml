@@ -53,4 +53,4 @@ blocks:
             - npm run build
             - npm run semantic-release
     skip:
-      when: branch !~ '^release\/'
+      when: branch !~ '^release\/' AND branch != 'main'
