@@ -1,11 +1,10 @@
 {
-  "debug": true,
   "branches": [
     "main",
     {
       "name": "release/alpha/*",
       "channel": "alpha",
-      "prerelease": true
+      "prerelease": "alpha"
     }
   ],
   "plugins": [
