@@ -7,31 +7,8 @@ agent:
   containers:
     - name: main
       image: 'registry.semaphoreci.com/node:14'
-
-global_job_config:
-  prologue:
-    commands:
-      - checkout
-      - cache restore
-
 blocks:
-  - name: Install
-    task:
-      jobs:
-        - name: Checkout
-          commands:
-            - npm ci
-            - cache store
-  - name: Lint
-    task:
-      jobs:
-        - name: ESLint
-          commands:
-            - npm run eslint
-        - name: prettier
-          commands:
-            - npm run prettier
-  - name: Test
+  - name: Install-Lint-Test
     task:
       secrets:
         - name: bc-msh-node-env-secret
@@ -39,8 +16,13 @@ blocks:
         - name: NODE_ENV
           value: test
       jobs:
-        - name: Unit Test
+        - name: Test
           commands:
+            - checkout
+            - npm ci
+            - cache store
+            - npm run eslint
+            - npm run prettier
             - npm run coverage
             - 'npm run coverage:publish'
   - name: Build
@@ -50,6 +32,8 @@ blocks:
       jobs:
         - name: Build
           commands:
+            - checkout
+            - cache restore
             - npm run build
             - npm run semantic-release
     skip:
