@@ -17,7 +17,7 @@
     "strict": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "target": "esnext"
+    "target": "es2017"
   },
   "exclude": ["./node_modules", "./lib", "./.idea"],
   "include": ["./src/**/*.ts"]

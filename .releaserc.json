@@ -2,7 +2,7 @@
   "branches": [
     "main",
     {
-      "name": "release/alpha/*",
+      "name": "release/alpha*",
       "channel": "alpha",
       "prerelease": "alpha"
     }
