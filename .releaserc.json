@@ -4,7 +4,7 @@
     {
       "name": "(release\\/alpha.*)",
       "channel": "alpha",
-      "prerelease": "alpha"
+      "prerelease": true
     }
   ],
   "plugins": [
