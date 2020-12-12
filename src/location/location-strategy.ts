@@ -1,3 +1,3 @@
 export interface LocationStrategy {
-  getEnvStringValue(eventName: string): string | undefined
+  getValueByName(name: string): string | undefined
 }

@@ -1,20 +1,23 @@
 import { BaseConvert } from './convert'
 import { Env } from './env'
-import { LocationStrategy, SimpleEnvLookup } from './location'
+import { EnvironmentLocation, LocationStrategy } from './location'
 import { LoggerStrategy, NoLogger } from './logger'
+import { NamingStrategy, SimpleName } from './naming'
 
 export type MshNodeEnvParams = {
-  locationStrategy?: LocationStrategy
   loggerStrategy?: LoggerStrategy
+  locationStrategies?: LocationStrategy[]
+  namingStrategies?: NamingStrategy[]
 }
 
 export type MshNodeEnvReturn = (name: string) => BaseConvert
 
 export const MshNodeEnv = (params: MshNodeEnvParams = {}): MshNodeEnvReturn => {
-  const locationStrategy = params.locationStrategy ?? new SimpleEnvLookup()
   const loggerStrategy = params.loggerStrategy ?? new NoLogger()
+  const locationStrategies = params.locationStrategies ?? [new EnvironmentLocation()]
+  const namingStrategies = params.namingStrategies ?? [new SimpleName()]
   return (name: string): BaseConvert => {
-    return new BaseConvert(new Env({ locationStrategy, loggerStrategy, name }))
+    return new BaseConvert(new Env({ locationStrategies, loggerStrategy, namingStrategies, name }))
   }
 }
 

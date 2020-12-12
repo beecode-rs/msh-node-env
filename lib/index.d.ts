@@ -1,9 +1,11 @@
 import { BaseConvert } from './convert';
 import { LocationStrategy } from './location';
 import { LoggerStrategy } from './logger';
+import { NamingStrategy } from './naming';
 export declare type MshNodeEnvParams = {
-    locationStrategy?: LocationStrategy;
     loggerStrategy?: LoggerStrategy;
+    locationStrategies?: LocationStrategy[];
+    namingStrategies?: NamingStrategy[];
 };
 export declare type MshNodeEnvReturn = (name: string) => BaseConvert;
 export declare const MshNodeEnv: (params?: MshNodeEnvParams) => MshNodeEnvReturn;
