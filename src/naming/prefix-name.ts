@@ -16,6 +16,6 @@ export class PrefixName implements NamingStrategy {
   public getNames(name: string | string[]): string[] {
     const names = typeof name === 'string' ? [name] : name
 
-    return [...names.map((n) => [this.__prefix, n].join(this.__joinChar)), ...names]
+    return [...names.map((n) => [this.__prefix, n].join(this.__joinChar))]
   }
 }

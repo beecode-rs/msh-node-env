@@ -72,27 +72,33 @@ describe('env - Env', () => {
       })
       const result = env['__getEnvNames']()
       assert.calledOnce(mockNaming.getNames)
-      assert.calledWith(mockNaming.getNames, dummyEnvName)
-      expect(result).to.deep.equal(['test1'])
+      assert.calledWith(mockNaming.getNames, [dummyEnvName])
+      expect(result).to.deep.equal(['test1', dummyEnvName])
     })
-    it('should call getNames of all naming strategy', () => {
-      mockNaming.getNames.callsFake((p) => ['test1', ...p])
+
+    it('should simulate double prefixing', () => {
+      const fakePrefixFactory = (prefix: string) => (name: string | string[]): string[] => {
+        const names = typeof name === 'string' ? [name] : name
+        return [...names.map((n) => [prefix, n].join('_'))]
+      }
+      const mockNaming1 = new MockNamingStrategy(sandbox)
+      mockNaming1.getNames.callsFake(fakePrefixFactory('FIRST'))
       const mockNaming2 = new MockNamingStrategy(sandbox)
-      mockNaming2.getNames.callsFake((p) => ['test2', p])
+      mockNaming2.getNames.callsFake(fakePrefixFactory('SECOND'))
 
       const env = new Env({
         name: dummyEnvName,
         locationStrategies: [mockLocation],
         loggerStrategy: mockLogger,
-        namingStrategies: [mockNaming, mockNaming2],
+        namingStrategies: [mockNaming1, mockNaming2],
       })
       const result = env['__getEnvNames']()
-      assert.calledOnce(mockNaming.getNames)
-      assert.calledWith(mockNaming.getNames, ['test2', dummyEnvName])
+      assert.calledOnce(mockNaming1.getNames)
+      assert.calledWith(mockNaming1.getNames, [dummyEnvName])
       assert.calledOnce(mockNaming2.getNames)
-      assert.calledWith(mockNaming2.getNames, dummyEnvName)
-      assert.callOrder(mockNaming2.getNames, mockNaming.getNames)
-      expect(result).to.deep.equal(['test1', 'test2', dummyEnvName])
+      assert.calledWith(mockNaming2.getNames, [`FIRST_${dummyEnvName}`])
+      assert.callOrder(mockNaming1.getNames, mockNaming2.getNames)
+      expect(result).to.deep.equal([`SECOND_FIRST_${dummyEnvName}`, `FIRST_${dummyEnvName}`, dummyEnvName])
     })
   })
 

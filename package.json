@@ -101,8 +101,9 @@
     "prettier:fix": "prettier --write \"./src/**/*.{ts,json}\"",
     "semantic-release": "semantic-release",
     "semantic-release:check": "npm run semantic-release -- --dry-run --no-ci",
-    "test": "npm run test:unit -- --forbid-only",
-    "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts"
+    "test": "npm run test:unit -- --forbid-only && npm run test:int -- --forbid-only",
+    "test:unit": "mocha --require ts-node/register ./src/**/*.test.ts",
+    "test:int": "mocha --require ts-node/register ./src/test/**/*.ts"
   },
   "typings": "./lib/index.d.ts",
   "version": "0.0.6"

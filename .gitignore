@@ -5,3 +5,4 @@ coverage
 .vscode
 .idea
 !.idea/runConfigurations
+src/test/node_modules

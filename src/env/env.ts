@@ -37,9 +37,13 @@ export class Env implements IEnv {
   }
 
   private __getEnvNames(): string[] {
-    return this.__namingStrategies.reverse().reduce<string[]>((acc, ns) => {
-      return ns.getNames(acc.length > 0 ? acc : this.Name)
-    }, [] as string[])
+    const result = [this.Name]
+    let lastResult = [this.Name]
+    for (const ns of this.__namingStrategies) {
+      lastResult = ns.getNames(lastResult)
+      result.push(...lastResult)
+    }
+    return result.reverse()
   }
 
   public getEnvStringValue(): string | undefined {

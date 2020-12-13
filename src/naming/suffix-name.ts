@@ -17,6 +17,6 @@ export class SuffixName implements NamingStrategy {
   public getNames(name: string | string[]): string[] {
     const names = typeof name === 'string' ? [name] : name
 
-    return [...names.map((n) => [n, this.__suffix].join(this.__joinChar)), ...names]
+    return [...names.map((n) => [n, this.__suffix].join(this.__joinChar))]
   }
 }

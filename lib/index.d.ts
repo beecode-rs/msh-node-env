@@ -12,4 +12,5 @@ export declare const MshNodeEnv: (params?: MshNodeEnvParams) => MshNodeEnvReturn
 export default MshNodeEnv;
 export * as location from './location';
 export * as logger from './logger';
+export * as naming from './naming';
 //# sourceMappingURL=index.d.ts.map
