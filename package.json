@@ -90,7 +90,7 @@
     "bump-version": "rjp package.json version",
     "clean": "rimraf ./lib/*",
     "commit": "git-cz",
-    "coverage": "nyc --reporter=lcov npm test",
+    "coverage": "nyc --reporter=lcov npm run test:unit",
     "coverage:publish": "codecov",
     "doc:toc": "markdown-toc -i ./README.md",
     "eslint": "eslint . --ext .ts --quiet",
