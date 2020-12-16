@@ -1,23 +1,15 @@
 {
-  "branches": [
-    "main",
-    {
-      "name": "release/alpha*",
-      "channel": "alpha",
-      "prerelease": "alpha"
-    }
-  ],
+  "branches": "main",
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "VERSION=${nextRelease.version} npm run bump-version"
+        "prepareCmd": "echo VERSION=${nextRelease.version} > version.txt && npm run bump-version -- ${nextRelease.version}"
       }
     ],
     "@semantic-release/changelog",
-    "@semantic-release/npm",
     "@semantic-release/github",
     [
       "@semantic-release/git",
@@ -28,5 +20,5 @@
     ]
   ],
   "preset": "angular",
-  "repositoryUrl": "https://github.com/beecode-rs/msh-node-env"
+  "repositoryUrl": "git@github.com:beecode-rs/msh-node-env.git"
 }

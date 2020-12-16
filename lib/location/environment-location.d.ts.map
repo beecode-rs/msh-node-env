@@ -1,0 +1,1 @@
+{"version":3,"file":"environment-location.d.ts","sourceRoot":"","sources":["../../src/location/environment-location.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,GAAG,CAAA;AAEpC,qBAAa,mBAAoB,YAAW,gBAAgB;IACnD,cAAc,CAAC,IAAI,EAAE,MAAM,GAAG,MAAM,GAAG,SAAS;CAGxD"}
