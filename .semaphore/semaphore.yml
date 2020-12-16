@@ -25,7 +25,7 @@ blocks:
             - npm run prettier
             - npm run coverage
             - 'npm run coverage:publish'
-  - name: Build
+  - name: Bump Version
     task:
       secrets:
         - name: bc-msh-node-env-secret
@@ -36,5 +36,13 @@ blocks:
             - cache restore
             - npm run build
             - npm run semantic-release
+            - cat version.txt
+            - cache store bc-msh-node-env-version-$SEMAPHORE_GIT_SHA version.txt
     skip:
-      when: branch !~ '^release\/' AND branch != 'main'
+      when: branch != 'main'
+
+promotions:
+  - name: Alpha Deploy
+    pipeline_file: alpha.yml
+  - name: Production Deploy
+    pipeline_file: prod.yml
