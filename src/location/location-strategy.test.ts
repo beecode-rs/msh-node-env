@@ -6,5 +6,5 @@ export class MockLocationStrategy extends BaseSandbox implements LocationStrateg
   public constructor(sandbox: SinonSandbox) {
     super(sandbox)
   }
-  public getEnvStringValue = this._sandbox.stub()
+  public getValueByName = this._sandbox.stub()
 }
