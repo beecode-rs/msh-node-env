@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 dotenv.config({ path: `${__dirname}/.env` })
 
 describe('Prefix Example', () => {
-  it('should user prefixed env first', () => {
+  it('should use prefixed env first', () => {
     const env = MshNodeEnv({ namingStrategies: [new naming.PrefixName({ prefix: 'APP_NAME' })] })
     const config = Object.freeze({
       dbName: env('DB_NAME').string.required,
@@ -14,7 +14,7 @@ describe('Prefix Example', () => {
     expect(config.dbName).to.equal('appSpecificDatabaseName')
     expect(config.dbPassword).to.equal('password')
   })
-  it('should user additional prefix first and then prefix', () => {
+  it('should use additional prefix first and then prefix', () => {
     const env = MshNodeEnv({
       namingStrategies: [new naming.PrefixName({ prefix: 'APP_NAME' }), new naming.PrefixName({ prefix: 'ADDITIONAL_PREFIX' })],
     })
