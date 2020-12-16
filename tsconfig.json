@@ -19,6 +19,6 @@
     "strictNullChecks": true,
     "target": "es2017"
   },
-  "exclude": ["./node_modules", "./lib", "./.idea"],
+  "exclude": ["./node_modules", "./lib", "./.idea", "./.semaphore", "./resource"],
   "include": ["./src/**/*.ts"]
 }
