@@ -16,5 +16,13 @@ describe('convert - ToJson', () => {
         expect(toJson.convert(str)).to.be.undefined
       })
     })
+    it('should throw error if unable to convert to json', () => {
+      try {
+        toJson.convert('not a string')
+        expect.fail()
+      } catch (e) {
+        expect(e.message).to.equal('"not a string" is not a json. Error: Unexpected token o in JSON at position 1')
+      }
+    })
   })
 })
