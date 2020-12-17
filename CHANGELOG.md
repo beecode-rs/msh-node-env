@@ -1,3 +1,10 @@
+## [0.0.7](https://github.com/beecode-rs/msh-node-env/compare/v0.0.6...v0.0.7) (2020-12-17)
+
+
+### Bug Fixes
+
+* add naming strategy ([b667aa4](https://github.com/beecode-rs/msh-node-env/commit/b667aa4d10a3ac1fed9e0498f84753912e29e3cc))
+
 ## [0.0.6](https://github.com/beecode-rs/msh-node-env/compare/v0.0.5...v0.0.6) (2020-12-11)
 
 
