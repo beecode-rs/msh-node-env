@@ -1,11 +1,15 @@
-import { BaseSandbox } from '../index.test'
 import { NamingStrategy } from './naming-strategy'
-import { SinonSandbox } from 'sinon'
+import { SinonSandbox, SinonStub } from 'sinon'
 
-export class MockNamingStrategy extends BaseSandbox implements NamingStrategy {
-  public constructor(sandbox: SinonSandbox) {
-    super(sandbox)
-  }
-
-  public getNames = this._sandbox.stub()
+export interface MockNamingStrategy {
+  getNames: SinonStub<(string | string[])[], string[]>
 }
+
+export const mockNamingStrategy = (sandbox: SinonSandbox): any =>
+  class implements NamingStrategy, MockNamingStrategy {
+    public stub_constructor = sandbox.stub()
+    public constructor(...args: any[]) {
+      this.stub_constructor(...args)
+    }
+    public getNames = sandbox.stub()
+  }

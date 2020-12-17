@@ -1,10 +1,15 @@
 import { ConvertStrategy } from '.'
-import { BaseSandbox } from '../index.test'
-import { SinonSandbox } from 'sinon'
+import { SinonSandbox, SinonStub } from 'sinon'
 
-export class MockConvertStrategy extends BaseSandbox implements ConvertStrategy<any> {
-  public constructor(sandbox: SinonSandbox) {
-    super(sandbox)
-  }
-  public convert = this._sandbox.stub()
+export interface MockConvertStrategy<T> {
+  convert: SinonStub<string[], T | undefined>
 }
+
+export const mockConvertStrategy = <T>(sandbox: SinonSandbox): any =>
+  class implements ConvertStrategy<T>, MockConvertStrategy<T> {
+    public stub_constructor = sandbox.stub()
+    public constructor(...args: any[]) {
+      this.stub_constructor(...args)
+    }
+    public convert = sandbox.stub()
+  }
