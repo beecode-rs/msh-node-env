@@ -1,22 +1,27 @@
 import { Env, IEnv } from '.'
-import { BaseSandbox } from '../index.test'
-import { MockLocationStrategy } from '../location/location-strategy.test'
-import { MockLoggerStrategy } from '../logger/logger-strategy.test'
-import { MockNamingStrategy } from '../naming/naming-strategy.test'
+import { MockLocationStrategy, mockLocationStrategy } from '../location/location-strategy.test'
+import { MockLoggerStrategy, mockLoggerStrategy } from '../logger/logger-strategy.test'
+import { MockNamingStrategy, mockNamingStrategy } from '../naming/naming-strategy.test'
 import { expect } from 'chai'
 import { SinonSandbox, SinonStub, assert, createSandbox } from 'sinon'
 
-export class MockEnv extends BaseSandbox implements IEnv {
-  public constructor(sandbox: SinonSandbox) {
-    super(sandbox)
-  }
-  public Logger = new MockLoggerStrategy(this._sandbox)
-
-  public Name = ''
-  public stubName = this._sandbox.stub(this, 'Name') as SinonStub
-
-  public getEnvStringValue = this._sandbox.stub()
+export interface MockEnv {
+  Logger: MockLoggerStrategy
+  Name: string
+  stubName: SinonStub<void[], string>
+  getEnvStringValue: SinonStub<void[], string | undefined>
 }
+export const mockEnv = (sandbox: SinonSandbox): any =>
+  class implements IEnv, MockEnv {
+    public stub_constructor = sandbox.stub()
+    public constructor(...args: any[]) {
+      this.stub_constructor(...args)
+    }
+    public Logger = new (mockLoggerStrategy(sandbox))()
+    public Name = ''
+    public stubName = sandbox.stub(this, 'Name') as SinonStub
+    public getEnvStringValue = sandbox.stub()
+  }
 
 describe('env - Env', () => {
   const sandbox = createSandbox()
@@ -28,9 +33,9 @@ describe('env - Env', () => {
   let mockEnv: Env
 
   beforeEach(() => {
-    mockLocation = new MockLocationStrategy(sandbox)
-    mockLogger = new MockLoggerStrategy(sandbox)
-    mockNaming = new MockNamingStrategy(sandbox)
+    mockLocation = new (mockLocationStrategy(sandbox))()
+    mockLogger = new (mockLoggerStrategy(sandbox))()
+    mockNaming = new (mockNamingStrategy(sandbox))()
     mockEnv = new Env({
       name: dummyEnvName,
       locationStrategies: [mockLocation],
@@ -81,9 +86,9 @@ describe('env - Env', () => {
         const names = typeof name === 'string' ? [name] : name
         return [...names.map((n) => [prefix, n].join('_'))]
       }
-      const mockNaming1 = new MockNamingStrategy(sandbox)
+      const mockNaming1 = new (mockNamingStrategy(sandbox))()
       mockNaming1.getNames.callsFake(fakePrefixFactory('FIRST'))
-      const mockNaming2 = new MockNamingStrategy(sandbox)
+      const mockNaming2 = new (mockNamingStrategy(sandbox))()
       mockNaming2.getNames.callsFake(fakePrefixFactory('SECOND'))
 
       const env = new Env({

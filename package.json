@@ -96,6 +96,7 @@
     "clean": "rimraf ./lib/*",
     "commit": "git-cz",
     "coverage": "nyc --reporter=text-lcov npm run test:unit",
+    "coverage:idea": "nyc npm run test:unit",
     "coverage:publish": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "doc:toc": "markdown-toc -i ./README.md",
     "eslint": "eslint . --ext .ts --quiet",

@@ -1,27 +1,27 @@
 import { EnvType } from '.'
-import { MockConvertStrategy } from '../convert/convert-strategy.test'
-import { MockEnv } from './env.test'
+import { MockConvertStrategy, mockConvertStrategy } from '../convert/convert-strategy.test'
+import { MockEnv, mockEnv } from './env.test'
 import { expect } from 'chai'
 import { SinonStub, assert, createSandbox } from 'sinon'
 
 describe('env - EnvType', () => {
   const sandbox = createSandbox()
 
-  let mockEnv: MockEnv
-  let mockConvert: MockConvertStrategy
+  let mckEnv: MockEnv
+  let mockConvert: MockConvertStrategy<any>
   const dummyDefaultValue = 'dummyDefaultValue'
   let mockEnvType: EnvType<any>
   beforeEach(() => {
-    mockEnv = new MockEnv(sandbox)
-    mockConvert = new MockConvertStrategy(sandbox)
-    mockEnvType = new EnvType({ convertStrategy: mockConvert, env: mockEnv })
+    mckEnv = new (mockEnv(sandbox))()
+    mockConvert = new (mockConvertStrategy(sandbox))()
+    mockEnvType = new EnvType({ convertStrategy: mockConvert, env: mckEnv })
   })
   afterEach(sandbox.restore)
 
   describe('constructor', () => {
     it('should pass properties', () => {
       expect(mockEnvType['__convertStrategy']).to.equal(mockConvert)
-      expect(mockEnvType['__env']).to.equal(mockEnv)
+      expect(mockEnvType['__env']).to.equal(mckEnv)
     })
   })
 
@@ -36,33 +36,33 @@ describe('env - EnvType', () => {
 
   describe('optional', () => {
     it('should return default if get env returns undefined', () => {
-      mockEnv.getEnvStringValue.returns(undefined)
+      mckEnv.getEnvStringValue.returns(undefined)
       mockEnvType['__defaultValue'] = dummyDefaultValue
       const result = mockEnvType.optional
       expect(result).to.equal(dummyDefaultValue)
-      assert.calledOnce(mockEnv.getEnvStringValue)
+      assert.calledOnce(mckEnv.getEnvStringValue)
       assert.notCalled(mockConvert.convert)
     })
     it('should return default if convert returns undefined', () => {
       const dummyEnvValue = ' test '
-      mockEnv.getEnvStringValue.returns(' test ')
+      mckEnv.getEnvStringValue.returns(' test ')
       mockConvert.convert.returns(undefined)
       mockEnvType['__defaultValue'] = dummyDefaultValue
       const result = mockEnvType.optional
       expect(result).to.equal(dummyDefaultValue)
-      assert.calledOnce(mockEnv.getEnvStringValue)
+      assert.calledOnce(mckEnv.getEnvStringValue)
       assert.calledOnce(mockConvert.convert)
       assert.calledWith(mockConvert.convert, dummyEnvValue.trim())
     })
     it('should return converted value', () => {
       const dummyEnvValue = ' test '
       const convertedValue = 'convertedTestValue'
-      mockEnv.getEnvStringValue.returns(' test ')
+      mckEnv.getEnvStringValue.returns(' test ')
       mockConvert.convert.returns(convertedValue)
       mockEnvType['__defaultValue'] = undefined
       const result = mockEnvType.optional
       expect(result).to.equal(convertedValue)
-      assert.calledOnce(mockEnv.getEnvStringValue)
+      assert.calledOnce(mckEnv.getEnvStringValue)
       assert.calledOnce(mockConvert.convert)
       assert.calledWith(mockConvert.convert, dummyEnvValue.trim())
     })
@@ -76,7 +76,7 @@ describe('env - EnvType', () => {
     it('should throw error if optional return undefined', () => {
       const dummyEnvName = 'DUMMY_ENV_NAME'
       const fake_env_name_get = sandbox.fake.returns(dummyEnvName)
-      mockEnv.stubName.get(fake_env_name_get)
+      mckEnv.stubName.get(fake_env_name_get)
       const fake_optional_get = sandbox.fake.returns(undefined)
       stub_envType_optional.get(fake_optional_get)
       try {
