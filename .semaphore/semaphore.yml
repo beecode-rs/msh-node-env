@@ -37,7 +37,7 @@ blocks:
             - cache restore
             - npm run build
             - npm run semantic-release
-            - cat version.txt
+            - touch version.txt && cat version.txt
             - cache store bc-msh-node-env-version-$SEMAPHORE_GIT_SHA version.txt
     skip:
       when: branch != 'main'
