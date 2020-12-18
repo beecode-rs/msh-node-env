@@ -7,8 +7,6 @@
   ],
   "exclude": [
     ".idea/**",
-    ".semaphore/**",
-    "coverage/**",
     "lib/**",
     "node_modules/**",
     "resource/**",

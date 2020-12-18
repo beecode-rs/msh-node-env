@@ -1,8 +1,9 @@
 .idea/
-.cache/
-.sass_cache/
-resource/
-build/
+.nyc_output/
+.semaphore/
+coverage/
+lib/
 node_modules/
+resource/
 package.json
 package-lock.json
