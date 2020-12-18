@@ -95,8 +95,7 @@
     "bump-version": "rjp package.json version",
     "clean": "rimraf ./lib/*",
     "commit": "git-cz",
-    "coverage": "nyc --reporter=text-lcov npm run test:unit",
-    "coverage:idea": "nyc npm run test:unit",
+    "coverage": "nyc npm run test:unit",
     "coverage:publish": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "doc:toc": "markdown-toc -i ./README.md",
     "eslint": "eslint . --ext .ts --quiet",
@@ -109,8 +108,8 @@
     "semantic-release": "semantic-release",
     "semantic-release:check": "npm run semantic-release -- --dry-run --no-ci",
     "test": "npm run test:unit -- --forbid-only && npm run test:int -- --forbid-only",
-    "test:int": "mocha ./src/test/**/*.ts",
-    "test:unit": "mocha ./src/**/*.test.ts"
+    "test:int": "mocha ./src/test/{**/,/}*.ts",
+    "test:unit": "mocha ./src/{**/,/}*.test.ts"
   },
   "typings": "./lib/index.d.ts",
   "version": "0.0.7"

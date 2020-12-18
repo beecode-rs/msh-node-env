@@ -1,5 +1,5 @@
 [![Build Status](https://beecode.semaphoreci.com/badges/msh-node-env/branches/main.svg?style=shields)](https://beecode.semaphoreci.com/projects/msh-node-env)
-[![codecov](https://codecov.io/gh/beecode-rs/msh-node-env/branch/main/graph/badge.svg)](https://codecov.io/gh/beecode-rs/msh-node-env)
+[![codecov](https://codecov.io/gh/beecode-rs/msh-node-env/branch/main/graph/badge.svg?token=fHc0YaxEiB)](https://codecov.io/gh/beecode-rs/msh-node-env)
 [![GitHub license](https://img.shields.io/github/license/beecode-rs/msh-node-env)](https://github.com/beecode-rs/msh-node-env/blob/main/LICENSE)  
 [![NPM](https://nodei.co/npm/@beecode/msh-node-env.png)](https://nodei.co/npm/@beecode/msh-node-env)
 
