@@ -7,7 +7,7 @@
 
 Micro-service helper: node environment
 
-This project is intended to be used in typescript project to validate and add types to the project configuration
+This project is intended to be used in typescript project to validate and add types to the project configuration.
 
 <!-- toc -->
 
@@ -35,6 +35,7 @@ This project is intended to be used in typescript project to validate and add ty
 
 ```typescript
 import MshNodeEnv from '@beecode/msh-node-env'
+
 const env = MshNodeEnv()
 
 export const config = Object.freeze({
@@ -60,18 +61,18 @@ export const config = Object.freeze({
 
 ## Location Strategy
 
-Location strategy is used to define the way we are getting the variables. We can combine multiple location strategies.
-The env is going to look through all chosen locations in the order that they are defined, and it will stop as soon as the env value is found.
+Location strategy is used to define the way we are getting the variables. We can combine multiple location strategies. The env is
+going to look through all chosen locations in the order that they are defined, and it will stop as soon as the env value is found.
 
 ### EnvironmentLocation
 
-We are simple checking the process.env for the env name
+We are simple checking the process.env for the env name.
 
 `env('SOME_ENV_KEY')` => `process.env.SOME_ENV_KEY`
 
 ### DockerSecretsLocation
 
-We are looking in docker swarm secrets
+We are looking in docker swarm secrets.
 
 Usage:
 
@@ -84,7 +85,8 @@ const env = MshNodeEnv({ locationStrategy: [new location.DockerSecretsLocation()
 ## Naming Strategy
 
 We are using naming strategy to give us flexibility to introduce isolated env values.  
-Idea: If we are using docker-compose and have one .env file with the database credentials that multiple containers. Something like
+Idea: If we are using docker-compose and have one .env file with the database credentials that multiple containers.  
+Something like:
 
 ```dotenv
 #.env
@@ -93,8 +95,8 @@ DB_PASS=pass
 DB_NAME=db_name
 ```
 
-If we wanted to change the database name for just one container, we can use [PrefixName](#prefixname) strategy and create name isolation,
-and we can set name of the container as prefix
+If we wanted to change the database name for just one container, we can use [PrefixName](#prefixname) strategy and create name
+isolation, and we can set name of the container as prefix.
 
 ```typescript
 import MshNodeEnv, { naming } from '@beecode/msh-node-env'
@@ -102,7 +104,7 @@ import MshNodeEnv, { naming } from '@beecode/msh-node-env'
 const env = MshNodeEnv({ namingStrategy: [new naming.PrefixName({ prefix: 'SOME_APP' })] })
 ```
 
-Then we can add another env value prefixed with that container name
+Then we can add another env value prefixed with that container name.
 
 ```dotenv
 #.env
@@ -114,12 +116,11 @@ SOME_APP_DB_NAME=db_different_name
 
 ### SimpleName
 
-Simple name strategy is just a placeholder, the default strategy.
-It is not doing anything :)
+Simple name strategy is just a placeholder, the default strategy. It is not doing anything. :)
 
 ### PrefixName
 
-Prefix strategy is adding prefix to the existing name. There are two arguments available (prefix, joinChar)
+Prefix strategy is adding prefix to the existing name. There are two arguments available (prefix, joinChar).
 
 Usage:
 
@@ -132,7 +133,7 @@ const test = env('TEST').string.required // env look up in this order 1) BAR_FOO
 
 ### SuffixName
 
-Suffix strategy is adding suffix to the existing name. there are two arguments available (suffix, joinChar)
+Suffix strategy is adding suffix to the existing name. there are two arguments available (suffix, joinChar).
 
 Usage:
 
@@ -145,15 +146,16 @@ const test = env('TEST').string.required // env look up in this order 1) TEST_FO
 
 ## Logger Strategy
 
-Define how and if we are logging
+Define how and if we are logging.
 
 ### NoLogger
 
-This is the default logging strategy, meaning the logging is ignored
+This is the default logging strategy, meaning the logging is ignored.
 
 ### ConsoleLogger
 
-This is a simple logging strategy, it outputs all logs to console with a prefix of the log level (`ERROR:`, `WARN:`, `INFO:`, `DEBUG:`)
+This is a simple logging strategy, it outputs all logs to console with a prefix of the log level (`ERROR:`, `WARN:`, `INFO:`
+, `DEBUG:`).
 
 ```typescript
 import MshNodeEnv, { logger } from '@beecode/msh-node-env'
