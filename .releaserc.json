@@ -6,7 +6,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "echo VERSION=${nextRelease.version} > version.txt && npm run bump-version -- ${nextRelease.version}"
+        "prepareCmd": "echo VERSION=${nextRelease.version} > version.txt && npm run bump-version -- ${nextRelease.version} && npm install --quiet"
       }
     ],
     "@semantic-release/changelog",
@@ -14,7 +14,7 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["lib/", "package.json", "CHANGELOG.md"],
+        "assets": ["lib/", "package.json", "package-lock.json", "CHANGELOG.md"],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
