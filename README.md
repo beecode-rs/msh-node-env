@@ -22,8 +22,6 @@ This project is intended to be used in typescript project to validate and add ty
   - [PrefixName](#prefixname)
   - [SuffixName](#suffixname)
 - [Logger Strategy](#logger-strategy)
-  - [NoLogger](#nologger)
-  - [ConsoleLogger](#consolelogger)
 
 <!-- tocstop -->
 
@@ -148,6 +146,7 @@ Define how and if we are logging. We are using [@beecode/msh-node-log](https://g
 For more details read the msh-node-log readme
 
 Usage:
+
 ```typescript
 import MshNodeEnv from '@beecode/msh-node-env'
 import { ConsoleLogger, LogLevel } from '@beecode/msh-node-log'
