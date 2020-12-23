@@ -14,6 +14,7 @@
     }
   },
   "dependencies": {
+    "@beecode/msh-node-log": "1.0.0",
     "base-64": "1.0.0"
   },
   "description": "",
@@ -75,9 +76,6 @@
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",
     "husky": "4.3.6"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/beecode-rs"
   },
   "repository": {
     "type": "git",

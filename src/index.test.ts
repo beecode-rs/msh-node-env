@@ -23,7 +23,7 @@ describe('MshNodeEnv', () => {
     spy_BaseConvert = sandbox.fake.returns(dummyBaseConvert)
     spy_Env = sandbox.fake.returns(dummyEnv)
     mod = proxyquire('./index', {
-      './logger': { NoLogger: spy_NoLogger },
+      '@beecode/msh-node-log': { NoLogger: spy_NoLogger },
       './location': { EnvironmentLocation: spy_EnvironmentLocation },
       './naming': { SimpleName: spy_SimpleName },
       './convert': { BaseConvert: spy_BaseConvert },
