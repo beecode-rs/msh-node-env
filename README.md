@@ -57,8 +57,6 @@ export const config = Object.freeze({
 | [namingStrategy](#naming-strategy)[]     | [ new SimpleName() ]      | [Optional] Define how are we checking for env names. Available: [SimpleName](#simplename), [PrefixName](#prefixname), [SuffixName](#suffixname)          |
 | [loggerStrategy](#logger-strategy)       | new NoLogger()            | [Optional] Define how the logging is provided. Available: [NoLogger](#nologger), [ConsoleLogger](#consolelogger)                                         |
 
-##
-
 ## Location Strategy
 
 Location strategy is used to define the way we are getting the variables. We can combine multiple location strategies. The env is
@@ -146,19 +144,13 @@ const test = env('TEST').string.required // env look up in this order 1) TEST_FO
 
 ## Logger Strategy
 
-Define how and if we are logging.
+Define how and if we are logging. We are using [@beecode/msh-node-log](https://github.com/beecode-rs/msh-node-log)
+For more details read the msh-node-log readme
 
-### NoLogger
-
-This is the default logging strategy, meaning the logging is ignored.
-
-### ConsoleLogger
-
-This is a simple logging strategy, it outputs all logs to console with a prefix of the log level (`ERROR:`, `WARN:`, `INFO:`
-, `DEBUG:`).
-
+Usage:
 ```typescript
-import MshNodeEnv, { logger } from '@beecode/msh-node-env'
+import MshNodeEnv from '@beecode/msh-node-env'
+import { ConsoleLogger, LogLevel } from '@beecode/msh-node-log'
 
-const env = MshNodeEnv({ loggerStrategy: new logger.ConsoleLogger(logger.LogLevel.INFO) })
+const env = MshNodeEnv({ loggerStrategy: new ConsoleLogger(LogLevel.INFO) })
 ```
