@@ -1,6 +1,6 @@
 import { LocationStrategy } from '../location'
-import { LoggerStrategy } from '../logger'
 import { NamingStrategy } from '../naming'
+import { LoggerStrategy } from '@beecode/msh-node-log'
 
 export type EnvParams = {
   name: string

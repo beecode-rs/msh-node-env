@@ -1,7 +1,7 @@
 import { Env, IEnv } from '.'
 import { MockLocationStrategy, mockLocationStrategy } from '../location/location-strategy.test'
-import { MockLoggerStrategy, mockLoggerStrategy } from '../logger/logger-strategy.test'
 import { MockNamingStrategy, mockNamingStrategy } from '../naming/naming-strategy.test'
+import { MockLoggerStrategy, mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
 import { SinonSandbox, SinonStub, assert, createSandbox } from 'sinon'
 

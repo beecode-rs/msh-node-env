@@ -11,7 +11,9 @@ blocks:
   - name: Install-Lint-Test
     task:
       secrets:
-        - name: bc-msh-node-env-secret
+        - name: bc-git-secret
+        - name: bc-npm-secret
+        - name: bc-msh-node-env
       env_vars:
         - name: NODE_ENV
           value: test

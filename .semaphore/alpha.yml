@@ -11,7 +11,8 @@ blocks:
   - name: Deploy to Alpha
     task:
       secrets:
-        - name: bc-msh-node-env-secret
+        - name: bc-git-secret
+        - name: bc-npm-secret
       jobs:
         - name: Deploy
           commands:
@@ -27,6 +28,6 @@ blocks:
             - npm run bump-version -- $VERSION-alpha
             - git tag v$VERSION-alpha && git push origin --tags
             - npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-            - npm publish -tag alpha
+            - npm publish --access public -tag alpha
     skip:
       when: branch != 'main'
