@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/beecode-rs/msh-node-env/compare/v0.0.7...v0.1.0) (2020-12-27)
+
+
+### Features
+
+* use msh-node-log ([03dd0bc](https://github.com/beecode-rs/msh-node-env/commit/03dd0bc42ee8c88215cea506f6e68c4b18bb9856))
+
 ## [0.0.7](https://github.com/beecode-rs/msh-node-env/compare/v0.0.6...v0.0.7) (2020-12-17)
 
 
