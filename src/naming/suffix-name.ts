@@ -1,4 +1,5 @@
 import { NamingStrategy } from '.'
+import { logger } from '../util'
 
 export type SuffixNameParams = {
   suffix: string
@@ -17,6 +18,8 @@ export class SuffixName implements NamingStrategy {
   public getNames(name: string | string[]): string[] {
     const names = typeof name === 'string' ? [name] : name
 
-    return [...names.map((n) => [n, this.__suffix].join(this.__joinChar))]
+    const resultNames = [...names.map((n) => [n, this.__suffix].join(this.__joinChar))]
+    logger().debug(`Original names: [${names.join(', ')}], suffixed names : [${resultNames.join(', ')}]`)
+    return resultNames
   }
 }
