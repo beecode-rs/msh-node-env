@@ -11,6 +11,8 @@ blocks:
   - name: Install-Lint-Test
     task:
       secrets:
+        - name: bc-git-secret
+        - name: bc-npm-secret
         - name: bc-msh-node-env-secret
       env_vars:
         - name: NODE_ENV
@@ -29,6 +31,8 @@ blocks:
   - name: Bump Version
     task:
       secrets:
+        - name: bc-git-secret
+        - name: bc-npm-secret
         - name: bc-msh-node-env-secret
       jobs:
         - name: Build

@@ -1,5 +1,6 @@
 import { IEnv } from '.'
 import { ConvertStrategy } from '../convert'
+import { logger } from '../util'
 
 export type EnvTypeParams<T> = {
   convertStrategy: ConvertStrategy<T>
@@ -17,12 +18,14 @@ export class EnvType<T> {
   }
 
   public default(defaultValue: T): EnvType<T> {
+    logger().debug('Using default value')
     this.__defaultValue = defaultValue
     return this
   }
 
   public get optional(): T | undefined {
     const str = (this.__env.getEnvStringValue() ?? '').trim()
+    if (str !== '') logger().debug('Try to convert env string value')
     const convertedValue = str === '' ? undefined : this.__convertStrategy.convert(str)
     return convertedValue ?? this.__defaultValue
   }

@@ -1,45 +1,52 @@
 import { Env, IEnv } from '.'
 import { MockLocationStrategy, mockLocationStrategy } from '../location/location-strategy.test'
-import { MockLoggerStrategy, mockLoggerStrategy } from '../logger/logger-strategy.test'
 import { MockNamingStrategy, mockNamingStrategy } from '../naming/naming-strategy.test'
+import { MockLoggerStrategy, mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
+import proxyquire from 'proxyquire'
 import { SinonSandbox, SinonStub, assert, createSandbox } from 'sinon'
 
 export interface MockEnv {
-  Logger: MockLoggerStrategy
   Name: string
   stubName: SinonStub<void[], string>
   getEnvStringValue: SinonStub<void[], string | undefined>
 }
-export const mockEnv = (sandbox: SinonSandbox): any =>
-  class implements IEnv, MockEnv {
-    public stub_constructor = sandbox.stub()
+export const mockEnv = (sandbox: SinonSandbox): any => {
+  const stub_constructor = sandbox.stub()
+  return class implements IEnv, MockEnv {
+    public STUB_CONSTRUCTOR = stub_constructor
+
     public constructor(...args: any[]) {
-      this.stub_constructor(...args)
+      stub_constructor(...args)
     }
-    public Logger = new (mockLoggerStrategy(sandbox))()
+
     public Name = ''
     public stubName = sandbox.stub(this, 'Name') as SinonStub
     public getEnvStringValue = sandbox.stub()
   }
+}
 
 describe('env - Env', () => {
+  proxyquire.noCallThru()
   const sandbox = createSandbox()
+  let mod: any
 
   const dummyEnvName = 'DUMMY_ENV'
   let mockLocation: MockLocationStrategy
-  let mockLogger: MockLoggerStrategy
   let mockNaming: MockNamingStrategy
   let mockEnv: Env
+  let mockLogger: MockLoggerStrategy
 
   beforeEach(() => {
-    mockLocation = new (mockLocationStrategy(sandbox))()
     mockLogger = new (mockLoggerStrategy(sandbox))()
+    mockLocation = new (mockLocationStrategy(sandbox))()
     mockNaming = new (mockNamingStrategy(sandbox))()
-    mockEnv = new Env({
+    mod = proxyquire('./env', {
+      '../util': { logger: (): MockLoggerStrategy => mockLogger },
+    })
+    mockEnv = new mod.Env({
       name: dummyEnvName,
       locationStrategies: [mockLocation],
-      loggerStrategy: mockLogger,
       namingStrategies: [mockNaming],
     })
   })
@@ -50,7 +57,6 @@ describe('env - Env', () => {
       expect(mockEnv['__name']).to.equal(dummyEnvName)
       expect(mockEnv['__locationStrategies']).to.deep.equal([mockLocation])
       expect(mockEnv['__namingStrategies']).to.deep.equal([mockNaming])
-      expect(mockEnv['__loggerStrategy']).to.equal(mockLogger)
     })
   })
 
@@ -60,19 +66,12 @@ describe('env - Env', () => {
     })
   })
 
-  describe('Logger', () => {
-    it('should return __loggerStrategy', () => {
-      expect(mockEnv.Logger).to.equal(mockLogger)
-    })
-  })
-
   describe('__getEnvNames', () => {
     it('should call getNames of naming strategy', () => {
       mockNaming.getNames.returns(['test1'])
-      const env = new Env({
+      const env = new mod.Env({
         name: dummyEnvName,
         locationStrategies: [mockLocation],
-        loggerStrategy: mockLogger,
         namingStrategies: [mockNaming],
       })
       const result = env['__getEnvNames']()
@@ -91,10 +90,9 @@ describe('env - Env', () => {
       const mockNaming2 = new (mockNamingStrategy(sandbox))()
       mockNaming2.getNames.callsFake(fakePrefixFactory('SECOND'))
 
-      const env = new Env({
+      const env = new mod.Env({
         name: dummyEnvName,
         locationStrategies: [mockLocation],
-        loggerStrategy: mockLogger,
         namingStrategies: [mockNaming1, mockNaming2],
       })
       const result = env['__getEnvNames']()

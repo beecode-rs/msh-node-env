@@ -11,6 +11,8 @@ blocks:
   - name: Deploy to Production
     task:
       secrets:
+        - name: bc-git-secret
+        - name: bc-npm-secret
         - name: bc-msh-node-env-secret
       jobs:
         - name: Deploy
@@ -26,6 +28,6 @@ blocks:
             - npm run build
             - git tag v$VERSION-prod && git push origin --tags
             - npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-            - npm publish
+            - npm publish --access public
     skip:
       when: branch != 'main'

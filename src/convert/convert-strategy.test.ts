@@ -5,11 +5,15 @@ export interface MockConvertStrategy<T> {
   convert: SinonStub<string[], T | undefined>
 }
 
-export const mockConvertStrategy = <T>(sandbox: SinonSandbox): any =>
-  class implements ConvertStrategy<T>, MockConvertStrategy<T> {
-    public stub_constructor = sandbox.stub()
+export const mockConvertStrategy = <T>(sandbox: SinonSandbox): any => {
+  const stub_constructor = sandbox.stub()
+  return class implements ConvertStrategy<T>, MockConvertStrategy<T> {
+    public STUB_CONSTRUCTOR = stub_constructor
+
     public constructor(...args: any[]) {
-      this.stub_constructor(...args)
+      stub_constructor(...args)
     }
+
     public convert = sandbox.stub()
   }
+}
