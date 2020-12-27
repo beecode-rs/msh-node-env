@@ -5,11 +5,15 @@ export interface MockNamingStrategy {
   getNames: SinonStub<(string | string[])[], string[]>
 }
 
-export const mockNamingStrategy = (sandbox: SinonSandbox): any =>
-  class implements NamingStrategy, MockNamingStrategy {
-    public stub_constructor = sandbox.stub()
+export const mockNamingStrategy = (sandbox: SinonSandbox): any => {
+  const stub_constructor = sandbox.stub()
+  return class implements NamingStrategy, MockNamingStrategy {
+    public static STUB_CONSTRUCTOR = stub_constructor
+
     public constructor(...args: any[]) {
-      this.stub_constructor(...args)
+      stub_constructor(...args)
     }
+
     public getNames = sandbox.stub()
   }
+}

@@ -1,20 +1,29 @@
 import { EnvType } from '.'
 import { MockConvertStrategy, mockConvertStrategy } from '../convert/convert-strategy.test'
 import { MockEnv, mockEnv } from './env.test'
+import { MockLoggerStrategy, mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
+import proxyquire from 'proxyquire'
 import { SinonStub, assert, createSandbox } from 'sinon'
 
 describe('env - EnvType', () => {
+  proxyquire.noCallThru()
   const sandbox = createSandbox()
-
+  let mod: any
+  let mockLogger: MockLoggerStrategy
   let mckEnv: MockEnv
   let mockConvert: MockConvertStrategy<any>
   const dummyDefaultValue = 'dummyDefaultValue'
   let mockEnvType: EnvType<any>
+
   beforeEach(() => {
+    mockLogger = new (mockLoggerStrategy(sandbox))()
+    mod = proxyquire('./env-type', {
+      '../util': { logger: (): MockLoggerStrategy => mockLogger },
+    })
     mckEnv = new (mockEnv(sandbox))()
     mockConvert = new (mockConvertStrategy(sandbox))()
-    mockEnvType = new EnvType({ convertStrategy: mockConvert, env: mckEnv })
+    mockEnvType = new mod.EnvType({ convertStrategy: mockConvert, env: mckEnv })
   })
   afterEach(sandbox.restore)
 
@@ -71,7 +80,7 @@ describe('env - EnvType', () => {
   describe('required', () => {
     let stub_envType_optional: SinonStub
     beforeEach(() => {
-      stub_envType_optional = sandbox.stub(EnvType.prototype, 'optional')
+      stub_envType_optional = sandbox.stub(mod.EnvType.prototype, 'optional')
     })
     it('should throw error if optional return undefined', () => {
       const dummyEnvName = 'DUMMY_ENV_NAME'
