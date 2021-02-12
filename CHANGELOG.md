@@ -1,3 +1,16 @@
+# [0.2.0](https://github.com/beecode-rs/msh-node-env/compare/v0.1.0...v0.2.0) (2021-02-12)
+
+
+### Bug Fixes
+
+* update deploy script and packages ([659682b](https://github.com/beecode-rs/msh-node-env/commit/659682b62eb4a9dabd4740a3963944b480bb8796))
+* update husky to v5 ([f461338](https://github.com/beecode-rs/msh-node-env/commit/f461338b1094ccb8ec3ff8e89d51699d5a406b06))
+
+
+### Features
+
+* allowed version ([1518032](https://github.com/beecode-rs/msh-node-env/commit/1518032ad6dbc1373f0ac5acc6c3d14fecb586e4))
+
 # [0.1.0](https://github.com/beecode-rs/msh-node-env/compare/v0.0.7...v0.1.0) (2020-12-27)
 
 
