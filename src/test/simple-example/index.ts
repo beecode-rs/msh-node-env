@@ -155,4 +155,38 @@ describe('Simple Example', () => {
       }
     })
   })
+  describe('throw error not allowed value', () => {
+    it('should throw error if string not in allowed list', () => {
+      try {
+        Object.freeze({
+          testEnvString: env('TEST_ENV_STRING').string.allowed('test', 'test2').required,
+        })
+        expect.fail()
+      } catch (e) {
+        expect(e.message).to.equal("TEST_ENV_STRING must have one of the fallowing values ['test', 'test2']")
+      }
+    })
+    it('should throw error if json not in allowed list', () => {
+      try {
+        Object.freeze({
+          testEnvString: env('TEST_ENV_JSON').json().allowed({ some: 'test' }).required,
+        })
+        expect.fail()
+      } catch (e) {
+        expect(e.message).to.equal("TEST_ENV_JSON must have one of the fallowing values [{ some: 'test' }]")
+      }
+    })
+  })
+  describe('no error if value in allowed values', () => {
+    it('should not throw error if string in allowed list', () => {
+      Object.freeze({
+        testEnvString: env('TEST_ENV_STRING').string.allowed('test', 'test2', 'test-env-string').required,
+      })
+    })
+    it('should not throw error if json in allowed list', () => {
+      Object.freeze({
+        testEnvString: env('TEST_ENV_JSON').json().allowed({ some: 'test' }, { 'test-key': 'test-value' }).required,
+      })
+    })
+  })
 })

@@ -1,6 +1,8 @@
 import { IEnv } from '.'
 import { ConvertStrategy } from '../convert'
 import { logger } from '../util'
+import deepEqual from 'deep-equal'
+import { inspect } from 'util'
 
 export type EnvTypeParams<T> = {
   convertStrategy: ConvertStrategy<T>
@@ -11,6 +13,7 @@ export class EnvType<T> {
   private __defaultValue: T | undefined = undefined
   private readonly __convertStrategy: ConvertStrategy<T>
   private readonly __env: IEnv
+  private __allowedValues: T[] = []
 
   public constructor(params: EnvTypeParams<T>) {
     this.__convertStrategy = params.convertStrategy
@@ -27,17 +30,33 @@ export class EnvType<T> {
     const str = (this.__env.getEnvStringValue() ?? '').trim()
     if (str !== '') logger().debug('Try to convert env string value')
     const convertedValue = str === '' ? undefined : this.__convertStrategy.convert(str)
-    return convertedValue ?? this.__defaultValue
+    const optionalValue = convertedValue ?? this.__defaultValue
+    this.__validateAllowedValues(optionalValue)
+    return optionalValue
   }
 
   public get required(): T {
     const envValue = this.optional
-    if (typeof envValue === 'undefined') throw new Error(`${this.__env.Name} must have value defined`)
-    return envValue
+    if (this.__isUndefined(envValue)) throw new Error(`${this.__env.Name} must have value defined`)
+    return envValue!
   }
 
-  // TODO implement allowed values validation
-  // protected _allowedValues(...args: T[]): void {
-  //   throw new Error('not implemented')
-  // }
+  public allowed(...args: T[]): EnvType<T> {
+    this.__allowedValues = args
+    return this
+  }
+
+  private __validateAllowedValues(value?: T): void {
+    if (this.__allowedValues.length === 0) return
+    if (this.__isUndefined(value) || !this.__allowedValues.find((v) => deepEqual(value, v)))
+      throw new Error(
+        `${this.__env.Name} must have one of the fallowing values [${this.__allowedValues
+          .map((v) => inspect(v, false, 2))
+          .join(', ')}]`
+      )
+  }
+
+  private __isUndefined(value?: T): boolean {
+    return typeof value === 'undefined'
+  }
 }
