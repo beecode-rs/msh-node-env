@@ -1,3 +1,11 @@
+## [0.2.1](https://github.com/beecode-rs/msh-node-env/compare/v0.2.0...v0.2.1) (2021-02-26)
+
+
+### Bug Fixes
+
+* integration tests ([6eed88c](https://github.com/beecode-rs/msh-node-env/commit/6eed88c24392bcf10d33e2303357f2e9d63592e1))
+* npm-force-resolutions problem ([e3cfff4](https://github.com/beecode-rs/msh-node-env/commit/e3cfff42a955ac7536a6c5f19614ac5e2bc5f8e4))
+
 # [0.2.0](https://github.com/beecode-rs/msh-node-env/compare/v0.1.0...v0.2.0) (2021-02-12)
 
 
