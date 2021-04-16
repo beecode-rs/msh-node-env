@@ -1,4 +1,4 @@
-import MshNodeEnv from '../..'
+import { MshNodeEnv } from '../..'
 import { ConsoleLogger, LogLevelType } from '@beecode/msh-node-log'
 import { expect } from 'chai'
 import dotenv from 'dotenv'

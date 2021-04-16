@@ -1,6 +1,6 @@
-import { Env, IEnv } from '.'
 import { MockLocationStrategy, mockLocationStrategy } from '../location/location-strategy.test'
 import { MockNamingStrategy, mockNamingStrategy } from '../naming/naming-strategy.test'
+import { Env, IEnv } from './env'
 import { MockLoggerStrategy, mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
 import proxyquire from 'proxyquire'

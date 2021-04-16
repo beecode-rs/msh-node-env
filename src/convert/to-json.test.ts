@@ -1,4 +1,4 @@
-import { ToJson } from '.'
+import { ToJson } from './to-json'
 import { expect } from 'chai'
 
 describe('convert - ToJson', () => {

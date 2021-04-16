@@ -1,6 +1,6 @@
-import { LocationStrategy } from '../location'
-import { NamingStrategy } from '../naming'
-import { logger } from '../util'
+import { LocationStrategy } from '../location/location-strategy'
+import { NamingStrategy } from '../naming/naming-strategy'
+import { logger } from '../util/logger-util'
 
 export type EnvParams = {
   name: string

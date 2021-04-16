@@ -1,6 +1,6 @@
-import { IEnv } from '.'
-import { ConvertStrategy } from '../convert'
-import { logger } from '../util'
+import { ConvertStrategy } from '../convert/convert-strategy'
+import { logger } from '../util/logger-util'
+import { IEnv } from './env'
 import deepEqual from 'deep-equal'
 import { inspect } from 'util'
 

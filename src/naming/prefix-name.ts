@@ -1,5 +1,5 @@
-import { NamingStrategy } from '.'
-import { logger } from '../util'
+import { logger } from '../util/logger-util'
+import { NamingStrategy } from './naming-strategy'
 
 export type PrefixNameParams = {
   prefix: string

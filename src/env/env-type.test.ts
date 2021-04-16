@@ -1,5 +1,5 @@
-import { EnvType } from '.'
 import { MockConvertStrategy, mockConvertStrategy } from '../convert/convert-strategy.test'
+import { EnvType } from './env-type'
 import { MockEnv, mockEnv } from './env.test'
 import { MockLoggerStrategy, mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'

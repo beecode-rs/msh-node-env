@@ -1,5 +1,10 @@
-import { Base64ToString, ToBoolean, ToJson, ToNumber, ToString } from '.'
-import { Env, EnvType } from '../env'
+import { Env } from '../env/env'
+import { EnvType } from '../env/env-type'
+import { Base64ToString } from './base64-to-string'
+import { ToBoolean } from './to-boolean'
+import { ToJson } from './to-json'
+import { ToNumber } from './to-number'
+import { ToString } from './to-string'
 
 export class BaseConvert {
   private readonly __env: Env

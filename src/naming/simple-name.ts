@@ -1,4 +1,4 @@
-import { NamingStrategy } from '.'
+import { NamingStrategy } from './naming-strategy'
 
 export class SimpleName implements NamingStrategy {
   public getNames(name: string | string[]): string[] {
