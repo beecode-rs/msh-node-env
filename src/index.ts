@@ -25,5 +25,3 @@ export const MshNodeEnv = (params: MshNodeEnvParams = {}): MshNodeEnvReturn => {
     return new BaseConvert(new Env({ locationStrategies, namingStrategies, name }))
   }
 }
-
-// export default MshNodeEnv
