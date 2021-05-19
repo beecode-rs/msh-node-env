@@ -1,7 +1,7 @@
 import { EnvType } from '.'
 import { MockConvertStrategy, mockConvertStrategy } from '../convert/convert-strategy.test'
 import { MockEnv, mockEnv } from './env.test'
-import { MockLoggerStrategy, mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
+import { MockLoggerStrategy, mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
 import proxyquire from 'proxyquire'
 import { SinonStub, assert, createSandbox } from 'sinon'
@@ -21,7 +21,7 @@ describe('env - EnvType', () => {
   let deepEqualStub: SinonStub
 
   beforeEach(() => {
-    mockLogger = new (mockLoggerStrategy(sandbox))()
+    mockLogger = new (mockLoggerStrategyFactory(sandbox))()
     deepEqualStub = sandbox.stub()
     mod = proxyquire('./env-type', {
       '../util': { logger: (): MockLoggerStrategy => mockLogger },
