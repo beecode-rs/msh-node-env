@@ -1,3 +1,11 @@
+## [0.2.4](https://github.com/beecode-rs/msh-node-env/compare/v0.2.3...v0.2.4) (2021-05-19)
+
+
+### Bug Fixes
+
+* fix tests ([3fcc640](https://github.com/beecode-rs/msh-node-env/commit/3fcc6408a0243c48defd29be4de6e577ba487356))
+* use package.json (msh-node-log) ([659d05f](https://github.com/beecode-rs/msh-node-env/commit/659d05f121d33c7e4c2764b7b293cf97fb637307))
+
 ## [0.2.3](https://github.com/beecode-rs/msh-node-env/compare/v0.2.2...v0.2.3) (2021-04-16)
 
 
