@@ -1,7 +1,7 @@
 import { Env, IEnv } from '.'
 import { MockLocationStrategy, mockLocationStrategy } from '../location/location-strategy.test'
 import { MockNamingStrategy, mockNamingStrategy } from '../naming/naming-strategy.test'
-import { MockLoggerStrategy, mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
+import { MockLoggerStrategy, mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
 import proxyquire from 'proxyquire'
 import { SinonSandbox, SinonStub, assert, createSandbox } from 'sinon'
@@ -38,7 +38,7 @@ describe('env - Env', () => {
   let mockLogger: MockLoggerStrategy
 
   beforeEach(() => {
-    mockLogger = new (mockLoggerStrategy(sandbox))()
+    mockLogger = new (mockLoggerStrategyFactory(sandbox))()
     mockLocation = new (mockLocationStrategy(sandbox))()
     mockNaming = new (mockNamingStrategy(sandbox))()
     mod = proxyquire('./env', {

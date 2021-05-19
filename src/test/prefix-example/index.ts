@@ -1,5 +1,6 @@
 import MshNodeEnv, { naming } from '../..'
-import { ConsoleLogger, LogLevelType } from '@beecode/msh-node-log'
+import { LogLevelType } from '@beecode/msh-node-log'
+import { ConsoleLogger } from '@beecode/msh-node-log/lib/console-logger'
 import { expect } from 'chai'
 import dotenv from 'dotenv'
 
@@ -9,7 +10,7 @@ describe('Prefix Example', () => {
   it('should use prefixed env first', () => {
     const env = MshNodeEnv({
       namingStrategies: [new naming.PrefixName({ prefix: 'APP_NAME' })],
-      loggerStrategy: new ConsoleLogger(LogLevelType.DEBUG),
+      loggerStrategy: new ConsoleLogger({ logLevel: LogLevelType.DEBUG }),
     })
     const config = Object.freeze({
       dbName: env('DB_NAME').string.required,
@@ -21,7 +22,7 @@ describe('Prefix Example', () => {
   it('should use additional prefix first and then prefix', () => {
     const env = MshNodeEnv({
       namingStrategies: [new naming.PrefixName({ prefix: 'APP_NAME' }), new naming.PrefixName({ prefix: 'ADDITIONAL_PREFIX' })],
-      loggerStrategy: new ConsoleLogger(LogLevelType.DEBUG),
+      loggerStrategy: new ConsoleLogger({ logLevel: LogLevelType.DEBUG }),
     })
     const config = Object.freeze({
       dbName: env('DB_NAME').string.required,

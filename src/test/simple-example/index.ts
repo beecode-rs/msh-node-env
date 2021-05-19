@@ -1,12 +1,13 @@
 import MshNodeEnv from '../..'
-import { ConsoleLogger, LogLevelType } from '@beecode/msh-node-log'
+import { LogLevelType } from '@beecode/msh-node-log'
+import { ConsoleLogger } from '@beecode/msh-node-log/lib/console-logger'
 import { expect } from 'chai'
 import dotenv from 'dotenv'
 
 dotenv.config({ path: `${__dirname}/.env` })
 
 describe('Simple Example', () => {
-  const env = MshNodeEnv({ loggerStrategy: new ConsoleLogger(LogLevelType.DEBUG) })
+  const env = MshNodeEnv({ loggerStrategy: new ConsoleLogger({ logLevel: LogLevelType.DEBUG }) })
   it('should read required fields from env', () => {
     const config = Object.freeze({
       testEnvString: env('TEST_ENV_STRING').string.required,

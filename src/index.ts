@@ -3,7 +3,8 @@ import { Env } from './env'
 import { EnvironmentLocation, LocationStrategy } from './location'
 import { NamingStrategy, SimpleName } from './naming'
 import { loggerUtil } from './util'
-import { LoggerStrategy, NoLogger } from '@beecode/msh-node-log'
+import { LoggerStrategy } from '@beecode/msh-node-log'
+import { NoLogger } from '@beecode/msh-node-log/lib/no-logger'
 
 export type MshNodeEnvParams = {
   loggerStrategy?: LoggerStrategy

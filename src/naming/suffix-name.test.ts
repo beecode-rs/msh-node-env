@@ -1,4 +1,4 @@
-import { MockLoggerStrategy, mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
+import { MockLoggerStrategy, mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
 import proxyquire from 'proxyquire'
 import { createSandbox } from 'sinon'
@@ -12,7 +12,7 @@ describe('naming - SuffixName', () => {
     let mockLogger: MockLoggerStrategy
 
     beforeEach(() => {
-      mockLogger = new (mockLoggerStrategy(sandbox))()
+      mockLogger = new (mockLoggerStrategyFactory(sandbox))()
 
       mod = proxyquire('./suffix-name', {
         '../util': { logger: (): MockLoggerStrategy => mockLogger },

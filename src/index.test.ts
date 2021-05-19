@@ -1,5 +1,5 @@
 import { mockLoggerUtil } from './util/logger-util.test'
-import { mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
+import { mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
 import proxyquire from 'proxyquire'
 import { SinonSpy, assert, createSandbox } from 'sinon'
@@ -19,14 +19,14 @@ describe('MshNodeEnv', () => {
   let mckLoggerUtil: any
   let mod: any
   beforeEach(() => {
-    mockNoLogger = mockLoggerStrategy(sandbox)
+    mockNoLogger = mockLoggerStrategyFactory(sandbox)
     spy_EnvironmentLocation = sandbox.fake.returns(dummyEnvironmentLocation)
     spy_SimpleName = sandbox.fake.returns(dummySimpleName)
     spy_BaseConvert = sandbox.fake.returns(dummyBaseConvert)
     spy_Env = sandbox.fake.returns(dummyEnv)
     mckLoggerUtil = mockLoggerUtil(sandbox)
     mod = proxyquire('./index', {
-      '@beecode/msh-node-log': { NoLogger: mockNoLogger },
+      '@beecode/msh-node-log/lib/no-logger': { NoLogger: mockNoLogger },
       './location': { EnvironmentLocation: spy_EnvironmentLocation },
       './naming': { SimpleName: spy_SimpleName },
       './convert': { BaseConvert: spy_BaseConvert },
@@ -45,7 +45,7 @@ describe('MshNodeEnv', () => {
     expect(typeof env).to.equal('function')
   })
   it('should pass all default strategy to Env on env used', () => {
-    const userNoLogger = new (mockLoggerStrategy(sandbox))()
+    const userNoLogger = new (mockLoggerStrategyFactory(sandbox))()
     const env = mod.default({ loggerStrategy: userNoLogger })
     const name = 'TEST'
     const envResult = env(name)
@@ -61,7 +61,7 @@ describe('MshNodeEnv', () => {
     assert.calledWith(userNoLogger.debug, `Initiate env: "${name}"`)
   })
   it('should not use default strategies if all are passed in constructor', () => {
-    const userNoLogger = new (mockLoggerStrategy(sandbox))()
+    const userNoLogger = new (mockLoggerStrategyFactory(sandbox))()
     const userEnvironmentLocation = { type: 'user-environmentLocation' }
     const userSimpleName = { type: 'user-simpleName' }
     const env = mod.default({
