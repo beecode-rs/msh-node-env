@@ -1,4 +1,4 @@
-import { SimpleName } from '.'
+import { SimpleName } from './simple-name'
 import { expect } from 'chai'
 
 describe('naming - SimpleName', () => {

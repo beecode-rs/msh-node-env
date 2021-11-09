@@ -1,5 +1,11 @@
-import { Base64ToString, BaseConvert, ToBoolean, ToJson, ToNumber, ToString } from '.'
-import { Env, EnvType } from '../env'
+import { Env } from '../env/env'
+import { EnvType } from '../env/env-type'
+import { BaseConvert } from './base-convert'
+import { Base64ToString } from './base64-to-string'
+import { ToBoolean } from './to-boolean'
+import { ToJson } from './to-json'
+import { ToNumber } from './to-number'
+import { ToString } from './to-string'
 import { expect } from 'chai'
 
 describe('convert - BaseConvert', () => {

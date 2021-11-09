@@ -1,4 +1,4 @@
-import { ConvertStrategy } from '.'
+import { ConvertStrategy } from './convert-strategy'
 import { SinonSandbox, SinonStub } from 'sinon'
 
 export interface MockConvertStrategy<T> {

@@ -25,7 +25,7 @@ describe('convert - Base64ToString', () => {
           base64ToString.convert(notAllowedString)
           expect.fail()
         } catch (err) {
-          expect(err.message).to.equal(
+          expect((err as Error).message).to.equal(
             `"${notAllowedString}" is not a base64. Error: Invalid character: the string to be decoded is not correctly encoded.`
           )
         }

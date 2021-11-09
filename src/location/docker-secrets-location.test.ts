@@ -1,4 +1,4 @@
-import { DockerSecretsLocation } from '.'
+import { DockerSecretsLocation } from './docker-secrets-location'
 import { expect } from 'chai'
 import fs from 'fs'
 import { SinonStub, assert, createSandbox } from 'sinon'

@@ -15,7 +15,7 @@ describe('naming - SuffixName', () => {
       mockLogger = new (mockLoggerStrategyFactory(sandbox))()
 
       mod = proxyquire('./suffix-name', {
-        '../util': { logger: (): MockLoggerStrategy => mockLogger },
+        '../util/logger-util': { logger: (): MockLoggerStrategy => mockLogger },
       })
     })
     afterEach(sandbox.restore)

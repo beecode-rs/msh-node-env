@@ -1,4 +1,4 @@
-import { ToNumber } from '.'
+import { ToNumber } from './to-number'
 import assert from 'assert'
 import { expect } from 'chai'
 
