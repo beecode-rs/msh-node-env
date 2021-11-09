@@ -27,11 +27,11 @@ describe('MshNodeEnv', () => {
     mckLoggerUtil = mockLoggerUtil(sandbox)
     mod = proxyquire('./index', {
       '@beecode/msh-node-log/lib/no-logger': { NoLogger: mockNoLogger },
-      './location': { EnvironmentLocation: spy_EnvironmentLocation },
-      './naming': { SimpleName: spy_SimpleName },
-      './convert': { BaseConvert: spy_BaseConvert },
-      './env': { Env: spy_Env },
-      './util': { loggerUtil: mckLoggerUtil },
+      './location/environment-location': { EnvironmentLocation: spy_EnvironmentLocation },
+      './naming/simple-name': { SimpleName: spy_SimpleName },
+      './convert/base-convert': { BaseConvert: spy_BaseConvert },
+      './env/env': { Env: spy_Env },
+      './util/logger-util': { loggerUtil: mckLoggerUtil },
     })
   })
   afterEach(sandbox.restore)

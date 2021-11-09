@@ -1,8 +1,10 @@
-import { BaseConvert } from './convert'
-import { Env } from './env'
-import { EnvironmentLocation, LocationStrategy } from './location'
-import { NamingStrategy, SimpleName } from './naming'
-import { loggerUtil } from './util'
+import { BaseConvert } from './convert/base-convert'
+import { Env } from './env/env'
+import { EnvironmentLocation } from './location/environment-location'
+import { LocationStrategy } from './location/location-strategy'
+import { NamingStrategy } from './naming/naming-strategy'
+import { SimpleName } from './naming/simple-name'
+import { loggerUtil } from './util/logger-util'
 import { LoggerStrategy } from '@beecode/msh-node-log'
 import { NoLogger } from '@beecode/msh-node-log/lib/no-logger'
 
@@ -26,5 +28,3 @@ export const MshNodeEnv = (params: MshNodeEnvParams = {}): MshNodeEnvReturn => {
 }
 
 export default MshNodeEnv
-export * as location from './location'
-export * as naming from './naming'

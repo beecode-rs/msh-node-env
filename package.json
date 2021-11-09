@@ -98,7 +98,12 @@
     "semantic-release:check": "npm run semantic-release -- --dry-run --no-ci",
     "test": "npm run test:unit -- --forbid-only && npm run test:int -- --forbid-only",
     "test:int": "mocha ./src/test/{**/,/}*.ts",
-    "test:unit": "mocha ./src/{**/,/}*.test.ts"
+    "test:unit": "mocha ./src/{**/,/}*.test.ts",
+    "tsc": "tsc -p ./tsconfig-build.json",
+    "tsc:check": "npm run tsc -- --noEmit",
+    "tsc:cleaner": "ts-cleaner --dist build",
+    "tsc:cleaner:watch": "npm run tsc:cleaner -- --watch",
+    "tsc:watch": "tsc-watch -p tsconfig-build.json"
   },
   "typings": "./lib/index.d.ts",
   "version": "0.2.4"

@@ -14,7 +14,7 @@ describe('naming - PrefixName', () => {
     mockLogger = new (mockLoggerStrategyFactory(sandbox))()
 
     mod = proxyquire('./prefix-name', {
-      '../util': { logger: (): MockLoggerStrategy => mockLogger },
+      '../util/logger-util': { logger: (): MockLoggerStrategy => mockLogger },
     })
   })
   afterEach(sandbox.restore)

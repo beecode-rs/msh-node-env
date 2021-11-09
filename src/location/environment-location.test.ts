@@ -1,4 +1,4 @@
-import { EnvironmentLocation } from '.'
+import { EnvironmentLocation } from './environment-location'
 import { expect } from 'chai'
 
 describe('location - EnvironmentLocation', () => {

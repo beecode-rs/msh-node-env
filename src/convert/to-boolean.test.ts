@@ -1,4 +1,4 @@
-import { ToBoolean } from '.'
+import { ToBoolean } from './to-boolean'
 import { expect } from 'chai'
 
 describe('convert - ToBoolean', () => {

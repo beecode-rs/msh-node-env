@@ -1,4 +1,4 @@
-import { ToJson } from '.'
+import { ToJson } from './to-json'
 import { expect } from 'chai'
 
 describe('convert - ToJson', () => {
@@ -21,7 +21,7 @@ describe('convert - ToJson', () => {
         toJson.convert('not a string')
         expect.fail()
       } catch (e) {
-        expect(e.message).to.equal('"not a string" is not a json. Error: Unexpected token o in JSON at position 1')
+        expect((e as Error).message).to.equal('"not a string" is not a json. Error: Unexpected token o in JSON at position 1')
       }
     })
   })

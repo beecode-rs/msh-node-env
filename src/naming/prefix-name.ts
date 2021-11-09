@@ -1,5 +1,5 @@
-import { NamingStrategy } from '.'
-import { logger } from '../util'
+import { logger } from '../util/logger-util'
+import { NamingStrategy } from './naming-strategy'
 
 export type PrefixNameParams = {
   prefix: string
@@ -9,9 +9,9 @@ export class PrefixName implements NamingStrategy {
   private readonly __prefix: string
   private readonly __joinChar: string
 
-  public constructor(params: PrefixNameParams) {
-    this.__prefix = params.prefix
-    this.__joinChar = params.joinChar ?? '_'
+  public constructor({ prefix, joinChar }: PrefixNameParams) {
+    this.__prefix = prefix
+    this.__joinChar = joinChar ?? '_'
   }
 
   public getNames(name: string | string[]): string[] {

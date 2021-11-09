@@ -1,5 +1,5 @@
-import { EnvType } from '.'
 import { MockConvertStrategy, mockConvertStrategy } from '../convert/convert-strategy.test'
+import { EnvType } from './env-type'
 import { MockEnv, mockEnv } from './env.test'
 import { MockLoggerStrategy, mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
@@ -24,7 +24,7 @@ describe('env - EnvType', () => {
     mockLogger = new (mockLoggerStrategyFactory(sandbox))()
     deepEqualStub = sandbox.stub()
     mod = proxyquire('./env-type', {
-      '../util': { logger: (): MockLoggerStrategy => mockLogger },
+      '../util/logger-util': { logger: (): MockLoggerStrategy => mockLogger },
       'deep-equal': deepEqualStub,
     })
     mckEnv = new (mockEnv(sandbox))()
@@ -55,23 +55,23 @@ describe('env - EnvType', () => {
       stub_envType_validateAllowedValues = sandbox.stub(mockEnvType as any, '__validateAllowedValues')
     })
     it('should return default if get env returns undefined', () => {
-      mckEnv.getEnvStringValue.returns(undefined)
+      mckEnv.envStringValue.returns(undefined)
       mockEnvType['__defaultValue'] = dummyDefaultValue
       const result = mockEnvType.optional
       expect(result).to.equal(dummyDefaultValue)
-      assert.calledOnce(mckEnv.getEnvStringValue)
+      assert.calledOnce(mckEnv.envStringValue)
       assert.notCalled(mockConvert.convert)
       assert.calledOnce(stub_envType_validateAllowedValues)
       assert.calledWith(stub_envType_validateAllowedValues, result)
     })
     it('should return default if convert returns undefined', () => {
       const dummyEnvValue = ' test '
-      mckEnv.getEnvStringValue.returns(' test ')
+      mckEnv.envStringValue.returns(' test ')
       mockConvert.convert.returns(undefined)
       mockEnvType['__defaultValue'] = dummyDefaultValue
       const result = mockEnvType.optional
       expect(result).to.equal(dummyDefaultValue)
-      assert.calledOnce(mckEnv.getEnvStringValue)
+      assert.calledOnce(mckEnv.envStringValue)
       assert.calledOnce(mockConvert.convert)
       assert.calledWith(mockConvert.convert, dummyEnvValue.trim())
       assert.calledOnce(stub_envType_validateAllowedValues)
@@ -80,12 +80,12 @@ describe('env - EnvType', () => {
     it('should return converted value', () => {
       const dummyEnvValue = ' test '
       const convertedValue = 'convertedTestValue'
-      mckEnv.getEnvStringValue.returns(' test ')
+      mckEnv.envStringValue.returns(' test ')
       mockConvert.convert.returns(convertedValue)
       mockEnvType['__defaultValue'] = undefined
       const result = mockEnvType.optional
       expect(result).to.equal(convertedValue)
-      assert.calledOnce(mckEnv.getEnvStringValue)
+      assert.calledOnce(mckEnv.envStringValue)
       assert.calledOnce(mockConvert.convert)
       assert.calledWith(mockConvert.convert, dummyEnvValue.trim())
       assert.calledOnce(stub_envType_validateAllowedValues)
@@ -112,7 +112,7 @@ describe('env - EnvType', () => {
         mockEnvType.required
         expect.fail()
       } catch (err) {
-        expect(err.message).to.equal(`${dummyEnvName} must have value defined`)
+        expect((err as Error).message).to.equal(`${dummyEnvName} must have value defined`)
       }
       assert.calledOnce(fake_env_name_get)
       assert.calledOnce(fake_optional_get)
@@ -157,7 +157,7 @@ describe('env - EnvType', () => {
         mockEnvType['__validateAllowedValues'](undefined)
         expect.fail()
       } catch (err) {
-        expect(err.message).to.equal(
+        expect((err as Error).message).to.equal(
           ` must have one of the fallowing values [${dummyAllowedValues.map(jsonPrintHelper).join(', ')}]`
         )
         assert.calledOnce(stub_envType_isUndefined)
@@ -170,7 +170,7 @@ describe('env - EnvType', () => {
         mockEnvType['__validateAllowedValues']('wrongValue')
         expect.fail()
       } catch (err) {
-        expect(err.message).to.equal(
+        expect((err as Error).message).to.equal(
           ` must have one of the fallowing values [${dummyAllowedValues.map(jsonPrintHelper).join(', ')}]`
         )
         assert.calledOnce(stub_envType_isUndefined)

@@ -1,4 +1,4 @@
-import { LocationStrategy } from '.'
+import { LocationStrategy } from './location-strategy'
 import fs from 'fs'
 import util from 'util'
 

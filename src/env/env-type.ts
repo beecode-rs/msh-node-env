@@ -1,6 +1,6 @@
-import { IEnv } from '.'
-import { ConvertStrategy } from '../convert'
-import { logger } from '../util'
+import { ConvertStrategy } from '../convert/convert-strategy'
+import { logger } from '../util/logger-util'
+import { IEnv } from './env'
 import deepEqual from 'deep-equal'
 import { inspect } from 'util'
 
@@ -27,7 +27,7 @@ export class EnvType<T> {
   }
 
   public get optional(): T | undefined {
-    const str = (this.__env.getEnvStringValue() ?? '').trim()
+    const str = (this.__env.envStringValue() ?? '').trim()
     if (str !== '') logger().debug('Try to convert env string value')
     const convertedValue = str === '' ? undefined : this.__convertStrategy.convert(str)
     const optionalValue = convertedValue ?? this.__defaultValue

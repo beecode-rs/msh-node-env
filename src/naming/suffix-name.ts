@@ -1,5 +1,5 @@
-import { NamingStrategy } from '.'
-import { logger } from '../util'
+import { logger } from '../util/logger-util'
+import { NamingStrategy } from './naming-strategy'
 
 export type SuffixNameParams = {
   suffix: string
@@ -10,9 +10,9 @@ export class SuffixName implements NamingStrategy {
   private readonly __suffix: string
   private readonly __joinChar: string
 
-  public constructor(params: SuffixNameParams) {
-    this.__suffix = params.suffix
-    this.__joinChar = params.joinChar ?? '_'
+  public constructor({ suffix, joinChar }: SuffixNameParams) {
+    this.__suffix = suffix
+    this.__joinChar = joinChar ?? '_'
   }
 
   public getNames(name: string | string[]): string[] {
