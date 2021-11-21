@@ -1,3 +1,18 @@
+# [1.0.0](https://github.com/beecode-rs/msh-node-env/compare/v0.2.4...v1.0.0) (2021-11-21)
+
+
+* refactor!: use jest for testing, simplify code ([3d099b6](https://github.com/beecode-rs/msh-node-env/commit/3d099b675135e219d9df2bd817177f779cdc0b1a))
+
+
+### Features
+
+* add vision diagram, clean code ([8d2fb04](https://github.com/beecode-rs/msh-node-env/commit/8d2fb045bbe784f4598bda8f93cdddcc0d4f6e9b))
+
+
+### BREAKING CHANGES
+
+* change initial call and naming strategy
+
 ## [0.2.4](https://github.com/beecode-rs/msh-node-env/compare/v0.2.3...v0.2.4) (2021-05-19)
 
 
