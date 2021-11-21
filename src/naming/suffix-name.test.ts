@@ -1,40 +1,41 @@
-import { MockLoggerStrategy, mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
-import { expect } from 'chai'
-import proxyquire from 'proxyquire'
-import { createSandbox } from 'sinon'
+import { logger } from '../util/logger'
+import { SuffixName } from './suffix-name'
+import assert from 'assert'
 
-describe('naming - SuffixName', () => {
-  describe('getNames', () => {
-    proxyquire.noCallThru()
-    const sandbox = createSandbox()
+jest.mock('../util/logger')
 
-    let mod: any
-    let mockLogger: MockLoggerStrategy
-
-    beforeEach(() => {
-      mockLogger = new (mockLoggerStrategyFactory(sandbox))()
-
-      mod = proxyquire('./suffix-name', {
-        '../util': { logger: (): MockLoggerStrategy => mockLogger },
-      })
+describe('SuffixName', () => {
+  describe('names', () => {
+    afterEach(() => {
+      jest.resetAllMocks()
+      jest.restoreAllMocks()
     })
-    afterEach(sandbox.restore)
 
     it('should suffix name with "test" with default join char "_"', () => {
-      const suffixName = new mod.SuffixName({ suffix: 'test' })
-      expect(suffixName.getNames('some-name')).to.deep.equal(['some-name_test'])
+      const suffixName = new SuffixName('_test')
+      assert.deepEqual(suffixName.names('some-name'), ['some-name_test'])
     })
+
     it('should suffix name with "test" with join char "-"', () => {
-      const suffixName = new mod.SuffixName({ suffix: 'test', joinChar: '-' })
-      expect(suffixName.getNames('some-name')).to.deep.equal(['some-name-test'])
+      const suffixName = new SuffixName('-test')
+      assert.deepEqual(suffixName.names('some-name'), ['some-name-test'])
     })
+
     it('should suffix array names with "test" with default join char "_"', () => {
-      const suffixName = new mod.SuffixName({ suffix: 'test' })
-      expect(suffixName.getNames(['name-one', 'name-two'])).to.deep.equal(['name-one_test', 'name-two_test'])
+      const suffixName = new SuffixName('_test')
+      assert.deepEqual(suffixName.names(['name-one', 'name-two']), ['name-one_test', 'name-two_test'])
     })
+
     it('should suffix array names with "test" with join char "-"', () => {
-      const suffixName = new mod.SuffixName({ suffix: 'test', joinChar: '-' })
-      expect(suffixName.getNames(['name-one', 'name-two'])).to.deep.equal(['name-one-test', 'name-two-test'])
+      const suffixName = new SuffixName('-test')
+      assert.deepEqual(suffixName.names(['name-one', 'name-two']), ['name-one-test', 'name-two-test'])
+    })
+
+    it('should log messages for debugging', () => {
+      const suffixName = new SuffixName('_test')
+      suffixName.names('some-name')
+      expect(logger().debug).toHaveBeenCalledTimes(1)
+      expect(logger().debug).toHaveBeenCalledWith('Original names: [some-name], suffixed names : [some-name_test]')
     })
   })
 })

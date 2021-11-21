@@ -1,62 +1,84 @@
-import { IEnv } from '.'
-import { ConvertStrategy } from '../convert'
-import { logger } from '../util'
-import deepEqual from 'deep-equal'
+import { ConvertStrategy } from '../convert/convert-strategy'
+import { logger } from '../util/logger'
+import { Env } from './env'
+import DeepEqual from 'deep-equal'
 import { inspect } from 'util'
 
-export type EnvTypeParams<T> = {
-  convertStrategy: ConvertStrategy<T>
-  env: IEnv
-}
-
 export class EnvType<T> {
-  private __defaultValue: T | undefined = undefined
-  private readonly __convertStrategy: ConvertStrategy<T>
-  private readonly __env: IEnv
-  private __allowedValues: T[] = []
+  protected _defaultValue: T | undefined = undefined
+  protected readonly _convertStrategy: ConvertStrategy<T>
+  protected readonly _env: Env
+  protected _allowedValues: T[] = []
 
-  public constructor(params: EnvTypeParams<T>) {
-    this.__convertStrategy = params.convertStrategy
-    this.__env = params.env
+  public constructor(params: { convertStrategy: ConvertStrategy<T>; env: Env }) {
+    const { convertStrategy, env } = params
+    this._convertStrategy = convertStrategy
+    this._env = env
   }
 
   public default(defaultValue: T): EnvType<T> {
-    logger().debug('Using default value')
-    this.__defaultValue = defaultValue
+    this._loggerDebug(`set default value`, { defaultValue })
+    this._defaultValue = defaultValue
     return this
   }
 
   public get optional(): T | undefined {
-    const str = (this.__env.getEnvStringValue() ?? '').trim()
-    if (str !== '') logger().debug('Try to convert env string value')
-    const convertedValue = str === '' ? undefined : this.__convertStrategy.convert(str)
-    const optionalValue = convertedValue ?? this.__defaultValue
-    this.__validateAllowedValues(optionalValue)
+    this._loggerDebug(`optional`)
+    const strOrUndefined = this._env.envValue()
+
+    this._loggerDebug(`try to convert env string value "${strOrUndefined}"`)
+    const convertedValue = this._convertStrategy.convert(strOrUndefined)
+
+    if (convertedValue === undefined) this._loggerDebug(`using default value "${this._defaultValue}"`)
+    const optionalValue = convertedValue ?? this._defaultValue
+
+    this._validateAllowedValues(optionalValue)
     return optionalValue
   }
 
   public get required(): T {
+    this._loggerDebug(`is required`)
+
     const envValue = this.optional
-    if (this.__isUndefined(envValue)) throw new Error(`${this.__env.Name} must have value defined`)
-    return envValue!
+    if (envValue === undefined) throw this._createError('must have value defined')
+
+    return envValue
   }
 
   public allowed(...args: T[]): EnvType<T> {
-    this.__allowedValues = args
+    this._loggerDebug(`set allowed values`, { allowedValues: args })
+    this._allowedValues = [...args]
     return this
   }
 
-  private __validateAllowedValues(value?: T): void {
-    if (this.__allowedValues.length === 0) return
-    if (this.__isUndefined(value) || !this.__allowedValues.find((v) => deepEqual(value, v)))
-      throw new Error(
-        `${this.__env.Name} must have one of the fallowing values [${this.__allowedValues
-          .map((v) => inspect(v, false, 2))
-          .join(', ')}]`
-      )
+  protected _validateAllowedValues(value?: T): void {
+    if (this._allowedValues.length === 0) return
+    this._loggerDebug('validating allowed values for:', { value })
+
+    if (this._allowedValuesDoNotContain(value))
+      throw this._createError(`must have one of the fallowing values: ${this._allowedValuesToString()}`)
   }
 
-  private __isUndefined(value?: T): boolean {
-    return typeof value === 'undefined'
+  protected _allowedValuesDoNotContain(value?: T): boolean {
+    const result = this._allowedValues.find((v) => DeepEqual(value, v))
+    if (result === undefined && value === undefined) return false
+    if (result === null && value === null) return false
+    return !result
+  }
+
+  protected _allowedValuesToString(): string {
+    return this._allowedValues.map((v) => inspect(v, false, 2)).join(', ')
+  }
+
+  protected _loggerDebug(msg: string, ...args: { [k: string]: any }[]): void {
+    logger().debug(`${this._EnvName} ${msg}`, ...args)
+  }
+
+  protected _createError(msg: string): Error {
+    return new Error(`${this._EnvName} ${msg}`)
+  }
+
+  protected get _EnvName(): string {
+    return `Env[${this._env.Name}]`
   }
 }

@@ -1,19 +1,20 @@
-import { ToString } from '.'
-import { expect } from 'chai'
+import { ToString } from './to-string'
 
-describe('convert - ToString', () => {
-  describe('convert', () => {
-    const toString = new ToString()
+describe('ToString', () => {
+  const toString = new ToString()
 
-    ;['string-a', 'string-b'].forEach((str) => {
-      it(`should return "${str}" if "${str}" passed`, () => {
-        expect(toString.convert(str)).to.equal(str)
-      })
+  it('should return undefined if passed undefined', () => {
+    expect(toString.convert(undefined)).toBeUndefined()
+    expect(toString.convert()).toBeUndefined()
+  })
+  ;['string-a', 'string-b'].forEach((str) => {
+    it(`should return "${str}" if "${str}" passed`, () => {
+      expect(toString.convert(str)).toEqual(str)
     })
-    ;['', ' ', '   '].forEach((str) => {
-      it(`should return undefined if "${str}" passed`, () => {
-        expect(toString.convert(str)).to.be.undefined
-      })
+  })
+  ;['', ' ', '   '].forEach((str) => {
+    it(`should return undefined if "${str}" passed`, () => {
+      expect(toString.convert(str)).toBeUndefined()
     })
   })
 })

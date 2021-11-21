@@ -1,12 +1,7 @@
-import { NamingStrategy } from '.';
-export declare type PrefixNameParams = {
-    prefix: string;
-    joinChar?: string;
-};
+import { NamingStrategy } from './naming-strategy';
 export declare class PrefixName implements NamingStrategy {
-    private readonly __prefix;
-    private readonly __joinChar;
-    constructor(params: PrefixNameParams);
-    getNames(name: string | string[]): string[];
+    protected readonly _prefix: string;
+    constructor(prefix: string);
+    names(nameOrNames: string | string[]): string[];
 }
 //# sourceMappingURL=prefix-name.d.ts.map
