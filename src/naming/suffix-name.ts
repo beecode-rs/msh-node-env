@@ -1,24 +1,18 @@
-import { NamingStrategy } from '.'
-import { logger } from '../util'
+import { logger } from '../util/logger'
+import { NamingStrategy } from './naming-strategy'
 
-export type SuffixNameParams = {
-  suffix: string
-  joinChar?: string
-}
-
+jest.mock('../util/logger')
 export class SuffixName implements NamingStrategy {
-  private readonly __suffix: string
-  private readonly __joinChar: string
+  protected readonly _suffix: string
 
-  public constructor(params: SuffixNameParams) {
-    this.__suffix = params.suffix
-    this.__joinChar = params.joinChar ?? '_'
+  public constructor(suffix: string) {
+    this._suffix = suffix
   }
 
-  public getNames(name: string | string[]): string[] {
-    const names = typeof name === 'string' ? [name] : name
+  public names(nameOrNames: string | string[]): string[] {
+    const names = typeof nameOrNames === 'string' ? [nameOrNames] : nameOrNames
 
-    const resultNames = [...names.map((n) => [n, this.__suffix].join(this.__joinChar))]
+    const resultNames = [...names.map((n) => [n, this._suffix].join(''))]
     logger().debug(`Original names: [${names.join(', ')}], suffixed names : [${resultNames.join(', ')}]`)
     return resultNames
   }

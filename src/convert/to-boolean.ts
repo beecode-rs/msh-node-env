@@ -1,7 +1,8 @@
-import { ConvertStrategy } from '.'
+import { ConvertStrategy } from './convert-strategy'
 
 export class ToBoolean implements ConvertStrategy<boolean> {
-  public convert(str: string): boolean | undefined {
+  public convert(str?: string): boolean | undefined {
+    if (str === undefined) return undefined
     const strLower = str.toLowerCase()
     if (strLower === 'true') {
       return true

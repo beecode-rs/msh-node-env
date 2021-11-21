@@ -1,40 +1,41 @@
-import { MockLoggerStrategy, mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
-import { expect } from 'chai'
-import proxyquire from 'proxyquire'
-import { createSandbox } from 'sinon'
+import { logger } from '../util/logger'
+import { PrefixName } from './prefix-name'
+import assert from 'assert'
 
-describe('naming - PrefixName', () => {
-  proxyquire.noCallThru()
-  const sandbox = createSandbox()
+jest.mock('../util/logger')
 
-  let mod: any
-  let mockLogger: MockLoggerStrategy
-
-  beforeEach(() => {
-    mockLogger = new (mockLoggerStrategyFactory(sandbox))()
-
-    mod = proxyquire('./prefix-name', {
-      '../util': { logger: (): MockLoggerStrategy => mockLogger },
-    })
+describe('PrefixName', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+    jest.restoreAllMocks()
   })
-  afterEach(sandbox.restore)
 
-  describe('getNames', () => {
+  describe('names', () => {
     it('should prefix name with "test" with default join char "_"', () => {
-      const prefixName = new mod.PrefixName({ prefix: 'test' })
-      expect(prefixName.getNames('some-name')).to.deep.equal(['test_some-name'])
+      const prefixName = new PrefixName('test_')
+      assert.deepEqual(prefixName.names('some-name'), ['test_some-name'])
     })
+
     it('should prefix name with "test" with join char "-"', () => {
-      const prefixName = new mod.PrefixName({ prefix: 'test', joinChar: '-' })
-      expect(prefixName.getNames('some-name')).to.deep.equal(['test-some-name'])
+      const prefixName = new PrefixName('test-')
+      assert.deepEqual(prefixName.names('some-name'), ['test-some-name'])
     })
+
     it('should prefix array names with "test" with default join char "_"', () => {
-      const prefixName = new mod.PrefixName({ prefix: 'test' })
-      expect(prefixName.getNames(['name-one', 'name-two'])).to.deep.equal(['test_name-one', 'test_name-two'])
+      const prefixName = new PrefixName('test_')
+      assert.deepEqual(prefixName.names(['name-one', 'name-two']), ['test_name-one', 'test_name-two'])
     })
+
     it('should prefix array names with "test" with join char "-"', () => {
-      const prefixName = new mod.PrefixName({ prefix: 'test', joinChar: '-' })
-      expect(prefixName.getNames(['name-one', 'name-two'])).to.deep.equal(['test-name-one', 'test-name-two'])
+      const prefixName = new PrefixName('test-')
+      assert.deepEqual(prefixName.names(['name-one', 'name-two']), ['test-name-one', 'test-name-two'])
+    })
+
+    it('should log messages for debugging', () => {
+      const prefixName = new PrefixName('test_')
+      prefixName.names('some-name')
+      expect(logger().debug).toHaveBeenCalledTimes(1)
+      expect(logger().debug).toHaveBeenCalledWith('Original names: [some-name], prefixed names : [test_some-name]')
     })
   })
 })

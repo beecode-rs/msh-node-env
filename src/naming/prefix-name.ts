@@ -1,23 +1,17 @@
-import { NamingStrategy } from '.'
-import { logger } from '../util'
+import { logger } from '../util/logger'
+import { NamingStrategy } from './naming-strategy'
 
-export type PrefixNameParams = {
-  prefix: string
-  joinChar?: string
-}
 export class PrefixName implements NamingStrategy {
-  private readonly __prefix: string
-  private readonly __joinChar: string
+  protected readonly _prefix: string
 
-  public constructor(params: PrefixNameParams) {
-    this.__prefix = params.prefix
-    this.__joinChar = params.joinChar ?? '_'
+  public constructor(prefix: string) {
+    this._prefix = prefix
   }
 
-  public getNames(name: string | string[]): string[] {
-    const names = typeof name === 'string' ? [name] : name
+  public names(nameOrNames: string | string[]): string[] {
+    const names = typeof nameOrNames === 'string' ? [nameOrNames] : nameOrNames
 
-    const resultNames = [...names.map((n) => [this.__prefix, n].join(this.__joinChar))]
+    const resultNames = [...names.map((n) => [this._prefix, n].join(''))]
     logger().debug(`Original names: [${names.join(', ')}], prefixed names : [${resultNames.join(', ')}]`)
     return resultNames
   }

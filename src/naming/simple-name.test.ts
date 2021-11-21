@@ -1,19 +1,21 @@
-import { SimpleName } from '.'
-import { expect } from 'chai'
+import { SimpleName } from './simple-name'
+import assert from 'assert'
 
-describe('naming - SimpleName', () => {
-  describe('getNames', () => {
+describe('SimpleName', () => {
+  describe('names', () => {
     it('should return array of name', () => {
       const simpleName = new SimpleName()
-      expect(simpleName.getNames('some-name')).to.deep.equal(['some-name'])
+      assert.deepEqual(simpleName.names('some-name'), ['some-name'])
     })
+
     it('should return array of names', () => {
       const simpleName = new SimpleName()
-      expect(simpleName.getNames(['some-name'])).to.deep.equal(['some-name'])
+      assert.deepEqual(simpleName.names(['some-name']), ['some-name'])
     })
+
     it('should return array of multiple names', () => {
       const simpleName = new SimpleName()
-      expect(simpleName.getNames(['some-name', 'some-name2'])).to.deep.equal(['some-name', 'some-name2'])
+      assert.deepEqual(simpleName.names(['some-name', 'some-name2']), ['some-name', 'some-name2'])
     })
   })
 })

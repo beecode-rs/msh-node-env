@@ -13,14 +13,15 @@ This project is intended to be used in typescript project to validate and add ty
 
 - [Install](#install)
 - [Usage](#usage)
+- [Diagram](#diagram)
 - [MshNodeEnv options](#mshnodeenv-options)
 - [Location Strategy](#location-strategy)
-  - [EnvironmentLocation](#environmentlocation)
-  - [DockerSecretsLocation](#dockersecretslocation)
+  * [EnvironmentLocation](#environmentlocation)
+  * [DockerSecretsLocation](#dockersecretslocation)
 - [Naming Strategy](#naming-strategy)
-  - [SimpleName](#simplename)
-  - [PrefixName](#prefixname)
-  - [SuffixName](#suffixname)
+  * [SimpleName](#simplename)
+  * [PrefixName](#prefixname)
+  * [SuffixName](#suffixname)
 - [Logger Strategy](#logger-strategy)
 
 <!-- tocstop -->
@@ -32,11 +33,12 @@ This project is intended to be used in typescript project to validate and add ty
 ## Usage
 
 ```typescript
-import MshNodeEnv from '@beecode/msh-node-env'
+import { MshNodeEnv } from '@beecode/msh-node-env'
+import { cacheUtil } from '@beecode/msh-node-util/lib/cache-util'
 
 const env = MshNodeEnv()
 
-export const config = Object.freeze({
+export const config = cacheUtil.singleton(() => Object.freeze({
   someRequiredString: env('SOME_REQUIRED_STRING').string.required,
   strWithDefaultValue: env('STR_WITH_DEFAULT_VALUE').string.default('default-value').required,
   optionalString: env('OPTIONAL_STRING').string.optional,
@@ -44,8 +46,12 @@ export const config = Object.freeze({
   someNumberValue: env('SOME_NUMBER_VALUE').number.required,
   someBooleanValue: env('SOME_BOOLEAN_VALUE').boolean.required,
   someJsonValue: env('SOME_JSON_VALUE').json().required,
-})
+}))
 ```
+
+## Diagram
+
+![vision-diagram](resource/doc/vision/vision.svg)
 
 ## MshNodeEnv options
 
@@ -53,7 +59,6 @@ export const config = Object.freeze({
 | ---------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [locationStrategy](#location-strategy)[] | [ new SimpleEnvLookup() ] | [Optional] Define how are we getting env values. Available: [EnvironmentLocation](#environmentlocation), [DockerSecretsLocation](#dockersecretslocation) |
 | [namingStrategy](#naming-strategy)[]     | [ new SimpleName() ]      | [Optional] Define how are we checking for env names. Available: [SimpleName](#simplename), [PrefixName](#prefixname), [SuffixName](#suffixname)          |
-| [loggerStrategy](#logger-strategy)       | new NoLogger()            | [Optional] Define how the logging is provided. Available: [NoLogger](#nologger), [ConsoleLogger](#consolelogger)                                         |
 
 ## Location Strategy
 
@@ -73,7 +78,8 @@ We are looking in docker swarm secrets.
 Usage:
 
 ```typescript
-import MshNodeEnv, { location } from '@beecode/msh-node-env'
+import { MshNodeEnv } from '@beecode/msh-node-env'
+import { DockerSecretsLocation } from '@beecode/msh-node-env/lib/location/docker-secrets-location'
 
 const env = MshNodeEnv({ locationStrategy: [new location.DockerSecretsLocation()] })
 ```
@@ -95,9 +101,10 @@ If we wanted to change the database name for just one container, we can use [Pre
 isolation, and we can set name of the container as prefix.
 
 ```typescript
-import MshNodeEnv, { naming } from '@beecode/msh-node-env'
+import { MshNodeEnv } from '@beecode/msh-node-env'
+import { PrefixName } from '@beecode/msh-node-env/lib/naming/prefix-name'
 
-const env = MshNodeEnv({ namingStrategy: [new naming.PrefixName({ prefix: 'SOME_APP' })] })
+const env = MshNodeEnv({ namingStrategy: [new PrefixName('SOME_APP_')] })
 ```
 
 Then we can add another env value prefixed with that container name.
@@ -121,9 +128,10 @@ Prefix strategy is adding prefix to the existing name. There are two arguments a
 Usage:
 
 ```typescript
-import MshNodeEnv, { naming } from '@beecode/msh-node-env'
+import { MshNodeEnv } from '@beecode/msh-node-env'
+import { PrefixName } from '@beecode/msh-node-env/lib/naming/prefix-name'
 
-const env = MshNodeEnv({ namingStrategy: [new naming.PrefixName({ prefix: 'FOO' }), new naming.PrefixName({ prefix: 'BAR' })] })
+const env = MshNodeEnv({ namingStrategy: [new PrefixName('FOO_'), new PrefixName('BAR_')] })
 const test = env('TEST').string.required // env look up in this order 1) BAR_FOO_TEST, 2) FOO_TEST, 3) TEST
 ```
 
@@ -134,9 +142,10 @@ Suffix strategy is adding suffix to the existing name. there are two arguments a
 Usage:
 
 ```typescript
-import MshNodeEnv, { naming } from '@beecode/msh-node-env'
+import { MshNodeEnv } from '@beecode/msh-node-env'
+import { SuffixName } from '@beecode/msh-node-env/lib/naming/suffix-name'
 
-const env = MshNodeEnv({ namingStrategy: [new naming.SuffixName({ prefix: 'FOO' }), new naming.SuffixName({ prefix: 'BAR' })] })
+const env = MshNodeEnv({ namingStrategy: [new SuffixName('_FOO'), new SuffixName('_BAR')] })
 const test = env('TEST').string.required // env look up in this order 1) TEST_FOO_BAR, 2) TEST_FOO, 3) TEST
 ```
 
@@ -148,8 +157,11 @@ For more details read the msh-node-log readme
 Usage:
 
 ```typescript
-import MshNodeEnv from '@beecode/msh-node-env'
-import { ConsoleLogger, LogLevel } from '@beecode/msh-node-log'
+import { MshNodeEnv } from '@beecode/msh-node-env'
+import { LogLevelType } from '@beecode/msh-node-log'
+import { ConsoleLogger } from '@beecode/msh-node-log/lib/console-logger'
 
-const env = MshNodeEnv({ loggerStrategy: new ConsoleLogger(LogLevel.INFO) })
+NodeEnvLogger(new ConsoleLogger(LogLevel.DEBUG))
+
+const env = MshNodeEnv()
 ```
