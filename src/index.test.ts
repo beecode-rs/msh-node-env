@@ -1,86 +1,63 @@
-import { mockLoggerUtil } from './util/logger-util.test'
-import { mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
-import { expect } from 'chai'
-import proxyquire from 'proxyquire'
-import { SinonSpy, assert, createSandbox } from 'sinon'
+import { EnvFactory } from './env/env-factory'
+import { MshNodeEnv } from './index'
+import { EnvironmentLocation } from './location/environment-location'
+import { SimpleName } from './naming/simple-name'
+import { logger } from './util/logger'
+
+jest.mock('./location/environment-location')
+jest.mock('./naming/simple-name')
+jest.mock('./env/env-factory')
+jest.mock('./util/logger')
 
 describe('MshNodeEnv', () => {
-  proxyquire.noCallThru()
-  const sandbox = createSandbox()
-  const dummyEnvironmentLocation = { type: 'environmentLocation' }
-  const dummySimpleName = { type: 'simpleName' }
-  const dummyBaseConvert = { type: 'baseConvert' }
-  const dummyEnv = { type: 'env' }
-  let spy_EnvironmentLocation: SinonSpy
-  let spy_SimpleName: SinonSpy
-  let spy_BaseConvert: SinonSpy
-  let spy_Env: SinonSpy
-  let mockNoLogger: any
-  let mckLoggerUtil: any
-  let mod: any
-  beforeEach(() => {
-    mockNoLogger = mockLoggerStrategyFactory(sandbox)
-    spy_EnvironmentLocation = sandbox.fake.returns(dummyEnvironmentLocation)
-    spy_SimpleName = sandbox.fake.returns(dummySimpleName)
-    spy_BaseConvert = sandbox.fake.returns(dummyBaseConvert)
-    spy_Env = sandbox.fake.returns(dummyEnv)
-    mckLoggerUtil = mockLoggerUtil(sandbox)
-    mod = proxyquire('./index', {
-      '@beecode/msh-node-log/lib/no-logger': { NoLogger: mockNoLogger },
-      './location/environment-location': { EnvironmentLocation: spy_EnvironmentLocation },
-      './naming/simple-name': { SimpleName: spy_SimpleName },
-      './convert/base-convert': { BaseConvert: spy_BaseConvert },
-      './env/env': { Env: spy_Env },
-      './util/logger-util': { loggerUtil: mckLoggerUtil },
-    })
+  afterEach(() => {
+    jest.resetAllMocks()
+    jest.restoreAllMocks()
   })
-  afterEach(sandbox.restore)
+
   it('should all default strategies', () => {
-    const env = mod.default()
-    assert.calledOnce(mockNoLogger.STUB_CONSTRUCTOR)
-    assert.calledOnce(spy_EnvironmentLocation)
-    assert.calledOnce(spy_SimpleName)
-    assert.notCalled(spy_BaseConvert)
-    assert.calledOnce(mckLoggerUtil.setLogger)
-    expect(typeof env).to.equal('function')
+    const result = MshNodeEnv()
+    expect(EnvironmentLocation).toHaveBeenCalledTimes(1)
+    expect(SimpleName).toHaveBeenCalledTimes(1)
+    expect(EnvFactory).not.toHaveBeenCalled()
+    expect(typeof result).toEqual('function')
   })
+
   it('should pass all default strategy to Env on env used', () => {
-    const userNoLogger = new (mockLoggerStrategyFactory(sandbox))()
-    const env = mod.default({ loggerStrategy: userNoLogger })
+    const env = MshNodeEnv()
     const name = 'TEST'
+
     const envResult = env(name)
-    assert.calledOnce(spy_BaseConvert)
-    assert.calledOnce(spy_Env)
-    assert.calledWith(spy_Env, {
+    expect(EnvFactory).toHaveBeenCalledTimes(1)
+
+    expect(logger().debug).toHaveBeenCalledTimes(1)
+    expect(logger().debug).toHaveBeenCalledWith(`Initiate env: "${name}"`)
+    expect(EnvFactory).toHaveBeenCalledTimes(1)
+    expect(EnvFactory).toHaveBeenCalledWith({
       name,
-      locationStrategies: [dummyEnvironmentLocation],
-      namingStrategies: [dummySimpleName],
+      locationStrategies: [expect.any(EnvironmentLocation)],
+      namingStrategies: [expect.any(SimpleName)],
     })
-    expect(envResult).to.equal(dummyBaseConvert)
-    assert.calledOnce(userNoLogger.debug)
-    assert.calledWith(userNoLogger.debug, `Initiate env: "${name}"`)
+    expect(envResult instanceof EnvFactory).toBeTruthy()
   })
   it('should not use default strategies if all are passed in constructor', () => {
-    const userNoLogger = new (mockLoggerStrategyFactory(sandbox))()
-    const userEnvironmentLocation = { type: 'user-environmentLocation' }
-    const userSimpleName = { type: 'user-simpleName' }
-    const env = mod.default({
-      loggerStrategy: userNoLogger,
-      locationStrategies: [userEnvironmentLocation],
-      namingStrategies: [userSimpleName],
-    })
+    const userEnvironmentLocation = new EnvironmentLocation()
+    const userSimpleName = new SimpleName()
+
+    jest.resetAllMocks()
+
+    const env = MshNodeEnv({ locationStrategies: [userEnvironmentLocation], namingStrategies: [userSimpleName] })
     const name = 'TEST'
     env(name)
-    assert.calledWith(spy_Env, {
+
+    expect(EnvironmentLocation).not.toHaveBeenCalled()
+    expect(SimpleName).not.toHaveBeenCalled()
+
+    expect(EnvFactory).toHaveBeenCalledTimes(1)
+    expect(EnvFactory).toHaveBeenCalledWith({
       name,
       locationStrategies: [userEnvironmentLocation],
       namingStrategies: [userSimpleName],
     })
-
-    assert.notCalled(mockNoLogger.STUB_CONSTRUCTOR)
-    assert.notCalled(spy_EnvironmentLocation)
-    assert.notCalled(spy_SimpleName)
-    assert.calledOnce(mckLoggerUtil.setLogger)
-    assert.calledWith(mckLoggerUtil.setLogger, userNoLogger)
   })
 })

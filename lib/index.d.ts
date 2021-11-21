@@ -1,15 +1,9 @@
-import { BaseConvert } from './convert';
-import { LocationStrategy } from './location';
-import { NamingStrategy } from './naming';
-import { LoggerStrategy } from '@beecode/msh-node-log';
-export declare type MshNodeEnvParams = {
-    loggerStrategy?: LoggerStrategy;
+import { EnvFactory } from './env/env-factory';
+import { LocationStrategy } from './location/location-strategy';
+import { NamingStrategy } from './naming/naming-strategy';
+export declare type MshNodeEnvReturn = (name: string) => EnvFactory;
+export declare const MshNodeEnv: (params?: {
     locationStrategies?: LocationStrategy[];
     namingStrategies?: NamingStrategy[];
-};
-export declare type MshNodeEnvReturn = (name: string) => BaseConvert;
-export declare const MshNodeEnv: (params?: MshNodeEnvParams) => MshNodeEnvReturn;
-export default MshNodeEnv;
-export * as location from './location';
-export * as naming from './naming';
+}) => MshNodeEnvReturn;
 //# sourceMappingURL=index.d.ts.map

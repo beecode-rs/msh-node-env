@@ -1,169 +1,119 @@
 @startuml
     folder "src" as src_b874d07 {
-      card msh_node_env_params_e4daf83f [
-        MshNodeEnvParams
-        ---
-        {
-          loggerStrategy?: LoggerStrategy
-          locationStrategies?: LocationStrategy[]
-          namingStrategies?: NamingStrategy[]
-        }
-      ]
       card msh_node_env_return_e4daf83f [
         MshNodeEnvReturn
         ---
-        (name: string) => BaseConvert
+        (name: string) => EnvFactory
       ]
       object "MshNodeEnv" as msh_node_env_e4daf83f {
       }
       folder "convert" as convert_1954ac1f {
-        class "BaseConvert" as base_convert_895481b6 {
-          - ___env: Env
+        class "Base64ToString" as base64_to_string_13880200 {
+          + convert(str?: string): string | undefined
+        }
+        interface "ConvertStrategy" as convert_strategy_8da53918 {
+          + convert(str?: string): T | undefined
+        }
+        class "ToBoolean" as to_boolean_d7e3630b {
+          + convert(str?: string): boolean | undefined
+        }
+        class "ToJson" as to_json_6938b317 {
+          + convert(str?: string): T | undefined
+        }
+        class "ToNumber" as to_number_d46587ec {
+          + convert(str?: string): number | undefined
+        }
+        class "ToString" as to_string_5ce920da {
+          + convert(str?: string): string | undefined
+        }
+      }
+      folder "env" as env_339e04b5 {
+        class "EnvFactory" as env_factory_eea4fbf7 {
+          # _env: Env
           + base64: EnvType<string>
           + boolean: EnvType<boolean>
-          + constructor(env: Env)
+          constructor(params: {\n name: string;\n locationStrategies: LocationStrategy[];\n namingStrategies: NamingStrategy[] \n})
           + json: EnvType<T>
           + number: EnvType<number>
           + string: EnvType<string>
         }
-        class "Base64ToString" as base64_to_string_13880200 {
-          + convert(str: string): string | undefined
-        }
-        interface "ConvertStrategy" as convert_strategy_8da53918 {
-          + convert(str: string): T | undefined
-        }
-        class "ToBoolean" as to_boolean_d7e3630b {
-          + convert(str: string): boolean | undefined
-        }
-        class "ToJson" as to_json_6938b317 {
-          + convert(str: string): T | undefined
-        }
-        class "ToNumber" as to_number_d46587ec {
-          + convert(str: string): number | undefined
-        }
-        class "ToString" as to_string_5ce920da {
-          + convert(str: string): string | undefined
-        }
-      }
-      folder "env" as env_339e04b5 {
-        card env_type_params_5c8a31bb [
-          EnvTypeParams
-          ---
-          {
-            convertStrategy: ConvertStrategy<T>
-            env: IEnv
-          }
-        ]
         class "EnvType" as env_type_5c8a31bb {
-          - ___allowedValues: T[]
-          - ___convertStrategy: ConvertStrategy<T>
-          - ___defaultValue: T | undefined
-          - ___env: IEnv
-          - ___isUndefined(value?: T): boolean
-          - ___validateAllowedValues(value?: T): void
+          # _EnvName: string
+          # _allowedValues: T[]
+          # _allowedValuesDoNotContain(value?: T): boolean
+          # _allowedValuesToString: string
+          # _convertStrategy: ConvertStrategy<T>
+          # _createError(msg: string): Error
+          # _defaultValue: T | undefined
+          # _env: Env
+          # _loggerDebug(msg: string,\n ...args: {\n [k: string]: any \n}[]): void
+          # _validateAllowedValues(value?: T): void
           + allowed(...args: T[]): EnvType<T>
-          + constructor(params: EnvTypeParams<T>)
+          + constructor(params: {\n convertStrategy: ConvertStrategy<T>;\n env: Env \n})
           + default(defaultValue: T): EnvType<T>
           + optional: T | undefined
           + required: T
         }
-        card env_params_bbdfdbee [
-          EnvParams
-          ---
-          {
-            name: string
-            locationStrategies: LocationStrategy[]
-            namingStrategies: NamingStrategy[]
-          }
-        ]
-        interface "IEnv" as i_env_bbdfdbee {
-          + Name: string
-          + envStringValue: () => string | undefined
-        }
         class "Env" as env_bbdfdbee {
           + Name: string
-          - ___envNames: string[]
-          - ___locationStrategies: LocationStrategy[]
-          - ___name: string
-          - ___namingStrategies: NamingStrategy[]
-          + constructor({\n locationStrategies,\n namingStrategies,\n name \n}: EnvParams)
-          + envStringValue: string | undefined
+          # _envNames: string[]
+          # _locationStrategies: LocationStrategy[]
+          # _name: string
+          # _namingStrategies: NamingStrategy[]
+          + constructor(params: {\n name: string;\n locationStrategies: LocationStrategy[];\n namingStrategies: NamingStrategy[] \n})
+          + envValue: string | undefined
         }
       }
       folder "location" as location_7620ea55 {
         class "DockerSecretsLocation" as docker_secrets_location_d5fdf29f {
-          + getValueByName(name: string): string | undefined
+          + valueByName(name: string): string | undefined
         }
         class "EnvironmentLocation" as environment_location_e89f1336 {
-          + getValueByName(name: string): string | undefined
+          + valueByName(name: string): string | undefined
         }
         interface "LocationStrategy" as location_strategy_a00e57d8 {
-          + getValueByName(name: string): string | undefined
+          + valueByName(name: string): string | undefined
         }
       }
       folder "naming" as naming_137c488a {
         interface "NamingStrategy" as naming_strategy_7c8902f8 {
-          + getNames(name: string | string[]): string[]
+          + names(name: string | string[]): string[]
         }
-        card prefix_name_params_67a7c3f6 [
-          PrefixNameParams
-          ---
-          {
-            prefix: string
-            joinChar?: string
-          }
-        ]
         class "PrefixName" as prefix_name_67a7c3f6 {
-          - ___joinChar: string
-          - ___prefix: string
-          + constructor({\n prefix,\n joinChar \n}: PrefixNameParams)
-          + getNames(name: string | string[]): string[]
+          # _prefix: string
+          + constructor(prefix: string)
+          + names(nameOrNames: string | string[]): string[]
         }
         class "SimpleName" as simple_name_bdd42ce8 {
-          + getNames(name: string | string[]): string[]
+          + names(nameOrNames: string | string[]): string[]
         }
-        card suffix_name_params_13ec6f31 [
-          SuffixNameParams
-          ---
-          {
-            suffix: string
-            joinChar?: string
-          }
-        ]
         class "SuffixName" as suffix_name_13ec6f31 {
-          - ___joinChar: string
-          - ___suffix: string
-          + constructor({\n suffix,\n joinChar \n}: SuffixNameParams)
-          + getNames(name: string | string[]): string[]
+          # _suffix: string
+          + constructor(suffix: string)
+          + names(nameOrNames: string | string[]): string[]
         }
       }
     }
-  base_convert_895481b6 -up-> env_bbdfdbee
-  base_convert_895481b6 -up-> env_type_5c8a31bb
-  base_convert_895481b6 -up-> base64_to_string_13880200
-  base_convert_895481b6 -up-> to_boolean_d7e3630b
-  base_convert_895481b6 -up-> to_json_6938b317
-  base_convert_895481b6 -up-> to_number_d46587ec
-  base_convert_895481b6 -up-> to_string_5ce920da
   base64_to_string_13880200 .up.|> convert_strategy_8da53918
   to_boolean_d7e3630b .up.|> convert_strategy_8da53918
   to_json_6938b317 .up.|> convert_strategy_8da53918
   to_number_d46587ec .up.|> convert_strategy_8da53918
   to_string_5ce920da .up.|> convert_strategy_8da53918
+  env_factory_eea4fbf7 -up-> base64_to_string_13880200
+  env_factory_eea4fbf7 -up-> to_boolean_d7e3630b
+  env_factory_eea4fbf7 -up-> to_json_6938b317
+  env_factory_eea4fbf7 -up-> to_number_d46587ec
+  env_factory_eea4fbf7 -up-> to_string_5ce920da
+  env_factory_eea4fbf7 -up-> env_bbdfdbee
+  env_factory_eea4fbf7 -up-> env_type_5c8a31bb
   env_type_5c8a31bb -up-> convert_strategy_8da53918
-  env_type_5c8a31bb -up-> i_env_bbdfdbee
-  env_type_5c8a31bb -up-> env_type_params_5c8a31bb
+  env_type_5c8a31bb -up-> env_bbdfdbee
   env_type_5c8a31bb -up-> env_type_5c8a31bb
-  env_bbdfdbee -up-> env_params_bbdfdbee
-  msh_node_env_e4daf83f -up-> base_convert_895481b6
-  msh_node_env_e4daf83f -up-> env_bbdfdbee
-  msh_node_env_e4daf83f -up-> msh_node_env_params_e4daf83f
+  msh_node_env_e4daf83f -up-> env_factory_eea4fbf7
   msh_node_env_e4daf83f -up-> msh_node_env_return_e4daf83f
   docker_secrets_location_d5fdf29f .up.|> location_strategy_a00e57d8
   environment_location_e89f1336 .up.|> location_strategy_a00e57d8
-  prefix_name_67a7c3f6 -up-> prefix_name_params_67a7c3f6
   prefix_name_67a7c3f6 .up.|> naming_strategy_7c8902f8
   simple_name_bdd42ce8 .up.|> naming_strategy_7c8902f8
-  suffix_name_13ec6f31 -up-> suffix_name_params_13ec6f31
   suffix_name_13ec6f31 .up.|> naming_strategy_7c8902f8
 @enduml

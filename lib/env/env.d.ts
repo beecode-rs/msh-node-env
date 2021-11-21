@@ -1,21 +1,16 @@
-import { LocationStrategy } from '../location';
-import { NamingStrategy } from '../naming';
-export declare type EnvParams = {
-    name: string;
-    locationStrategies: LocationStrategy[];
-    namingStrategies: NamingStrategy[];
-};
-export interface IEnv {
-    Name: string;
-    getEnvStringValue: () => string | undefined;
-}
-export declare class Env implements IEnv {
-    private readonly __name;
-    private readonly __locationStrategies;
-    private readonly __namingStrategies;
+import { LocationStrategy } from '../location/location-strategy';
+import { NamingStrategy } from '../naming/naming-strategy';
+export declare class Env {
+    protected readonly _name: string;
+    protected readonly _locationStrategies: LocationStrategy[];
+    protected readonly _namingStrategies: NamingStrategy[];
     get Name(): string;
-    constructor(params: EnvParams);
-    private __getEnvNames;
-    getEnvStringValue(): string | undefined;
+    constructor(params: {
+        name: string;
+        locationStrategies: LocationStrategy[];
+        namingStrategies: NamingStrategy[];
+    });
+    protected _envNames(): string[];
+    envValue(): string | undefined;
 }
 //# sourceMappingURL=env.d.ts.map

@@ -1,57 +1,45 @@
 import { LocationStrategy } from '../location/location-strategy'
 import { NamingStrategy } from '../naming/naming-strategy'
-import { logger } from '../util/logger-util'
+import { logger } from '../util/logger'
 
-export type EnvParams = {
-  name: string
-  locationStrategies: LocationStrategy[]
-  namingStrategies: NamingStrategy[]
-}
-
-export interface IEnv {
-  Name: string
-  envStringValue: () => string | undefined
-}
-
-export class Env implements IEnv {
-  private readonly __name: string
-  private readonly __locationStrategies: LocationStrategy[]
-  private readonly __namingStrategies: NamingStrategy[]
+export class Env {
+  protected readonly _name: string
+  protected readonly _locationStrategies: LocationStrategy[]
+  protected readonly _namingStrategies: NamingStrategy[]
 
   public get Name(): string {
-    return this.__name
+    return this._name
   }
 
-  public constructor({ locationStrategies, namingStrategies, name }: EnvParams) {
-    this.__locationStrategies = locationStrategies
-    this.__namingStrategies = namingStrategies
-    this.__name = name
+  public constructor(params: { name: string; locationStrategies: LocationStrategy[]; namingStrategies: NamingStrategy[] }) {
+    const { locationStrategies, namingStrategies, name } = params
+    this._locationStrategies = locationStrategies
+    this._namingStrategies = namingStrategies
+    this._name = name
   }
 
-  private __envNames(): string[] {
-    const result = [this.Name]
-    let lastResult = [this.Name]
-    // TODO do not use for loops
-    for (const ns of this.__namingStrategies) {
-      lastResult = ns.getNames(lastResult)
-      result.push(...lastResult)
-    }
+  protected _envNames(): string[] {
+    const { result } = this._namingStrategies.reduce<{ result: string[]; lastResult: string[] }>(
+      (acc, ns) => {
+        acc.lastResult = ns.names(acc.lastResult)
+        acc.result.push(...acc.lastResult)
+        return acc
+      },
+      { result: [this.Name], lastResult: [this.Name] }
+    )
+
     const resultNames = result.reverse()
     logger().debug(`Try names in this order: [${resultNames.join(', ')}]`)
     return resultNames
   }
 
-  public envStringValue(): string | undefined {
-    // TODO do not use for loops
-    for (const name of this.__envNames()) {
-      for (const ls of this.__locationStrategies) {
-        const result = ls.getValueByName(name)
-        if (result) {
-          logger().debug(`Found env by name: "${name}"`)
-          return result
-        }
-      }
-    }
-    return undefined
+  public envValue(): string | undefined {
+    return this._envNames().reduce<string | undefined>((envResult, name) => {
+      if (envResult) return envResult
+      return this._locationStrategies.reduce<string | undefined>((locResult, ls) => {
+        if (locResult) return locResult
+        return ls.valueByName(name)
+      }, undefined)
+    }, undefined)
   }
 }

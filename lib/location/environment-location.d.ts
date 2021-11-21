@@ -1,5 +1,5 @@
-import { LocationStrategy } from '.';
+import { LocationStrategy } from './location-strategy';
 export declare class EnvironmentLocation implements LocationStrategy {
-    getValueByName(name: string): string | undefined;
+    valueByName(name: string): string | undefined;
 }
 //# sourceMappingURL=environment-location.d.ts.map
