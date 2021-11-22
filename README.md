@@ -18,6 +18,7 @@ This project is intended to be used in typescript project to validate and add ty
 - [Location Strategy](#location-strategy)
   * [EnvironmentLocation](#environmentlocation)
   * [DockerSecretsLocation](#dockersecretslocation)
+  * [CliArgsMinimistLocation](#cliargsminimistlocation)
 - [Naming Strategy](#naming-strategy)
   * [SimpleName](#simplename)
   * [PrefixName](#prefixname)
