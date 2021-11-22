@@ -1,12 +1,12 @@
 import { LocationStrategy } from '../location/location-strategy';
 import { NamingStrategy } from '../naming/naming-strategy';
 export declare class Env {
-    protected readonly _name: string;
+    protected readonly _names: string[];
     protected readonly _locationStrategies: LocationStrategy[];
     protected readonly _namingStrategies: NamingStrategy[];
-    get Name(): string;
+    get Names(): string[];
     constructor(params: {
-        name: string;
+        names: string[];
         locationStrategies: LocationStrategy[];
         namingStrategies: NamingStrategy[];
     });

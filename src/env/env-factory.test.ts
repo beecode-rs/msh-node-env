@@ -7,8 +7,8 @@ import { Env } from './env'
 import { EnvFactory } from './env-factory'
 import { EnvType } from './env-type'
 
-describe('BaseConvert', () => {
-  const envFactory = new EnvFactory({ name: 'test', locationStrategies: [], namingStrategies: [] })
+describe.each([[['TEST']], [['TEST', 'TEST1']], [['TEST', 'TEST1', 'TEST2']]])('EnvFactory envNames: %p', (envNames) => {
+  const envFactory = new EnvFactory({ names: envNames, locationStrategies: [], namingStrategies: [] })
 
   describe('constructor', () => {
     it('should store env in private _env property', () => {

@@ -11,9 +11,9 @@ import { EnvType } from './env-type'
 export class EnvFactory {
   protected readonly _env: Env
 
-  constructor(params: { name: string; locationStrategies: LocationStrategy[]; namingStrategies: NamingStrategy[] }) {
-    const { name, locationStrategies, namingStrategies } = params
-    this._env = new Env({ name, locationStrategies, namingStrategies })
+  constructor(params: { names: string[]; locationStrategies: LocationStrategy[]; namingStrategies: NamingStrategy[] }) {
+    const { names, locationStrategies, namingStrategies } = params
+    this._env = new Env({ names, locationStrategies, namingStrategies })
   }
 
   public get string(): EnvType<string> {

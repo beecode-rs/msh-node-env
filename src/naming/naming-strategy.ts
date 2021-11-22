@@ -1,3 +1,3 @@
 export interface NamingStrategy {
-  names(name: string | string[]): string[]
+  names(name: string[]): string[]
 }

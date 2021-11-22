@@ -71,6 +71,13 @@ We are simple checking the process.env for the env name.
 
 `env('SOME_ENV_KEY')` => `process.env.SOME_ENV_KEY`
 
+Usage:
+```typescript
+import { MshNodeEnv } from '@beecode/msh-node-env'
+
+const env = MshNodeEnv()
+```
+
 ### DockerSecretsLocation
 
 We are looking in docker swarm secrets.
@@ -82,6 +89,28 @@ import { MshNodeEnv } from '@beecode/msh-node-env'
 import { DockerSecretsLocation } from '@beecode/msh-node-env/lib/location/docker-secrets-location'
 
 const env = MshNodeEnv({ locationStrategy: [new location.DockerSecretsLocation()] })
+```
+
+### CliArgsMinimistLocation
+
+We can parse predefined command line arguments and use them as configuration. Also we can override environment environment variables
+
+Usage:  
+env is going to try and find value in first location strategy, in our example CliArgsMinimistLocation, ad if we find DB_NAME we are going to use it instead from EnvironmentLocation
+```typescript
+import { MshNodeEnv } from '@beecode/msh-node-env'
+import { CliArgsMinimistLocation } from '../../src/location/cli-args-minimist-location'
+import { EnvironmentLocation } from '../../src/location/environment-location'
+import { Options } from 'minimist-options'
+
+const options: Options = { DB_NAME: { alias: ['d', 'db-name', 'dbName'], type: 'string' } }
+    const env = MshNodeEnv({
+      locationStrategies: [new CliArgsMinimistLocation({ options, args: args.slice(2) }), new EnvironmentLocation()],
+    })
+    const config = Object.freeze({
+      dbName: env('DB_NAME').string.required,
+      dbPassword: env('DB_PASS').string.required,
+    })
 ```
 
 ## Naming Strategy

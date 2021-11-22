@@ -5,7 +5,7 @@ import { EnvType } from './env-type';
 export declare class EnvFactory {
     protected readonly _env: Env;
     constructor(params: {
-        name: string;
+        names: string[];
         locationStrategies: LocationStrategy[];
         namingStrategies: NamingStrategy[];
     });

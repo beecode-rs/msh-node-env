@@ -1,1 +1,1 @@
-{"version":3,"file":"simple-name.js","sourceRoot":"","sources":["../../src/naming/simple-name.ts"],"names":[],"mappings":";;;AAEA,MAAa,UAAU;IACd,KAAK,CAAC,WAA8B;QACzC,OAAO,OAAO,WAAW,KAAK,QAAQ,CAAC,CAAC,CAAC,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,WAAW,CAAA;IACtE,CAAC;CACF;AAJD,gCAIC"}
+{"version":3,"file":"simple-name.js","sourceRoot":"","sources":["../../src/naming/simple-name.ts"],"names":[],"mappings":";;;AAEA,MAAa,UAAU;IACd,KAAK,CAAC,KAAwB;QACnC,OAAO,CAAC,GAAG,KAAK,CAAC,CAAA;IACnB,CAAC;CACF;AAJD,gCAIC"}

@@ -3,16 +3,23 @@ import { MockNamingStrategy } from '../naming/__mocks__/mock-naming-strategy'
 import { Env } from './env'
 import assert from 'assert'
 
-describe('Env', () => {
+describe.each([
+  [['DUMMY_TEST_ENV']],
+  [['DUMMY_TEST_ENV', 'DUMMY_TEST_ENV2']],
+  [['DUMMY_TEST_ENV', 'DUMMY_TEST_ENV2', 'DUMMY_TEST_ENV3']],
+])('Env %p', (dummyEnvNames) => {
   let dummyEnv: Env
   let mockLocationStrategy: MockLocationStrategy
   let mockNamingStrategy: MockNamingStrategy
-  const dummyEnvName = 'DUMMY_TEST_ENV'
 
   beforeEach(() => {
     mockNamingStrategy = new MockNamingStrategy()
     mockLocationStrategy = new MockLocationStrategy()
-    dummyEnv = new Env({ name: dummyEnvName, locationStrategies: [mockLocationStrategy], namingStrategies: [mockNamingStrategy] })
+    dummyEnv = new Env({
+      names: dummyEnvNames,
+      locationStrategies: [mockLocationStrategy],
+      namingStrategies: [mockNamingStrategy],
+    })
   })
 
   afterEach(() => {
@@ -22,7 +29,7 @@ describe('Env', () => {
 
   describe('constructor', () => {
     it('should setup properties', () => {
-      expect(dummyEnv['_name']).toEqual(dummyEnvName)
+      expect(dummyEnv['_names']).toEqual(dummyEnvNames)
       assert.deepEqual(dummyEnv['_locationStrategies'], [mockLocationStrategy])
       assert.deepEqual(dummyEnv['_namingStrategies'], [mockNamingStrategy])
     })
@@ -30,7 +37,7 @@ describe('Env', () => {
 
   describe('Name', () => {
     it('should return _name when Name called', () => {
-      expect(dummyEnv.Name).toEqual(dummyEnvName)
+      expect(dummyEnv.Names).toEqual(dummyEnvNames)
     })
   })
 
@@ -39,35 +46,44 @@ describe('Env', () => {
       mockNamingStrategy.names.mockReturnValue(['test1'])
       const result = dummyEnv['_envNames']()
       expect(mockNamingStrategy.names).toHaveBeenCalledTimes(1)
-      expect(mockNamingStrategy.names).toHaveBeenCalledWith([dummyEnvName])
-      assert.deepEqual(result, ['test1', dummyEnvName])
+      expect(mockNamingStrategy.names).toHaveBeenCalledWith(expect.arrayContaining(dummyEnvNames))
+      assert.deepEqual(result, ['test1', ...dummyEnvNames.reverse()])
     })
 
     it('should simulate double prefixing', () => {
       const fakePrefixFactory =
         (prefix: string) =>
-        (name: string | string[]): string[] => {
-          const names = typeof name === 'string' ? [name] : name
-          return [...names.map((n) => [prefix, n].join('_'))]
-        }
+        (names: string[]): string[] =>
+          names.map((name) => [prefix, name].join(''))
+
       const mockNamingStrategy1 = new MockNamingStrategy()
-      mockNamingStrategy1.names.mockImplementation(fakePrefixFactory('FIRST'))
+      mockNamingStrategy1.names.mockImplementation(fakePrefixFactory('FIRST_'))
       const mockNamingStrategy2 = new MockNamingStrategy()
-      mockNamingStrategy2.names.mockImplementation(fakePrefixFactory('SECOND'))
+      mockNamingStrategy2.names.mockImplementation(fakePrefixFactory('SECOND_'))
 
       const env = new Env({
-        name: dummyEnvName,
+        names: dummyEnvNames,
         locationStrategies: [mockLocationStrategy],
         namingStrategies: [mockNamingStrategy1, mockNamingStrategy2],
       })
       const result = env['_envNames']()
       expect(mockNamingStrategy1.names).toHaveBeenCalledTimes(1)
-      expect(mockNamingStrategy1.names).toHaveBeenCalledWith([dummyEnvName])
+      expect(mockNamingStrategy1.names).toHaveBeenCalledWith(dummyEnvNames)
       expect(mockNamingStrategy2.names).toHaveBeenCalledTimes(1)
-      expect(mockNamingStrategy2.names).toHaveBeenCalledWith([`FIRST_${dummyEnvName}`])
+      expect(mockNamingStrategy2.names).toHaveBeenCalledWith(dummyEnvNames.map((name) => `FIRST_${name}`))
 
       expect(mockNamingStrategy1.names).toHaveBeenCalledBefore(mockNamingStrategy2.names)
-      assert.deepEqual(result, [`SECOND_FIRST_${dummyEnvName}`, `FIRST_${dummyEnvName}`, dummyEnvName])
+      assert.deepEqual(result, [
+        ...dummyEnvNames
+          .slice()
+          .reverse()
+          .map((name) => `SECOND_FIRST_${name}`),
+        ...dummyEnvNames
+          .slice()
+          .reverse()
+          .map((name) => `FIRST_${name}`),
+        ...dummyEnvNames.slice().reverse(),
+      ])
     })
   })
 

@@ -13,12 +13,12 @@ describe('SuffixName', () => {
 
     it('should suffix name with "test" with default join char "_"', () => {
       const suffixName = new SuffixName('_test')
-      assert.deepEqual(suffixName.names('some-name'), ['some-name_test'])
+      assert.deepEqual(suffixName.names(['some-name']), ['some-name_test'])
     })
 
     it('should suffix name with "test" with join char "-"', () => {
       const suffixName = new SuffixName('-test')
-      assert.deepEqual(suffixName.names('some-name'), ['some-name-test'])
+      assert.deepEqual(suffixName.names(['some-name']), ['some-name-test'])
     })
 
     it('should suffix array names with "test" with default join char "_"', () => {
@@ -33,7 +33,7 @@ describe('SuffixName', () => {
 
     it('should log messages for debugging', () => {
       const suffixName = new SuffixName('_test')
-      suffixName.names('some-name')
+      suffixName.names(['some-name'])
       expect(logger().debug).toHaveBeenCalledTimes(1)
       expect(logger().debug).toHaveBeenCalledWith('Original names: [some-name], suffixed names : [some-name_test]')
     })

@@ -17,7 +17,7 @@ export class EnvType<T> {
   }
 
   public default(defaultValue: T): EnvType<T> {
-    this._loggerDebug(`set default value`, { defaultValue })
+    this._loggerDebug('set default value', { defaultValue })
     this._defaultValue = defaultValue
     return this
   }
@@ -79,6 +79,6 @@ export class EnvType<T> {
   }
 
   protected get _EnvName(): string {
-    return `Env[${this._env.Name}]`
+    return `Env[${this._env.Names.join(',')}]`
   }
 }

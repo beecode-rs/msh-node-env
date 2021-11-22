@@ -1,1 +1,1 @@
-{"version":3,"file":"mock-naming-strategy.d.ts","sourceRoot":"","sources":["../../../src/naming/__mocks__/mock-naming-strategy.ts"],"names":[],"mappings":";AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,oBAAoB,CAAA;AAEnD,qBAAa,kBAAmB,YAAW,cAAc;IACvD,KAAK,2CAA2C;CACjD"}
+{"version":3,"file":"mock-naming-strategy.d.ts","sourceRoot":"","sources":["../../../src/naming/__mocks__/mock-naming-strategy.ts"],"names":[],"mappings":";AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,oBAAoB,CAAA;AAEnD,qBAAa,kBAAmB,YAAW,cAAc;IACvD,KAAK,kCAAkC;CACxC"}

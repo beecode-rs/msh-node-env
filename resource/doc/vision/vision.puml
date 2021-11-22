@@ -3,7 +3,7 @@
       card msh_node_env_return_e4daf83f [
         MshNodeEnvReturn
         ---
-        (name: string) => EnvFactory
+        (...name: string[]) => EnvFactory
       ]
       object "MshNodeEnv" as msh_node_env_e4daf83f {
       }
@@ -32,7 +32,7 @@
           # _env: Env
           + base64: EnvType<string>
           + boolean: EnvType<boolean>
-          constructor(params: {\n name: string;\n locationStrategies: LocationStrategy[];\n namingStrategies: NamingStrategy[] \n})
+          constructor(params: {\n names: string[];\n locationStrategies: LocationStrategy[];\n namingStrategies: NamingStrategy[] \n})
           + json: EnvType<T>
           + number: EnvType<number>
           + string: EnvType<string>
@@ -55,16 +55,22 @@
           + required: T
         }
         class "Env" as env_bbdfdbee {
-          + Name: string
+          + Names: string[]
           # _envNames: string[]
           # _locationStrategies: LocationStrategy[]
-          # _name: string
+          # _names: string[]
           # _namingStrategies: NamingStrategy[]
-          + constructor(params: {\n name: string;\n locationStrategies: LocationStrategy[];\n namingStrategies: NamingStrategy[] \n})
+          + constructor(params: {\n names: string[];\n locationStrategies: LocationStrategy[];\n namingStrategies: NamingStrategy[] \n})
           + envValue: string | undefined
         }
       }
       folder "location" as location_7620ea55 {
+        class "CliArgsMinimistLocation" as cli_args_minimist_location_116a03a2 {
+          # _args: T
+          # _miniOpts: minimist.Opts
+          constructor(params?: {\n options?: Options;\n args?: string[] \n})
+          + valueByName(name: string): string | undefined
+        }
         class "DockerSecretsLocation" as docker_secrets_location_d5fdf29f {
           + valueByName(name: string): string | undefined
         }
@@ -77,20 +83,20 @@
       }
       folder "naming" as naming_137c488a {
         interface "NamingStrategy" as naming_strategy_7c8902f8 {
-          + names(name: string | string[]): string[]
+          + names(name: string[]): string[]
         }
         class "PrefixName" as prefix_name_67a7c3f6 {
           # _prefix: string
           + constructor(prefix: string)
-          + names(nameOrNames: string | string[]): string[]
+          + names(names: string[]): string[]
         }
         class "SimpleName" as simple_name_bdd42ce8 {
-          + names(nameOrNames: string | string[]): string[]
+          + names(names: string | string[]): string[]
         }
         class "SuffixName" as suffix_name_13ec6f31 {
           # _suffix: string
           + constructor(suffix: string)
-          + names(nameOrNames: string | string[]): string[]
+          + names(names: string[]): string[]
         }
       }
     }
@@ -111,6 +117,7 @@
   env_type_5c8a31bb -up-> env_type_5c8a31bb
   msh_node_env_e4daf83f -up-> env_factory_eea4fbf7
   msh_node_env_e4daf83f -up-> msh_node_env_return_e4daf83f
+  cli_args_minimist_location_116a03a2 .up.|> location_strategy_a00e57d8
   docker_secrets_location_d5fdf29f .up.|> location_strategy_a00e57d8
   environment_location_e89f1336 .up.|> location_strategy_a00e57d8
   prefix_name_67a7c3f6 .up.|> naming_strategy_7c8902f8

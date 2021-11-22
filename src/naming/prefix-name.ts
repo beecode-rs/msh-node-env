@@ -8,9 +8,7 @@ export class PrefixName implements NamingStrategy {
     this._prefix = prefix
   }
 
-  public names(nameOrNames: string | string[]): string[] {
-    const names = typeof nameOrNames === 'string' ? [nameOrNames] : nameOrNames
-
+  public names(names: string[]): string[] {
     const resultNames = [...names.map((n) => [this._prefix, n].join(''))]
     logger().debug(`Original names: [${names.join(', ')}], prefixed names : [${resultNames.join(', ')}]`)
     return resultNames

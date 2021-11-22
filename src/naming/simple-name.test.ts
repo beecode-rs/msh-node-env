@@ -5,7 +5,7 @@ describe('SimpleName', () => {
   describe('names', () => {
     it('should return array of name', () => {
       const simpleName = new SimpleName()
-      assert.deepEqual(simpleName.names('some-name'), ['some-name'])
+      assert.deepEqual(simpleName.names(['some-name']), ['some-name'])
     })
 
     it('should return array of names', () => {

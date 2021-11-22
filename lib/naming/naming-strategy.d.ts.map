@@ -1,1 +1,1 @@
-{"version":3,"file":"naming-strategy.d.ts","sourceRoot":"","sources":["../../src/naming/naming-strategy.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,cAAc;IAC7B,KAAK,CAAC,IAAI,EAAE,MAAM,GAAG,MAAM,EAAE,GAAG,MAAM,EAAE,CAAA;CACzC"}
+{"version":3,"file":"naming-strategy.d.ts","sourceRoot":"","sources":["../../src/naming/naming-strategy.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,cAAc;IAC7B,KAAK,CAAC,IAAI,EAAE,MAAM,EAAE,GAAG,MAAM,EAAE,CAAA;CAChC"}

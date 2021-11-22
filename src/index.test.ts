@@ -31,10 +31,10 @@ describe('MshNodeEnv', () => {
     expect(EnvFactory).toHaveBeenCalledTimes(1)
 
     expect(logger().debug).toHaveBeenCalledTimes(1)
-    expect(logger().debug).toHaveBeenCalledWith(`Initiate env: "${name}"`)
+    expect(logger().debug).toHaveBeenCalledWith(`Initiate env: [${name}]`)
     expect(EnvFactory).toHaveBeenCalledTimes(1)
     expect(EnvFactory).toHaveBeenCalledWith({
-      name,
+      names: [name],
       locationStrategies: [expect.any(EnvironmentLocation)],
       namingStrategies: [expect.any(SimpleName)],
     })
@@ -55,7 +55,7 @@ describe('MshNodeEnv', () => {
 
     expect(EnvFactory).toHaveBeenCalledTimes(1)
     expect(EnvFactory).toHaveBeenCalledWith({
-      name,
+      names: [name],
       locationStrategies: [userEnvironmentLocation],
       namingStrategies: [userSimpleName],
     })

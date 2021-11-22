@@ -9,7 +9,11 @@ import assert from 'assert'
 jest.mock('../util/logger')
 jest.mock('./env')
 
-describe('EnvType', () => {
+describe.each([
+  [['DUMMY_TEST_ENV']],
+  [['DUMMY_TEST_ENV', 'DUMMY_TEST_ENV2']],
+  [['DUMMY_TEST_ENV', 'DUMMY_TEST_ENV2', 'DUMMY_TEST_ENV3']],
+])('EnvType envNames: %p', (envNames) => {
   let dummyEnvType: EnvType<any>
   let mockConvertStrategy: MockConvertStrategy
   let mockLocationStrategy: MockLocationStrategy
@@ -21,7 +25,7 @@ describe('EnvType', () => {
     mockLocationStrategy = new MockLocationStrategy()
     mockNamingStrategy = new MockNamingStrategy()
     mockEnv = new Env({
-      name: 'DUMMY_TEST_ENV',
+      names: envNames,
       locationStrategies: [mockLocationStrategy],
       namingStrategies: [mockNamingStrategy],
     })
@@ -43,12 +47,19 @@ describe('EnvType', () => {
   })
 
   describe('default', () => {
+    let spy_loggerDebug: jest.SpyInstance
+    beforeEach(() => {
+      spy_loggerDebug = jest.spyOn<any, any>(dummyEnvType, '_loggerDebug').mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    })
+
     it('should set defaultValue', () => {
       dummyEnvType['_defaultValue'] = undefined
       const dummyDefaultValue = 'someDefaultValue'
       const result = dummyEnvType.default(dummyDefaultValue)
       expect(result).toEqual(dummyEnvType)
       expect(dummyEnvType['_defaultValue']).toEqual(dummyDefaultValue)
+      expect(spy_loggerDebug).toHaveBeenCalledTimes(1)
+      expect(spy_loggerDebug).toHaveBeenCalledWith('set default value', { defaultValue: dummyDefaultValue })
     })
   })
 
@@ -328,9 +339,14 @@ describe('EnvType', () => {
 
   describe('_EnvName', () => {
     it('should return pretty env name', () => {
-      ;((mockEnv as any)['mockName'] as jest.Mock).mockReturnValue('TEST')
+      ;((mockEnv as any)['mockName'] as jest.Mock).mockReturnValue(['TEST'])
       const result = dummyEnvType['_EnvName']
       expect(result).toEqual('Env[TEST]')
+    })
+    it('should return pretty env names', () => {
+      ;((mockEnv as any)['mockName'] as jest.Mock).mockReturnValue(['TEST', 'ANOTHER'])
+      const result = dummyEnvType['_EnvName']
+      expect(result).toEqual('Env[TEST,ANOTHER]')
     })
   })
 })

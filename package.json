@@ -16,7 +16,9 @@
   "dependencies": {
     "@beecode/msh-node-log": "2.2.0",
     "base-64": "1.0.0",
-    "deep-equal": "2.0.5"
+    "deep-equal": "2.0.5",
+    "minimist": "1.2.5",
+    "minimist-options": "4.1.0"
   },
   "description": "",
   "devDependencies": {
@@ -34,6 +36,8 @@
     "@types/deep-equal": "1.0.1",
     "@types/dotenv": "8.2.0",
     "@types/jest": "27.0.3",
+    "@types/minimist": "1.2.2",
+    "@types/minimist-options": "3.0.0",
     "@types/node": "16.11.9",
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
