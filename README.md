@@ -99,8 +99,8 @@ Usage:
 env is going to try and find value in first location strategy, in our example CliArgsMinimistLocation, ad if we find DB_NAME we are going to use it instead from EnvironmentLocation
 ```typescript
 import { MshNodeEnv } from '@beecode/msh-node-env'
-import { CliArgsMinimistLocation } from '../../src/location/cli-args-minimist-location'
-import { EnvironmentLocation } from '../../src/location/environment-location'
+import { CliArgsMinimistLocation } from '@beecode/msh-node-env/lib/location/cli-args-minimist-location'
+import { EnvironmentLocation } from '@beecode/msh-node-env/lib/location/environment-location'
 import { Options } from 'minimist-options'
 
 const options: Options = { DB_NAME: { alias: ['d', 'db-name', 'dbName'], type: 'string' } }
