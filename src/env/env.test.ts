@@ -47,7 +47,7 @@ describe.each([
       const result = dummyEnv['_envNames']()
       expect(mockNamingStrategy.names).toHaveBeenCalledTimes(1)
       expect(mockNamingStrategy.names).toHaveBeenCalledWith(expect.arrayContaining(dummyEnvNames))
-      assert.deepEqual(result, ['test1', ...dummyEnvNames.reverse()])
+      assert.deepEqual(result, ['test1', ...dummyEnvNames])
     })
 
     it('should simulate double prefixing', () => {
@@ -68,21 +68,20 @@ describe.each([
       })
       const result = env['_envNames']()
       expect(mockNamingStrategy1.names).toHaveBeenCalledTimes(1)
-      expect(mockNamingStrategy1.names).toHaveBeenCalledWith(dummyEnvNames)
+      expect(mockNamingStrategy1.names).toHaveBeenCalledWith(dummyEnvNames.slice().reverse())
       expect(mockNamingStrategy2.names).toHaveBeenCalledTimes(1)
-      expect(mockNamingStrategy2.names).toHaveBeenCalledWith(dummyEnvNames.map((name) => `FIRST_${name}`))
+      expect(mockNamingStrategy2.names).toHaveBeenCalledWith(
+        dummyEnvNames
+          .slice()
+          .reverse()
+          .map((name) => `FIRST_${name}`)
+      )
 
       expect(mockNamingStrategy1.names).toHaveBeenCalledBefore(mockNamingStrategy2.names)
       assert.deepEqual(result, [
-        ...dummyEnvNames
-          .slice()
-          .reverse()
-          .map((name) => `SECOND_FIRST_${name}`),
-        ...dummyEnvNames
-          .slice()
-          .reverse()
-          .map((name) => `FIRST_${name}`),
-        ...dummyEnvNames.slice().reverse(),
+        ...dummyEnvNames.map((name) => `SECOND_FIRST_${name}`),
+        ...dummyEnvNames.map((name) => `FIRST_${name}`),
+        ...dummyEnvNames,
       ])
     })
   })
