@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/beecode-rs/msh-node-env/compare/v1.0.1...v1.1.0) (2021-11-22)
+
+
+### Features
+
+* argument location strategy (using minimist) ([216bc66](https://github.com/beecode-rs/msh-node-env/commit/216bc660ce89e981b9f725f17c273d0f8959c208))
+
 ## [1.0.1](https://github.com/beecode-rs/msh-node-env/compare/v1.0.0...v1.0.1) (2021-11-21)
 
 
