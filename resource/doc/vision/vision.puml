@@ -68,7 +68,7 @@
         class "CliArgsMinimistLocation" as cli_args_minimist_location_116a03a2 {
           # _args: T
           # _miniOpts: minimist.Opts
-          constructor(params?: {\n options?: Options;\n args?: string[] \n})
+          + constructor(params?: {\n options?: Options;\n args?: string[] \n})
           + valueByName(name: string): string | undefined
         }
         class "DockerSecretsLocation" as docker_secrets_location_d5fdf29f {

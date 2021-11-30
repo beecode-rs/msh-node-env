@@ -6,7 +6,7 @@ export class CliArgsMinimistLocation<T extends minimist.ParsedArgs> implements L
   protected readonly _miniOpts: minimist.Opts
   protected readonly _args: T
 
-  constructor(params?: { options?: Options; args?: string[] }) {
+  public constructor(params?: { options?: Options; args?: string[] }) {
     const { options = {}, args = process.argv.slice(2) } = params ?? {}
     this._miniOpts = buildOptions(options)
     this._args = minimist<T>(args, this._miniOpts)
