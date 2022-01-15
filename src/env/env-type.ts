@@ -2,7 +2,6 @@ import { ConvertStrategy } from '../convert/convert-strategy'
 import { logger } from '../util/logger'
 import { Env } from './env'
 import DeepEqual from 'deep-equal'
-import { inspect } from 'util'
 
 export class EnvType<T> {
   protected _defaultValue: T | undefined = undefined
@@ -67,7 +66,7 @@ export class EnvType<T> {
   }
 
   protected _allowedValuesToString(): string {
-    return this._allowedValues.map((v) => inspect(v, false, 2)).join(', ')
+    return this._allowedValues.map((v) => JSON.stringify(v)).join(', ')
   }
 
   protected _loggerDebug(msg: string, ...args: { [k: string]: any }[]): void {

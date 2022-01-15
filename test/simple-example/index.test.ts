@@ -169,7 +169,7 @@ describe('Simple Example', () => {
         })
         throw new Error('test failed')
       } catch (e: any) {
-        expect(e.message).toEqual("Env[TEST_ENV_STRING] must have one of the fallowing values: 'test', 'test2'")
+        expect(e.message).toEqual('Env[TEST_ENV_STRING] must have one of the fallowing values: "test", "test2"')
       }
     })
     it('should throw error if json not in allowed list', () => {
@@ -179,7 +179,7 @@ describe('Simple Example', () => {
         })
         throw new Error('test failed')
       } catch (e: any) {
-        expect(e.message).toEqual("Env[TEST_ENV_JSON] must have one of the fallowing values: { some: 'test' }")
+        expect(e.message).toEqual('Env[TEST_ENV_JSON] must have one of the fallowing values: {"some":"test"}')
       }
     })
   })
