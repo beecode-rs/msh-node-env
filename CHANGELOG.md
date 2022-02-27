@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/beecode-rs/msh-node-env/compare/v1.1.1...v1.1.2) (2022-02-27)
+
+
+### Bug Fixes
+
+* update package.json ([a2b1e37](https://github.com/beecode-rs/msh-node-env/commit/a2b1e37f053aef6ec774738aa9901d9724130da9))
+
 ## [1.1.1](https://github.com/beecode-rs/msh-node-env/compare/v1.1.0...v1.1.1) (2022-01-15)
 
 
