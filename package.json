@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "@beecode/msh-node-log": "2.2.2",
+    "@beecode/msh-node-log": "2.2.3",
     "base-64": "1.0.0",
     "deep-equal": "2.0.5",
     "minimist": "1.2.5",
